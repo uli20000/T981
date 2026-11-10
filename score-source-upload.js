@@ -170,3 +170,4 @@
   });
   window.T981ScoreSourceImport = {parseFile, getPair, archiveFiles, bucket};
 })();
+

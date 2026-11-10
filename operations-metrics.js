@@ -157,3 +157,4 @@
   const api={BUSINESS,AREAS,AC_ASSIGNMENTS,HISTORICAL_AC_ASSIGNMENTS,SCOPE_EFFECTIVE_DATE,REMOVED_STORES,storeInScope,areasForDate,acAssignmentsForDate,scopeData,NON_DELIVERY_STORES,GROWTH,FORECAST_TPLH,number,ratio,clean,duration,addDays,range,dates,weeks,latestBatches,areaFor,build};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.OpsMetrics=api;
 })(typeof window!=='undefined'?window:globalThis);
+

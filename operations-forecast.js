@@ -73,3 +73,4 @@
   const api={SETTINGS,FORMULA,clean,number,addDays,comparisonDate,weekStart,dates,sampleStart,prepare,load};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.OpsForecast=api;
 })(typeof window!=='undefined'?window:globalThis);
+

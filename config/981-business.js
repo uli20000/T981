@@ -326,7 +326,7 @@
   ],
   "weatherCityByArea": {},
   "weeklySalesNotes": {},
-  "kpiTargets": {"sstg": null, "d7": null, "d25": null, "faShareMax": null, "tplh": null},
+  "kpiTargets": {"sstg": 0.042, "d7": 0.25, "d25": 0.7, "faShareMax": 0.25, "tplh": 2},
   "forecast": {
     "weeks": 8,
     "growth": 0.06,

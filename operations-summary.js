@@ -37,3 +37,4 @@
   const api={addDays,dates,range,week,weekLabel,monthWeeks,months,delayRanking,lineRanking,lineExport};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.OpsSummary=api;
 })(typeof window!=='undefined'?window:globalThis);
+

@@ -270,3 +270,4 @@
   }
   window.OpsReport={readRows:paged,directory:loadDirectory,fillLineState,overview,open:(context,force=true)=>{state.context=context;return refresh(force);}};
 })();
+

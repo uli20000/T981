@@ -1364,7 +1364,7 @@ button,[role="button"],input[type="button"],input[type="submit"],input[type="res
     </div>
     <div id="opsDelayPanel" class="ops-panel">
       <div class="ops-form-grid ops-entry-row ops-delay-entry-row">
-
+        
         <label>店號<input id="opsDelayStore" type="text" inputmode="numeric" maxlength="3" placeholder="輸入店號" autocomplete="off"><span id="opsDelayStoreName" class="ops-lookup" aria-live="polite"></span><div id="opsDelayStoreChoices" class="ops-store-choices"></div></label>
         <label>編號<input id="opsDelayOrder" type="text" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="4 碼"></label>
         <button id="opsDelaySave" type="button" class="action-btn primary">新增</button>
@@ -1380,7 +1380,7 @@ button,[role="button"],input[type="button"],input[type="submit"],input[type="res
         <label class="ops-line-search"><input id="opsLineSearch" type="search" aria-label="餐廳查詢" placeholder="輸入店號或餐廳名稱"></label>
       </div>
       <div class="ops-form-grid ops-entry-row">
-
+        
         <label>店號<input id="opsLineStore" type="text" inputmode="numeric" maxlength="3" placeholder="輸入店號" autocomplete="off"><span id="opsLineStoreName" class="ops-lookup" aria-live="polite"></span><div id="opsLineStoreChoices" class="ops-store-choices"></div></label>
         <div class="ops-line-control"><span>劃線／簽名</span><div class="ops-toggle-group"><button type="button" id="opsLineMark" class="ops-toggle" aria-pressed="false">劃線</button><button type="button" id="opsSignMark" class="ops-toggle" aria-pressed="false">簽名</button></div></div>
         <input id="opsSigner" type="hidden">
@@ -4994,7 +4994,7 @@ function showAuthMessage(message, success=false){
   authMessage.style.color = success ? "var(--green)" : "var(--danger)";
 }
 
-function lockAdmin(message=""){
+function lockAdmin(message=""){ 
   authGate.style.display = "flex";
   adminApp.style.display = "none";
   adminSessionBar.style.display = "none";
@@ -6333,3 +6333,7 @@ async function opsArchiveScoreSourceFiles(pair){
 <script src="ui-ops.js?v=20261111-c2"></script>
 </body>
 </html>
+
+
+
+

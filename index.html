@@ -702,7 +702,7 @@
       }
     }
 
-
+  
 
     /* 入口改為可持續新增的長條型按鈕 */
     .mode-menu {
@@ -732,7 +732,7 @@
       text-align: center;
     }
 
-
+  
 
 /* 三行標題：城市-Rider Center／KFC／日期 */
 .header-row,
@@ -1658,6 +1658,18 @@ const db =
     SUPABASE_URL,
     SUPABASE_KEY
   );
+
+// T981 public roster reads use the anon policy even when admin is signed in.
+const rosterDb = window.CENTER_CONFIG.center === "981" && window.CENTER_CONFIG.environment === "production"
+  ? window.CenterRuntime.createClient(SUPABASE_URL, SUPABASE_KEY, {
+      auth: {
+        storageKey: "t981-public-roster",
+        persistSession: false,
+        autoRefreshToken: false,
+        detectSessionInUrl: false
+      }
+    })
+  : db;
 
 // Atomic RPCs remain opt-in until isolated database, RLS and concurrency validation.
 const atomicRiderEnabled = window.CENTER_CONFIG.features?.atomicRider === true;
@@ -3151,7 +3163,7 @@ function resetClaimForm() {
 // These checks fail closed on lookup errors. Database RPC enforcement is also
 // required to prevent simultaneous submissions or direct API bypass.
 async function requireActiveRider(name){
-  const r=await db.from("employee_directory").select("id,full_name").eq("full_name",name).eq("is_active",true).maybeSingle();
+  const r=await rosterDb.from("employee_directory").select("id,full_name").eq("full_name",name).eq("is_active",true).maybeSingle();
   if(r.error)throw r.error;
   if(!r.data)throw new Error("姓名不在在職名單，請找店長確認。");
   return r.data;
@@ -3860,7 +3872,7 @@ async function saveSurvey() {
 
   try {
     const respondentName = surveyRespondentNameInput.value.trim();
-    const employeeCheck = await db.from("employee_directory").select("id").eq("full_name", respondentName).eq("is_active", true).maybeSingle();
+    const employeeCheck = await rosterDb.from("employee_directory").select("id").eq("full_name", respondentName).eq("is_active", true).maybeSingle();
     if(employeeCheck.error) throw employeeCheck.error;
     if(!employeeCheck.data){alert("目前查無在職名單或員工已停用，無法填寫意向調查，請找店長確認。");return;}
     const behaviorScore = Object.values(surveyAnswers.behavior).reduce((sum, value) => sum + value, 0);
@@ -3949,7 +3961,7 @@ async function loadTargetNames(){
   if(defensiveTargetNamesLoaded) return;
   if(nameListLoadPromise) return nameListLoadPromise;
   nameListLoadPromise = (async()=>{
-    const employeeResult = await db.from("employee_directory")
+    const employeeResult = await rosterDb.from("employee_directory")
       .select("id,full_name,area_code,is_active")
       .eq("is_active", true);
     if(employeeResult.error) throw employeeResult.error;
@@ -4059,7 +4071,7 @@ async function loadDefensiveLesson(){
   defensiveLoadBtn.textContent = "載入中…";
   defensiveStatus.style.display = "block";
   try{
-    const employeeCheck = await db.from("employee_directory").select("id").eq("full_name", name).eq("is_active", true).maybeSingle();
+    const employeeCheck = await rosterDb.from("employee_directory").select("id").eq("full_name", name).eq("is_active", true).maybeSingle();
     if(employeeCheck.error) throw employeeCheck.error;
     if(!employeeCheck.data){
       defensiveStatus.className = "training-message";
@@ -4650,7 +4662,7 @@ async function verifyShiftEmployee(){
   if(!name)return false;
   shiftEmployeeStatus.textContent="確認在職名單中…";
   try{
-    const r=await db.from("employee_directory").select("id,full_name,area_code,is_active").eq("full_name",name).eq("is_active",true).maybeSingle();
+    const r=await rosterDb.from("employee_directory").select("id,full_name,area_code,is_active").eq("full_name",name).eq("is_active",true).maybeSingle();
     if(serial!==shiftVerifySerial)return false;if(r.error)throw r.error;
     if(!r.data){shiftEmployeeStatus.textContent="歡迎加入" + window.CenterBusinessConfig.centerName + "，目前查無名單，請找店長確認！";shiftEmployeeStatus.className="shift-state bad";return false;}
     if(!r.data.area_code){shiftEmployeeStatus.textContent="已在職名單中，但尚未設定區域；請找店長確認後再填寫。";shiftEmployeeStatus.className="shift-state bad";return false;}
@@ -4736,7 +4748,7 @@ function renderShiftEmployeeSuggestions(matches,keyword){
 }
 async function searchShiftEmployeeSuggestions(keyword,serial){
   try{
-    const result=await db.from("employee_directory").select("id,full_name,area_code,is_active")
+    const result=await rosterDb.from("employee_directory").select("id,full_name,area_code,is_active")
       .eq("is_active",true).ilike("full_name",`%${keyword}%`).order("full_name",{ascending:true}).limit(8);
     if(serial!==shiftLookupSerial||keyword!==shiftNameInput.value.trim())return;
     if(result.error)throw result.error;
@@ -4792,3 +4804,4 @@ document.getElementById("shiftSuccessHomeBtn").addEventListener("click",showHome
 <script src="front-shell.js?v=20261111-c2"></script>
 </body>
 </html>
+

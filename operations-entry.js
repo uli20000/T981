@@ -168,3 +168,4 @@
   const original=showAdminMode;showAdminMode=function(mode){original(mode);E('opsModePage').style.display=mode==='ops'?'block':'none';if(mode==='ops')openTab(state.active);};
   E('opsModeBtn').onclick=()=>showAdminMode('ops');E('opsBackBtn').onclick=()=>showAdminMode('home');
 })();
+
