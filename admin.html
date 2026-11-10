@@ -1,8 +1,11 @@
 <!DOCTYPE html>
+<!-- T981 V8: multi-week opening + Taipei-week rollover refresh; confirmed UI unchanged. -->
 <html lang="zh-Hant">
-<head>
+<head><script src="center-config.js"></script><script src="center-runtime.js"></script><script src="score-pair-adapter.js"></script><script src="source-archive-adapter.js"></script><script src="score-revision-upload.js"></script><link rel="stylesheet" href="shared-shell.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="normal">
+<script src="display-mode.js?v=20261111-c2"></script>
 <meta name="theme-color" content="#f4f0e8">
 <title>KFC｜高雄-T981 巡檢後台</title>
 
@@ -31,12 +34,14 @@ body{
   margin:0;
   background:var(--linen);
   color:var(--black);
-  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Helvetica Neue",Arial,sans-serif;
+  font-family:"Microsoft JhengHei","微軟正黑體",sans-serif;
   text-align:center
 }
 
 button,input,textarea{font-family:inherit}
 button{cursor:pointer}
+body,body *{font-family:"Microsoft JhengHei","微軟正黑體",sans-serif!important}
+button,[role="button"],input[type="button"],input[type="submit"],input[type="reset"]{font-weight:700!important}
 
 .page{
   max-width:900px;
@@ -910,7 +915,8 @@ button{cursor:pointer}
 
 
 /* 後台首頁與設備管理：手機優先 */
-.admin-mode-btn{min-height:84px;font-size:22px}
+.title{font-weight:900}
+.admin-mode-btn{min-height:84px;font-size:22px;font-weight:800!important}
 .admin-mode-btn .icon{font-size:34px}
 .device-admin-type-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:620px;margin:0 auto}
 .device-admin-type-btn{min-height:58px;border:2px solid var(--line);border-radius:15px;background:#fff;color:var(--black);font:inherit;font-size:18px;font-weight:800;cursor:pointer}
@@ -919,7 +925,373 @@ button{cursor:pointer}
 .device-add-panel{border-color:#e1c66e;background:#fffdf5}
 .device-add-intro{padding:12px;border-radius:12px;background:var(--yellow-bg);color:#765800;font-size:14px;line-height:1.6;text-align:left;margin-bottom:12px}
 @media(max-width:700px){.admin-mode-btn{min-height:82px;font-size:21px}.admin-mode-btn .icon{font-size:32px}}
+.employee-area-card{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.employee-area-card select{min-height:42px;border:1px solid var(--line);border-radius:9px;padding:7px 10px;background:#fff;font:inherit}
+.employee-badge{display:inline-block;border-radius:999px;padding:3px 9px;background:#f5eee2;color:#674b21;font-size:12px;font-weight:900;margin-left:6px}
+.employee-status{font-size:12px;color:var(--gray);margin-top:4px}
+.shift-admin-toolbar{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
+.shift-admin-toolbar select,.shift-admin-toolbar button{min-height:44px}
+.shift-admin-card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:14px;margin-bottom:10px;text-align:left}
+.shift-admin-card h3{margin:0;font-size:17px;line-height:1.4}
+.shift-admin-card.is-missing{border-left:4px solid #d5803b}
+.shift-admin-card.is-empty{border-left:4px solid #77736d}
+.shift-admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:11px}
+.shift-admin-day{background:#faf9f6;border-radius:9px;padding:8px;font-size:13px;min-height:54px}
+.shift-admin-day b{display:block;color:var(--gray);font-size:11px;margin-bottom:3px}
+.shift-admin-notes{margin-top:10px;color:var(--gray);font-size:13px;white-space:pre-wrap;line-height:1.5}
+.shift-admin-empty{padding:20px;text-align:center;color:var(--gray)}
+.shift-admin-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.employee-list .roster-item{align-items:flex-start}
+.staffing-panel{background:#faf9f6;border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0;text-align:left}
+.staffing-panel h3{margin:0 0 8px;font-size:17px}
+.staffing-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.staffing-results{display:grid;gap:10px;margin-top:12px}
+.staffing-day-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px;text-align:left}
+.staffing-day-card h3{margin:0 0 9px;font-size:16px}
+.staffing-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.staffing-metric{background:#f8f7f5;border-radius:9px;padding:9px;font-size:12px;color:var(--gray)}
+.staffing-metric strong{display:block;margin-top:3px;font-size:15px;color:var(--black)}
+.staffing-gap-bad{color:#b42318!important}.staffing-gap-good{color:#176b3a!important}
+.staffing-upload-preview{font-size:13px;line-height:1.55;margin-top:8px;white-space:pre-wrap}
+.device-delete-btn{border:1px solid #b42318!important;background:#fff0ee!important;color:#b42318!important}
+@media(min-width:700px){.shift-admin-toolbar{grid-template-columns:minmax(200px,1fr) minmax(150px,.7fr) auto auto}.shift-admin-grid{grid-template-columns:repeat(7,minmax(0,1fr))}.staffing-grid{grid-template-columns:1fr 1fr}.staffing-results{grid-template-columns:repeat(2,minmax(0,1fr))}.staffing-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+
+.employee-area-tabs{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:5px;margin:12px 0 7px}
+.employee-area-tab{min-width:0;min-height:40px;padding:5px 2px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--black);font-weight:800;font-size:13px;cursor:pointer}
+.employee-area-tab.active{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 3px 9px rgba(200,16,46,.16)}
+.employee-directory-summary{min-height:20px;color:var(--gray);font-size:13px;margin:4px 0 8px}
+.employee-list .roster-item{align-items:center;flex-wrap:wrap}
+.employee-area-card{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap}
+.employee-area-card select{min-width:94px;max-width:130px;padding:7px 8px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit}
+.employee-area-card button{white-space:nowrap;padding:7px 8px;font-size:12px}
+.employee-area-card .permanent-delete-employee{border:1px solid #a5231e;background:#fff0ee;color:#a5231e;border-radius:9px;font-weight:800;cursor:pointer}
+@media(max-width:900px){.employee-area-tabs{grid-template-columns:repeat(6,minmax(0,1fr))}}
+
+
+/* T981 v3 — protected modules and equal-height administrative cards */
+.protected-mode-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.shift-test-toggle{display:flex;align-items:center;gap:12px;margin-top:12px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:#fff;text-align:left;cursor:pointer}
+.shift-test-toggle input{width:22px;height:22px;accent-color:var(--red);flex:none}
+.shift-test-toggle span{display:grid;gap:3px}.shift-test-toggle small{color:var(--gray);line-height:1.45}
+.admin-fixed-card{height:300px;min-height:300px;max-height:300px;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;overflow:hidden;padding:14px;background:#fff;border:1px solid var(--line);border-radius:16px;text-align:left}
+.admin-fixed-card .admin-card-head{min-height:34px;display:flex;align-items:center;justify-content:space-between;gap:8px;overflow:hidden}
+.admin-fixed-card .admin-card-body{flex:1;min-height:0;overflow:hidden}
+.admin-fixed-card .admin-card-actions{min-height:44px;margin-top:auto;display:flex;align-items:flex-end;gap:8px}
+.employee-directory-card .employee-admin-name{font-size:17px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.employee-directory-card .employee-admin-body{display:flex;flex-direction:column;justify-content:center;gap:10px;color:var(--gray);font-size:13px}
+.employee-directory-card .employee-admin-body select{width:100%;height:46px;padding:8px 12px;border:1px solid var(--line);border-radius:11px;background:#fff;font:inherit;color:var(--black)}
+.employee-directory-card .permanent-delete-employee{width:100%;height:44px;border:1px solid #e2aaa4;border-radius:10px;background:var(--danger-bg);color:var(--danger);font-size:13px;font-weight:800;cursor:pointer}
+.device-card-fixed{display:flex;flex-direction:column;text-align:left}
+.device-card-fixed .survey-card-top{min-width:0;min-height:38px;flex:0 0 38px;flex-direction:row;align-items:center;gap:8px;overflow:hidden}
+.device-card-fixed .survey-name{min-width:0;min-height:24px;line-height:24px;flex:1 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.device-card-fixed .survey-time{flex:none;white-space:nowrap}
+.device-card-fixed .survey-grid{grid-template-columns:1fr 1fr;overflow:visible}
+.device-card-fixed .survey-detail{display:block;flex:none;height:22px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;line-height:22px}
+.device-latest-claim{margin-top:auto;padding-top:6px;border-top:1px solid var(--line);color:var(--gray);font-size:12px;line-height:1.45;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.device-delete-btn{min-height:44px;border:1px solid #e2aaa4!important;background:var(--danger-bg)!important;color:var(--danger)!important}
+.vehicle-card.admin-fixed-card{cursor:pointer}
+.vehicle-card.admin-fixed-card .vehicle-top{max-height:155px;overflow:hidden}
+.vehicle-card.admin-fixed-card .vehicle-info{flex:1;min-height:0;overflow:hidden}
+.protected-password-overlay{position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(25,25,25,.48)}
+.protected-password-card{width:min(100%,440px);padding:26px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 48px rgba(0,0,0,.16)}
+.protected-password-mark{display:grid;place-items:center;width:58px;height:58px;border-radius:16px;background:var(--red);color:#fff;font-size:17px;font-weight:900}
+.protected-password-card h2{margin:18px 0 6px;font-size:21px}.protected-password-card p{margin:0 0 18px;color:var(--gray);line-height:1.5}
+.protected-password-field{margin:12px 0;display:grid;gap:6px}.protected-password-field label{font-size:14px;font-weight:800}
+.protected-password-field input{width:100%;height:48px;box-sizing:border-box;padding:10px 12px;border:1px solid var(--line);border-radius:11px;font:inherit}
+.protected-password-error{min-height:22px;color:var(--danger);font-size:13px;line-height:1.45}
+.protected-password-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.protected-password-primary{background:var(--red);border-color:var(--red);color:#fff}
+@media(max-width:700px){.protected-mode-actions{grid-template-columns:1fr}.admin-fixed-card{height:300px;min-height:300px;max-height:300px}.protected-password-card{padding:22px}}
+
+/* T981 v4 — compact, centered admin UI */
+.admin-mode-page{text-align:center}
+.admin-mode-page *{text-align:center}
+.admin-mode-page .mode-back-row{padding:16px 0 0;margin:0 auto 10px;width:100%}
+.admin-mode-page .mode-back-row .action-btn{width:100%}
+.admin-mode-page .protected-mode-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.admin-mode-page .section-title{margin-bottom:12px}
+.admin-mode-page .hint{margin-left:auto;margin-right:auto}
+.admin-mode-page input,.admin-mode-page textarea,.admin-mode-page select{text-align:center}
+.admin-mode-page .search-box,.admin-mode-page .staffing-panel,.admin-mode-page .staffing-day-card,.admin-mode-page .vehicle-card,.admin-mode-page .survey-card,.admin-mode-page .admin-fixed-card,.admin-mode-page .claim-panel,.admin-mode-page .health-panel{text-align:center}
+.admin-mode-page .shift-data-table th,.admin-mode-page .shift-data-table td{text-align:center}
+.employee-add-panel{display:grid;grid-template-columns:minmax(170px,1fr) minmax(130px,.55fr) auto;gap:9px;align-items:center;max-width:760px;margin:12px auto 0;padding:12px;background:#fff;border:1px solid var(--line);border-radius:15px}
+.employee-add-panel .employee-add-name,.employee-add-panel .employee-add-area{width:100%;height:46px;box-sizing:border-box;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit;color:var(--black)}
+.employee-add-panel .employee-add-btn{height:46px;min-width:164px;margin:0;white-space:nowrap}
+.employee-add-panel .employee-add-message{grid-column:1/-1;margin:0!important;min-height:0}
+.employee-area-tabs{margin:12px 0 7px}
+#employeeDirectoryList{display:grid;gap:7px}
+.employee-directory-card{height:68px;min-height:68px;max-height:68px;display:grid;grid-template-columns:minmax(0,1fr) 48px 82px 52px 52px;align-items:center;gap:5px;overflow:hidden;padding:8px 10px;background:#fff;border:1px solid var(--line);border-radius:13px;text-align:center}
+.employee-directory-card .employee-admin-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;font-weight:800}
+.employee-directory-card .employee-badge{margin:0;padding:4px 5px;font-size:11px;white-space:nowrap}
+.employee-directory-card select{width:100%;height:42px;min-width:0;padding:5px 3px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit;font-size:13px;color:var(--black)}
+.employee-directory-card .employee-area-save-btn,.employee-directory-card .permanent-delete-employee{width:100%;height:42px;min-height:42px;padding:4px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--black);font:inherit;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer}
+.employee-directory-card .permanent-delete-employee,.vehicle-card-admin-actions .permanent-delete-vehicle,.device-delete-btn{border-color:#e2aaa4!important;background:var(--danger-bg)!important;color:var(--danger)!important}
+.employee-directory-card .employee-area-save-btn:focus-visible,.employee-directory-card .permanent-delete-employee:focus-visible{outline:3px solid rgba(200,16,46,.25);outline-offset:2px}
+.shift-test-toggle{display:inline-flex;align-items:center;gap:6px;min-height:32px;margin:7px 0 0;padding:4px 9px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--black);font-size:12px;font-weight:800;cursor:pointer}
+.shift-test-toggle input{width:16px;height:16px;margin:0;accent-color:var(--red)}
+.shift-admin-toolbar{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+.shift-week-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;grid-column:1/-1}
+.shift-week-btn,.shift-status-btn{min-width:0;min-height:42px;padding:7px 8px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--black);font:inherit;font-size:12px;font-weight:800;cursor:pointer}
+.shift-status-btn{height:48px;min-height:48px;align-self:start}
+.shift-week-btn.active,.shift-status-btn.active{border-color:var(--red);background:var(--red);color:#fff;box-shadow:0 3px 9px rgba(200,16,46,.13)}
+.shift-status-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;align-self:start;align-items:start}
+.shift-admin-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.shift-admin-actions button{height:48px;min-height:48px;align-self:start;padding:7px 8px;font-size:13px}
+.shift-admin-scroll{max-width:100%;margin-top:12px;overflow:auto;border:1px solid var(--line);border-radius:11px;background:#fff}
+.shift-data-table{width:100%;min-width:840px;border-collapse:separate;border-spacing:0;text-align:center;font-size:12px}
+.shift-data-table th,.shift-data-table td{padding:9px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+.shift-data-table thead th{position:sticky;top:0;background:#f7f5f1;color:#55514c;font-size:12px;white-space:nowrap;z-index:1}
+.shift-data-table tbody tr:last-child td{border-bottom:0}
+.shift-data-table .shift-person-cell{position:sticky;left:0;z-index:2;min-width:150px;background:#fff}
+.shift-data-table thead th:first-child{left:0;z-index:4;background:#f7f5f1}
+.shift-scroll-cue{display:none}
+.shift-data-table .shift-person-cell strong{display:block;font-size:13px;color:var(--black)}
+.shift-data-table .shift-person-meta{display:block;margin-top:2px;color:var(--gray);font-size:11px;line-height:1.35}
+.shift-data-table .shift-cell{min-width:78px;white-space:pre-wrap;line-height:1.35}
+.shift-data-table .is-missing .shift-person-cell{border-left:4px solid #d5803b}
+.shift-data-table .is-empty .shift-person-cell{border-left:4px solid #77736d}
+.shift-data-table .shift-notes-row td{background:#fbfaf8;color:var(--gray);white-space:pre-wrap;line-height:1.45}
+.vehicle-card-admin-actions{margin-top:auto;width:100%}
+.vehicle-card-admin-actions .permanent-delete-vehicle{width:100%;min-height:42px;border:1px solid #e2aaa4;border-radius:9px;background:var(--danger-bg);color:var(--danger);font-size:12px;font-weight:800;cursor:pointer}
+.device-delete-btn{min-height:40px!important;padding:7px 10px!important;font-size:12px!important}
+@media(min-width:700px){
+ .shift-admin-toolbar{grid-template-columns:minmax(200px,1fr) minmax(240px,.8fr) auto}
+ .shift-week-buttons{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .shift-status-tabs{grid-column:2}
+ .shift-admin-actions{grid-column:3;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start}
+}
+@media(max-width:699px){
+ .admin-mode-page .protected-mode-actions{grid-template-columns:1fr 1fr}
+ .employee-add-panel{grid-template-columns:1fr;padding:11px}
+ .employee-add-panel .employee-add-btn{width:100%;min-width:0}
+ .employee-add-panel .employee-add-message{grid-column:1}
+ .employee-directory-card{grid-template-columns:minmax(0,1fr) 46px 76px 48px 48px;gap:4px;padding:7px 8px}
+ .employee-directory-card .employee-admin-name{font-size:13px}
+ .employee-directory-card select,.employee-directory-card .employee-area-save-btn,.employee-directory-card .permanent-delete-employee{font-size:11px}
+ .shift-admin-actions{grid-template-columns:1fr 1fr}
+ #shiftAdminList .shift-scroll-cue{display:block!important;color:var(--gray);font-size:13px;line-height:16px;margin:2px 0;text-align:center}
+ .shift-data-table{min-width:900px}
+}
+.staffing-file-picker{position:relative;display:grid;place-items:center;min-height:46px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--black);font-size:14px;font-weight:700;overflow:hidden;cursor:pointer}
+.staffing-file-picker span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.staffing-file-picker input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+/* Forecast view: explicit 20% uplift, aligned summary, and mobile card rhythm. */
+.forecast-formula{max-width:820px;margin:0 auto 8px!important;padding:9px 12px;border:1px solid var(--line);border-radius:11px;background:#fff;color:#5f5a53;font-size:13px;line-height:1.55;text-align:center}
+.forecast-summary-grid{width:100%;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch}
+.forecast-summary-grid .summary-card{min-width:0;min-height:88px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.forecast-summary-grid .summary-label{line-height:1.35;min-height:32px;display:flex;align-items:center;justify-content:center}
+.forecast-data-warning{margin:8px 0 0;padding:9px 11px;border:1px solid #e1c66e;border-radius:10px;background:var(--yellow-bg);color:#765800;font-size:12px;line-height:1.5;text-align:center}
+.forecast-data-warning[hidden]{display:none}
+.forecast-week-gap.is-warning{border-color:#e1c66e;background:var(--yellow-bg);color:#765800}
+.forecast-history-weeks{display:block;margin-top:2px;color:var(--gray);font-size:10px;line-height:1.2;font-weight:600}
+.forecast-day-total-card{min-height:62px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.forecast-area-table td:first-child strong{display:block}
+.forecast-area-table td:first-child .forecast-history-weeks{font-weight:600}
+/* Forecast view: weekly summary, weekday tabs, aligned area table/cards. */
+.staffing-results{display:block!important;margin-top:10px}
+.forecast-week-gap{margin-top:8px;padding:10px 14px;border:1px solid var(--line);border-radius:11px;background:#fff;font-weight:800}
+.forecast-week-gap.is-short{border-color:#e2aaa4;background:var(--danger-bg);color:var(--danger)}
+.forecast-week-gap.is-surplus{border-color:#c9ddcf;background:var(--green-bg);color:var(--green)}
+.staffing-day-tabs{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-top:12px}
+.staffing-day-tab{min-width:0;min-height:46px;padding:6px 4px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--black);font:inherit;font-size:13px;font-weight:800;cursor:pointer}
+.staffing-day-tab span,.staffing-day-tab small{display:block}
+.staffing-day-tab small{margin-top:2px;color:var(--gray);font-size:11px;font-weight:600}
+.staffing-day-tab.active{border-color:var(--red);background:var(--red);color:#fff;box-shadow:0 3px 9px rgba(200,16,46,.13)}
+.staffing-day-tab.active small{color:#fff}
+.staffing-day-tab:focus-visible{outline:3px solid rgba(200,16,46,.25);outline-offset:2px}
+.forecast-day-panel{margin-top:9px;background:#fff;border:1px solid var(--line);border-radius:13px;overflow:hidden}
+.forecast-day-heading{padding:11px 13px;background:#f7f5f1;border-bottom:1px solid var(--line);font-size:15px;font-weight:800}
+.forecast-area-table-wrap{overflow-x:auto}
+.forecast-area-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
+.forecast-area-table th,.forecast-area-table td{padding:10px 7px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle}
+.forecast-area-table th{background:#faf9f6;color:var(--gray);font-size:12px;font-weight:800}
+.forecast-area-table tr:last-child td{border-bottom:0}
+.forecast-area-table td:first-child{font-weight:800}
+.forecast-area-table .forecast-gap{font-weight:800;white-space:nowrap}
+.forecast-gap.is-short{color:var(--danger)}.forecast-gap.is-surplus{color:var(--green)}
+.forecast-area-cards{display:none}
+#staffingRecommendationSummary.summary{gap:7px;margin-top:7px}
+#staffingRecommendationSummary .summary-card{padding:11px 7px;border-radius:12px}
+#staffingRecommendationSummary .summary-label{font-size:12px;margin-bottom:3px}
+#staffingRecommendationSummary .summary-number{font-size:22px}
+.shift-week-btn span,.shift-week-btn small{display:block}
+.shift-week-btn small{margin-top:2px;color:var(--gray);font-size:11px;font-weight:600}
+.shift-week-btn.active small{color:#fff}
+.forecast-day-total-wrap{padding:8px;border-bottom:1px solid var(--line);background:#fff}
+.forecast-day-total-title{margin:0 0 7px;font-size:13px;font-weight:800;text-align:center}
+.forecast-day-total-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.forecast-day-total-card{min-width:0;padding:8px 6px;border:1px solid var(--line);border-radius:10px;background:#faf9f6;text-align:center}
+.forecast-day-total-card span{display:block;color:var(--gray);font-size:12px;line-height:1.3}
+.forecast-day-total-card strong{display:block;margin-top:3px;font-size:15px;line-height:1.25;overflow-wrap:anywhere}
+.shift-test-delete-btn{border-color:#e2aaa4!important;background:var(--danger-bg)!important;color:var(--danger)!important}
+.shift-fold>summary{display:flex;align-items:center;justify-content:center;gap:9px;list-style:none;cursor:pointer}
+.shift-fold>summary::-webkit-details-marker{display:none}
+.shift-fold>summary::after{content:"＋";display:inline-grid;place-items:center;width:24px;height:24px;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--gray);font-size:14px;line-height:1}
+.shift-fold[open]>summary::after{content:"−";color:var(--red);border-color:#e2aaa4;background:var(--danger-bg)}
+.shift-fold:not([open])>summary{margin-bottom:0}
+.shift-fold-content{padding-top:1px}
+@media(max-width:699px){
+ .staffing-day-tabs{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+ .staffing-day-tab{min-height:44px;font-size:12px}
+ .forecast-day-heading{padding:10px 11px}
+ .forecast-area-table-wrap{display:none}
+ .forecast-area-cards{display:grid;gap:7px;padding:8px}
+ .forecast-area-card{padding:8px;background:#faf9f6;border:1px solid var(--line);border-radius:10px}
+ .forecast-area-card-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;font-size:13px;font-weight:800}
+ .forecast-area-card-head .forecast-gap{font-size:12px}
+ .forecast-area-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+ .forecast-area-stat{min-width:0;padding:6px;background:#fff;border-radius:8px;text-align:center}
+ .forecast-area-stat span{display:block;color:var(--gray);font-size:12px;line-height:1.3}
+ .forecast-area-stat strong{display:block;margin-top:2px;font-size:14px;line-height:1.2;overflow-wrap:anywhere}
+ .forecast-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #staffingRecommendationSummary .summary-card{padding:9px 5px;border-radius:11px;min-height:78px}
+ #staffingRecommendationSummary .summary-label{font-size:11px;line-height:1.25;min-height:28px;margin-bottom:2px}
+ #staffingRecommendationSummary .summary-number{font-size:20px;overflow-wrap:anywhere}
+ .forecast-formula{font-size:12px;padding:8px 9px}
+ .forecast-day-total-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+ .forecast-day-total-card{padding:7px 5px;min-height:58px}
+ .forecast-day-total-card:last-child{grid-column:span 2}
+ .shift-admin-actions{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .shift-admin-actions button:last-child:nth-child(3){grid-column:1/-1}
+}
+
+/* T996 指休工具列：固定三列，各列格子等寬等高 */
+.shift-admin-toolbar{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:6px!important;margin-top:10px!important;align-items:stretch}
+.shift-toolbar-week-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;min-width:0}
+.shift-week-buttons{display:grid;grid-column:span 4!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;min-width:0}
+.shift-week-btn,.shift-toolbar-week-row>button,.shift-status-btn,.shift-name-search,.shift-toolbar-search-row>button,.shift-open-toggle,.shift-test-control{width:100%;min-width:0;height:44px;min-height:44px;box-sizing:border-box}
+.shift-week-btn{padding:5px 3px;font-size:12px;white-space:nowrap}
+.shift-toolbar-week-row>button{padding:5px 3px;font-size:12px;white-space:nowrap}
+.shift-toolbar-status-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;min-width:0}
+.shift-status-tabs{display:grid;grid-column:span 3!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;align-items:stretch;min-width:0}
+.shift-status-btn{height:44px;min-height:44px;align-self:stretch;padding:5px 3px;font-size:12px;white-space:nowrap}
+.shift-open-toggle,.shift-test-toggle{display:flex;align-items:center;justify-content:center;gap:5px;height:44px;min-height:44px;box-sizing:border-box;margin:0;padding:4px 5px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--black);font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer}
+.shift-open-toggle input,.shift-test-toggle input{width:16px;height:16px;margin:0;accent-color:var(--red);flex:none}
+.shift-name-search{padding:0 9px;font-size:14px;text-align:center}
+.shift-toolbar-search-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;align-items:stretch;min-width:0}
+.shift-toolbar-search-row>button,.shift-open-toggle{height:48px;min-height:48px;box-sizing:border-box}
+.shift-toolbar-search-row>button{height:44px;min-height:44px;padding:4px 3px;font-size:12px;white-space:nowrap}
+.shift-test-control{display:grid;grid-template-rows:1fr 1fr;gap:2px;align-items:stretch;min-width:0;height:48px;min-height:48px;box-sizing:border-box}
+.shift-test-control .shift-test-toggle{width:100%;height:23px;min-height:23px;margin:0;padding:1px 3px;box-sizing:border-box}
+.shift-admin-toolbar .shift-mini-delete{position:static;width:100%;height:23px!important;min-height:23px!important;padding:1px 2px;border:1px solid #e2aaa4;border-radius:7px;background:var(--danger-bg);color:var(--danger);font-size:10px;line-height:1;white-space:nowrap;cursor:pointer}
+.shift-admin-toolbar .shift-mini-delete:disabled{opacity:.48;cursor:not-allowed}
+.shift-open-toggle.is-checked,.shift-test-toggle.is-checked{border-color:var(--red)!important;background:var(--danger-bg)!important;color:var(--danger)!important;box-shadow:0 0 0 1px rgba(200,16,46,.08)}
+.shift-open-toggle input,.shift-test-toggle input{accent-color:var(--red)}
+@media(max-width:699px){
+ .shift-toolbar-week-row,.shift-toolbar-status-row,.shift-toolbar-search-row{gap:4px}
+ .shift-week-buttons,.shift-status-tabs{gap:4px}
+ .shift-week-btn,.shift-toolbar-week-row>button{padding:4px 1px;font-size:9px;letter-spacing:-.2px}
+ .shift-status-btn,.shift-toolbar-search-row>button{padding:3px 1px;font-size:10px;letter-spacing:-.2px}
+ .shift-name-search{padding:0 3px;font-size:12px}
+ .shift-open-toggle,.shift-test-toggle{gap:3px;padding:3px 2px;font-size:10px}
+ .shift-open-toggle input,.shift-test-toggle input{width:14px;height:14px}
+ .shift-toolbar-search-row>button,.shift-open-toggle{height:48px;min-height:48px}
+ .shift-test-control{height:48px;min-height:48px}
+ .shift-test-control .shift-test-toggle{height:23px;min-height:23px;padding:1px 2px}
+ .shift-mini-delete{height:23px;min-height:23px;font-size:9px}
+}
+
+
+/* Verified T981/996 control grid: 3 compact rows, equal-width cells and equal heights. */
+#shiftModePage .shift-toolbar-week-row,
+#shiftModePage .shift-toolbar-status-row,
+#shiftModePage .shift-toolbar-search-row{width:100%;min-width:0;align-items:stretch}
+#shiftModePage .shift-toolbar-week-row>button,
+#shiftModePage .shift-week-btn,
+#shiftModePage .shift-status-btn,
+#shiftModePage .shift-name-search,
+#shiftModePage .shift-toolbar-search-row>button,
+#shiftModePage .shift-test-control,
+#shiftModePage .shift-open-toggle{height:48px!important;min-height:48px!important;box-sizing:border-box}
+#shiftModePage .shift-test-control{position:relative;display:flex;align-items:center;justify-content:center;min-width:0}
+#shiftModePage .shift-test-control .shift-test-toggle{width:100%;height:48px!important;min-height:48px!important;padding-right:31px;box-sizing:border-box}
+#shiftModePage .shift-mini-delete{position:absolute;right:3px;top:9px;width:30px;height:30px;min-width:30px;min-height:30px;padding:0;border:1px solid #e2aaa4;border-radius:8px;background:var(--danger-bg);color:var(--danger);font-size:14px;cursor:pointer}
+#shiftModePage .shift-mini-delete[hidden]{display:none!important}
+#shiftModePage .shift-open-toggle.is-checked,
+#shiftModePage .shift-test-toggle.is-checked{border-color:var(--red)!important;background:var(--danger-bg)!important;color:var(--danger)!important;box-shadow:0 0 0 1px rgba(200,16,46,.08)}
+#shiftModePage .shift-open-toggle input,
+#shiftModePage .shift-test-toggle input{accent-color:var(--red)}
+@media(max-width:699px){
+  #shiftModePage .shift-toolbar-week-row,
+  #shiftModePage .shift-toolbar-status-row,
+  #shiftModePage .shift-toolbar-search-row{gap:4px}
+  #shiftModePage .shift-mini-delete{right:2px;width:25px;min-width:25px;height:26px;min-height:26px;font-size:12px}
+  #shiftModePage .shift-test-control .shift-test-toggle{padding-right:26px}
+}
+
+
+/* T981 V4：週次開放勾選，維持工具列欄位等寬並讓勾選狀態紅色可辨。 */
+.shift-week-option{display:grid;grid-template-rows:minmax(0,1fr) 22px;gap:2px;min-width:0;height:66px;box-sizing:border-box}
+.shift-week-option .shift-week-btn{width:100%;height:42px!important;min-height:42px!important;padding:4px 2px!important;font-size:10px!important;white-space:nowrap}
+.shift-week-open-toggle{display:flex;align-items:center;justify-content:center;gap:3px;width:100%;height:22px!important;min-height:22px!important;margin:0;padding:1px 2px;border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--black);font-size:10px;font-weight:800;line-height:1;white-space:nowrap;cursor:pointer;box-sizing:border-box}
+.shift-week-open-toggle input{width:14px;height:14px;margin:0;accent-color:var(--red);flex:none}
+.shift-week-open-toggle.is-checked{border-color:var(--red)!important;background:var(--danger-bg)!important;color:var(--danger)!important;box-shadow:0 0 0 1px rgba(200,16,46,.08)}
+#shiftModePage .shift-toolbar-week-row>button{height:66px!important;min-height:66px!important}
+#shiftModePage .shift-week-btn{height:42px!important;min-height:42px!important}
+.shift-week-open-hint{display:flex;align-items:center;justify-content:center;min-width:0;height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--gray);font-size:11px;font-weight:800;text-align:center;line-height:1.35}
+@media(max-width:699px){.shift-week-option{height:62px}.shift-week-option .shift-week-btn{height:39px!important;min-height:39px!important;font-size:9px!important;letter-spacing:-.25px}#shiftModePage .shift-toolbar-week-row>button{height:62px!important;min-height:62px!important}.shift-week-open-toggle{font-size:9px}}
+
+/* T981 V5：保持後台控制格尺寸，只略微提高字級及可讀性。 */
+.shift-week-option .shift-week-btn{font-size:12px!important}
+.shift-week-open-toggle{font-size:11px}
+.shift-status-btn,.shift-toolbar-search-row>button,.shift-toolbar-week-row>button{font-size:13px}
+.shift-test-toggle{font-size:13px}
+.shift-week-open-hint{font-size:12px}
+.shift-admin-toolbar .shift-mini-delete{font-size:11px}
+@media(max-width:699px){
+ .shift-week-option .shift-week-btn{font-size:10px!important;letter-spacing:-.15px}
+ .shift-week-open-toggle{font-size:10px}
+ .shift-status-btn,.shift-toolbar-search-row>button,.shift-toolbar-week-row>button{font-size:11px}
+ .shift-test-toggle{font-size:11px}
+ .shift-week-open-hint{font-size:10px}
+}
+
+/* T981 V6：逐週開放勾選整合於日期卡；工具列三列固定四欄。 */
+#shiftModePage .shift-heading-tools{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:0 0 8px}
+#shiftModePage .shift-heading-tools>.hint{margin:0;padding:0;line-height:1.35}
+#shiftModePage .shift-heading-tools .shift-test-toggle{width:auto;height:32px;min-height:32px;padding:4px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;font-size:12px}
+#shiftModePage .shift-heading-tools .shift-test-toggle.is-checked{border-color:var(--red)!important;background:var(--danger-bg)!important;color:var(--danger)!important}
+#shiftModePage .shift-heading-tools .shift-mini-delete[hidden]{display:none!important}
+#shiftModePage .shift-toolbar-week-row{display:block!important;grid-template-columns:none!important}
+#shiftModePage .shift-week-buttons{display:grid!important;grid-column:auto!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important;width:100%;min-width:0}
+#shiftModePage .shift-week-option{display:grid;grid-template-rows:39px 24px;gap:0;height:64px!important;min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:10px;background:#fff;box-sizing:border-box}
+#shiftModePage .shift-week-option .shift-week-btn{width:100%;height:39px!important;min-height:39px!important;margin:0;padding:3px 1px!important;border:0!important;border-radius:0!important;background:#fff;color:var(--black);box-shadow:none!important;font-size:11px!important;font-weight:800;white-space:nowrap;letter-spacing:-.2px}
+#shiftModePage .shift-week-option .shift-week-btn.active{background:var(--red)!important;color:#fff!important}
+#shiftModePage .shift-week-open-toggle{display:flex;align-items:center;justify-content:center;gap:4px;width:100%;height:24px!important;min-height:24px!important;margin:0;padding:1px 2px;border:0!important;border-top:1px solid #eee8e0!important;border-radius:0!important;background:transparent!important;color:var(--black);font-size:11px!important;font-weight:700;line-height:1;white-space:nowrap;box-shadow:none!important;box-sizing:border-box}
+#shiftModePage .shift-week-open-toggle input{width:14px;height:14px;margin:0;accent-color:var(--red);flex:none}
+#shiftModePage .shift-week-open-toggle.is-checked{background:var(--danger-bg)!important;color:var(--danger)!important;border-top-color:#f1c4c1!important}
+#shiftModePage .shift-toolbar-status-row{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important}
+#shiftModePage .shift-status-tabs{display:grid!important;grid-column:span 3!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important}
+#shiftModePage .shift-status-btn,#shiftModePage .shift-name-search{width:100%;height:48px!important;min-height:48px!important;box-sizing:border-box}
+#shiftModePage .shift-toolbar-search-row{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important}
+#shiftModePage .shift-toolbar-search-row>button,#shiftModePage .shift-export-week{width:100%;height:48px!important;min-height:48px!important;min-width:0;box-sizing:border-box;padding:4px 3px;font-size:12px;font-weight:800;text-align:center}
+#shiftModePage .shift-export-week{appearance:auto;background:#fff;border:1px solid var(--line);border-radius:10px;color:var(--black);font-family:inherit;white-space:nowrap}
+#shiftModePage .shift-purge-old-btn{background:var(--danger-bg);border-color:#f2b6b0;color:var(--danger);font-size:10px!important;white-space:normal;line-height:1.15}
+#shiftModePage .shift-toolbar-search-row>button:disabled{opacity:.55;cursor:wait}
+@media(max-width:699px){
+ #shiftModePage .shift-week-buttons,#shiftModePage .shift-toolbar-status-row,#shiftModePage .shift-toolbar-search-row{gap:4px!important}
+ #shiftModePage .shift-week-option{height:62px!important;grid-template-rows:37px 23px}
+ #shiftModePage .shift-week-option .shift-week-btn{height:37px!important;min-height:37px!important;font-size:10px!important;letter-spacing:-.35px}
+ #shiftModePage .shift-week-open-toggle{height:23px!important;min-height:23px!important;font-size:10px!important;gap:3px}
+ #shiftModePage .shift-week-open-toggle input{width:13px;height:13px}
+ #shiftModePage .shift-status-btn,#shiftModePage .shift-toolbar-search-row>button,#shiftModePage .shift-export-week{height:46px!important;min-height:46px!important;padding:2px 1px;font-size:10px!important;letter-spacing:-.25px}
+ #shiftModePage .shift-name-search{height:46px!important;min-height:46px!important;padding:0 3px;font-size:12px;text-align:center}
+ #shiftModePage .shift-purge-old-btn{font-size:9px!important;letter-spacing:-.45px}
+ #shiftModePage .shift-heading-tools{gap:6px;margin-bottom:7px}
+ #shiftModePage .shift-heading-tools .shift-test-toggle{height:29px;min-height:29px;font-size:11px}
+}
+
+
+.ops-section h3{margin:20px 0 12px;text-align:left}.ops-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0}.ops-analysis{margin:14px 0}.ops-export-bottom{display:flex;justify-content:center;margin:18px 0 4px}.ops-export-bottom .action-btn{min-width:min(420px,100%)}.ops-analysis-tools{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}.ops-analysis-tools input{min-height:42px;padding:8px;border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit}.ops-mini-tabs{display:flex;gap:4px;padding:3px;border:1px solid var(--line);border-radius:10px;background:#fff}.ops-mini-tabs button{border:0;background:transparent;border-radius:8px;padding:8px 12px;font:inherit}.ops-mini-tabs button.active{background:var(--red);color:#fff}.ops-hours-input{width:80px;min-width:68px;padding:8px;border:1px solid var(--line);border-radius:8px;font:inherit;text-align:center}.ops-toggle-group{display:flex;gap:10px;align-items:center;justify-content:center}.ops-toggle{min-height:46px;min-width:120px;border:1px solid var(--line);border-radius:12px;background:#fff;font:inherit;font-weight:800}.ops-toggle.selected{background:var(--green);border-color:var(--green);color:#fff}.ops-tab{padding:12px 8px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--black);font:inherit;font-weight:800;cursor:pointer}.ops-tab.active{background:var(--red);color:#fff;border-color:var(--red)}.ops-panel{padding:12px 0}.ops-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;text-align:center}.ops-form-grid label,.ops-toolbar label{display:grid;gap:6px;font-weight:700;color:var(--black);text-align:center}.ops-form-grid input,.ops-form-grid select,.ops-form-grid textarea,.ops-toolbar input{width:100%;min-height:46px;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit;color:var(--black);text-align:center}.ops-form-grid textarea{resize:vertical}.ops-wide{grid-column:1/-1}.ops-form-grid .action-btn{min-height:46px}.ops-lookup{min-height:18px;color:var(--green);font-size:13px;font-weight:700}.ops-message{min-height:24px;margin:8px 0;text-align:center;color:var(--gray)}.ops-toolbar{display:flex;align-items:end;gap:8px;margin:14px 0;text-align:left}.ops-toolbar label{min-width:145px}.ops-toolbar .action-btn{min-height:44px}.ops-table-wrap{overflow:auto;text-align:left}.ops-table{width:100%;border-collapse:collapse;background:#fff;font-size:14px}.ops-table th,.ops-table td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle;text-align:center}.ops-table th{background:#f8f6f1;white-space:nowrap}.ops-status{display:inline-block;padding:4px 8px;border-radius:99px;background:#fff0ee;color:#b42318;font-weight:800;white-space:nowrap}.ops-status.done{background:#eef5f0;color:#356b4b}.ops-help{padding:12px;background:#f8f6f1;border-radius:12px;text-align:left;color:var(--gray);line-height:1.7}.ops-link-result{display:flex;gap:8px;margin-top:12px}.ops-link-result input{min-width:0;flex:1;padding:10px;border:1px solid var(--line);border-radius:10px}.ops-empty{padding:18px;color:var(--gray);text-align:center}@media(max-width:600px){.ops-form-grid{grid-template-columns:1fr}.ops-wide{grid-column:auto}.ops-tabs{grid-template-columns:1fr}.ops-toolbar{align-items:stretch;flex-direction:column}.ops-link-result{flex-direction:column}.ops-table{font-size:12px}.ops-table th,.ops-table td{padding:8px 6px}}
+.ops-score-upload{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0}.ops-score-file-button{display:inline-flex;align-items:center;min-height:44px;padding:9px 14px;border-radius:10px;background:#fff;border:1px solid var(--line);font-weight:800;cursor:pointer}.ops-score-file-button input{position:absolute;width:1px;height:1px;opacity:0}.ops-score-file-hint{color:var(--gray);font-size:13px}.ops-score-divider{height:1px;background:var(--line);margin:24px 0}.ops-score-history-tools{display:flex;align-items:end;gap:10px;margin:12px 0}.ops-score-history-tools label{display:grid;gap:6px;min-width:170px;color:var(--gray);font-weight:700;text-align:left}.ops-score-history-tools input,.ops-score-history-tools select{min-height:42px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit}.ops-score-detail-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}.ops-batch-link{border:0;background:transparent;color:#1683df;font:inherit;font-weight:800;cursor:pointer;text-decoration:underline}.ops-score-count{color:var(--gray);white-space:nowrap}@media(max-width:600px){.ops-score-history-tools{align-items:stretch;flex-direction:column}.ops-score-history-tools label{min-width:0}.ops-score-detail-heading{align-items:flex-start;flex-direction:column}}
+
+.ops-section{font-size:16px;line-height:1.65}.ops-section button,.ops-section input,.ops-section select,.ops-section textarea{font-family:"Microsoft JhengHei","微軟正黑體","PingFang TC",sans-serif!important;font-size:16px!important}.ops-section button{font-weight:800!important}.ops-section .ops-table{font-size:15px}.ops-section .ops-message,.ops-section .ops-empty{color:#49443e;font-size:14px;font-weight:600}
+@media(max-width:600px){.ops-section .ops-table{font-size:14px}.ops-section .ops-table th,.ops-section .ops-table td{padding:9px 7px}}
 </style>
+<link rel="stylesheet" href="operations-report.css?v=20261111-c2">
+<link rel="stylesheet" href="display-mode.css?v=20261111-c2">
+<link rel="stylesheet" href="ui-shell.css?v=20261111-c2">
 </head>
 
 <body>
@@ -927,7 +1299,7 @@ button{cursor:pointer}
 <div id="authGate" class="auth-gate">
   <form id="authForm" class="auth-card" autocomplete="on">
     <div class="auth-brand"><span class="auth-brand-kfc">KFC</span><span class="auth-brand-separator">/</span><span>T981 RIDER CENTER</span></div>
-    <div class="auth-mark"><span>981</span></div>
+    <div class="auth-mark"><span data-center-number></span></div>
     <div class="auth-heading">管理後台</div>
     <div class="auth-field">
       <label for="authEmail">帳號</label>
@@ -964,27 +1336,91 @@ button{cursor:pointer}
 </header>
 
 <div id="adminModeMenu" class="admin-menu">
-  <button id="vehicleModeBtn" class="admin-mode-btn" type="button">
-    <span class="icon">🚗</span>
-    車輛管理
-  </button>
-  <button id="batteryModeBtn" class="admin-mode-btn" type="button">
-    <span class="icon">🔋</span>
-    設備管理
-  </button>
-  <button id="defensiveModeBtn" class="admin-mode-btn" type="button">
-    <span class="icon">🛡️</span>
-    防禦駕駛
-  </button>
-  <button id="surveyModeBtn" class="admin-mode-btn" type="button">
-    <span class="icon">📋</span>
-    意向調查
-  </button>
-  <button id="rosterModeBtn" class="admin-mode-btn" type="button">
-    <span class="icon">👥</span>
-    在職名單
-  </button>
+  <button id="vehicleModeBtn" class="admin-mode-btn" type="button"><span class="icon">🚗</span>車輛管理</button>
+  <button id="opsModeBtn" class="admin-mode-btn" type="button"><span class="icon">🍽️</span>營運管理</button>
+  <button id="batteryModeBtn" class="admin-mode-btn" type="button"><span class="icon">🔋</span>設備管理</button>
+  <button id="defensiveModeBtn" class="admin-mode-btn" type="button"><span class="icon">🛡️</span>防禦駕駛</button>
+  <button id="surveyModeBtn" class="admin-mode-btn" type="button"><span class="icon">📋</span>意向調查</button>
+  <button id="shiftModeBtn" class="admin-mode-btn" type="button"><span class="icon">🗓️</span>指休管理</button>
+  <button id="rosterModeBtn" class="admin-mode-btn" type="button"><span class="icon">👥</span>在職名單</button>
 </div>
+
+
+<section id="opsModePage" class="admin-mode-page">
+  <div class="mode-back-row"><button id="opsBackBtn" class="action-btn" type="button">← 返回後台入口</button></div>
+  <section class="section ops-section">
+    <div class="section-title">營運管理</div>
+    <div id="opsGlobalDateToolbar" class="ops-entry-date-toolbar ops-global-date-toolbar">
+      <div class="ops-date-nav"><button id="opsGlobalPrev" type="button" aria-label="前一個日期區間">‹</button><input id="opsGlobalDate" type="date" aria-label="營運統計日期"><button id="opsGlobalNext" type="button" aria-label="後一個日期區間">›</button></div>
+      <div id="opsGlobalPeriodTabs" class="ops-mini-tabs"><button type="button" data-period="day" class="active">日</button><button type="button" data-period="week">週</button><button type="button" data-period="month">月</button></div>
+      <div class="ops-date-actions"><button id="opsGlobalRefresh" type="button" class="action-btn">重新整理</button><a class="action-btn" href="analysis.html" aria-label="開啟營運分析儀表板">儀表板</a><button type="button" class="action-btn" data-display-mode-toggle aria-pressed="false">☀️</button></div>
+    </div>
+    <div id="opsGlobalPeriodChoices" class="ops-period-choices" hidden aria-live="polite"></div>
+    <div class="ops-tabs">
+      <button type="button" class="ops-tab active" data-ops-tab="delay">等餐紀錄</button>
+      <button type="button" class="ops-tab" data-ops-tab="line">劃線／簽名</button>
+      <button type="button" class="ops-tab" data-ops-tab="scores">當日成績</button>
+      <button type="button" class="ops-tab" data-ops-tab="summary">匯總資料</button>
+    </div>
+    <div id="opsDelayPanel" class="ops-panel">
+      <div class="ops-form-grid ops-entry-row ops-delay-entry-row">
+
+        <label>店號<input id="opsDelayStore" type="text" inputmode="numeric" maxlength="3" placeholder="輸入店號" autocomplete="off"><span id="opsDelayStoreName" class="ops-lookup" aria-live="polite"></span><div id="opsDelayStoreChoices" class="ops-store-choices"></div></label>
+        <label>編號<input id="opsDelayOrder" type="text" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="4 碼"></label>
+        <button id="opsDelaySave" type="button" class="action-btn primary">新增</button>
+        <label>餐廳查詢<input id="opsDelaySearch" type="search" placeholder="輸入店號或餐廳名稱"></label>
+      </div>
+      <div id="opsDelayMessage" class="ops-message" role="status"></div>
+      <h3 id="opsDelayListTitle">當日紀錄</h3>
+      <div id="opsDelayList" class="ops-table-wrap"></div>
+    </div>
+    <div id="opsLinePanel" class="ops-panel" hidden>
+      <div class="ops-line-toolbar-row">
+        <div id="opsLineStats" class="ops-line-stats"></div>
+        <label class="ops-line-search"><input id="opsLineSearch" type="search" aria-label="餐廳查詢" placeholder="輸入店號或餐廳名稱"></label>
+      </div>
+      <div class="ops-form-grid ops-entry-row">
+
+        <label>店號<input id="opsLineStore" type="text" inputmode="numeric" maxlength="3" placeholder="輸入店號" autocomplete="off"><span id="opsLineStoreName" class="ops-lookup" aria-live="polite"></span><div id="opsLineStoreChoices" class="ops-store-choices"></div></label>
+        <div class="ops-line-control"><span>劃線／簽名</span><div class="ops-toggle-group"><button type="button" id="opsLineMark" class="ops-toggle" aria-pressed="false">劃線</button><button type="button" id="opsSignMark" class="ops-toggle" aria-pressed="false">簽名</button></div></div>
+        <input id="opsSigner" type="hidden">
+        <input id="opsLineNote" type="hidden">
+        <button id="opsLineSave" type="button" class="action-btn primary">新增</button>
+      </div>
+      <div id="opsLineMessage" class="ops-message" role="status"></div>
+      <h3 id="opsLineListTitle">餐廳狀態</h3><div id="opsLineList" class="ops-table-wrap"></div>
+    </div>
+    <div id="opsScoresPanel" class="ops-panel" hidden>
+      <div class="ops-upload-block"><h3>匯入當日成績</h3><div class="ops-score-upload"><label class="ops-score-file-button">選擇兩個 Excel<input id="opsScoreFiles" type="file" accept=".xlsx,.xls,.xlsm" multiple></label></div><div id="opsScorePreview" class="ops-table-wrap"></div><button id="opsScoreImport" type="button" class="action-btn primary" disabled>匯入當日成績</button><div id="opsRevisionReview" hidden><pre id="opsRevisionSummary" style="white-space:pre-wrap" role="status"></pre><button id="opsRevisionConfirm" type="button" class="action-btn primary">確認成對提交新版本</button><button id="opsRevisionCancel" type="button" class="action-btn">取消核對</button><p class="hint">舊版與原始檔保留。網路結果不明時請保持本頁，重試沿用原請求；不要重新整理。</p></div><div id="opsScoreMessage" class="ops-message" role="status"></div></div>
+      <div id="opsFileStatus" class="ops-file-status"></div><h3 id="opsPeriodLabel">區域成績</h3>
+      <div id="opsReportWarnings" class="ops-report-warnings" hidden></div>
+      <div id="opsAnalysisSummary"></div>
+      <section class="ops-report-card"><h3>區域成績與工時</h3><div id="opsAnalysisTable"></div><div id="opsLaborAdjustments"></div></section><section class="ops-report-card"><h3 data-center-weather-title>天氣</h3><div id="opsWeather" aria-live="polite"></div></section><section class="ops-report-card"><h3>每日成績</h3><div id="opsDayList" class="ops-table-wrap"></div></section>
+      <div id="opsReportStatus" class="ops-report-status" role="status"></div>
+      <details class="ops-month-fold"><summary>各區每日／整月工時</summary><div id="opsMonthHours"></div></details>
+    </div>
+    <div id="opsSummaryPanel" class="ops-panel" hidden>
+      <div id="opsSummaryWarnings" class="ops-report-warnings" hidden></div>
+      <div id="opsSummaryMetrics"></div>
+      <div class="ops-ranking-grid">
+        <section class="ops-report-card"><h3>等餐</h3><div id="opsDelayCounts"></div><h4>AC 排名</h4><div id="opsDelayAcSummary"></div><h4>待改善餐廳</h4><div id="opsDelayRank"></div></section>
+        <section class="ops-report-card"><h3>劃線／簽名</h3><div id="opsLineCounts"></div><h4>AC 排名</h4><div id="opsLineAcSummary"></div><h4>待改善餐廳</h4><div id="opsLineRank"></div></section>
+      </div>
+      <details class="ops-report-card ops-summary-weather"><summary data-center-weather-title>天氣</summary><div id="opsSummaryWeather" aria-live="polite"></div></details>
+      <div id="opsSummaryStatus" class="ops-report-status" role="status"></div>
+      <div id="opsLinksPanel" class="ops-shared-link ops-compact-actions">
+        <div class="ops-export-link-row">
+          <div class="ops-export-bottom"><h3>報表匯出</h3><button id="opsExportSelected" type="button" class="action-btn primary" title="匯出上方日期控制所選期間">匯出報表</button></div>
+          <div class="ops-month-link-controls"><h3>等餐回覆連結</h3><input id="opsLinkMonth" type="month" aria-label="等餐回覆連結月份" aria-describedby="opsLinkMonthPreview" title="等餐回覆連結月份">
+          <button id="opsLinkCreate" type="button" class="action-btn" title="產生所選月份的等餐回覆連結">產生月份連結</button></div>
+        </div>
+        <span id="opsLinkMonthPreview" class="ops-sr-only" aria-live="polite"></span>
+        <div id="opsLinkMessage" class="ops-message" role="status"></div>
+        <div id="opsLinkResult" class="ops-link-result" hidden><strong id="opsLinkMonthLabel"></strong><input id="opsLinkUrl" type="text" readonly><button id="opsLinkCopy" type="button" class="action-btn">複製連結</button></div>
+      </div>
+    </div>
+  </section>
+</section>
 
 <section id="vehicleModePage" class="admin-mode-page">
 
@@ -1052,7 +1488,7 @@ button{cursor:pointer}
   <div class="section-title">新增車輛</div>
   <div class="vehicle-add-grid">
     <input id="newVehicleFullPlate" class="search-input" type="text" placeholder="完整車牌，例如 EWB-8129" autocomplete="off">
-    <input id="newVehicleCenter" class="search-input" type="text" placeholder="所在餐廳店號，例如 013" inputmode="text" autocomplete="off">
+    <input id="newVehicleCenter" class="search-input" type="text" placeholder="所在餐廳店號" inputmode="text" autocomplete="off">
     <button id="addVehicleBtn" class="action-btn" type="button">＋ 新增車輛</button>
   </div>
   <div id="addVehicleMessage" class="hint" style="margin-top:8px;"></div>
@@ -1078,15 +1514,19 @@ button{cursor:pointer}
     <button id="exportExcelBtn" class="action-btn" style="width:100%;margin-top:12px">📊 匯出 Excel</button>
   </div>
 </section>
-
-</div>
+</section>
 
 <section id="surveyModePage" class="admin-mode-page">
   <div class="mode-back-row"><button id="surveyBackBtn" class="action-btn" type="button">← 返回後台入口</button></div>
   <section class="section">
     <div class="section-title">意向調查</div>
     <div class="search-box">
-      <input id="surveySearchInput" class="search-input" type="text" placeholder="搜尋姓名">
+      <select id="surveyRoundSelect" class="search-input" aria-label="意向調查期別">
+        <option value="M1">M1（1–6月）</option>
+        <option value="M7">M7（7–12月）</option>
+      </select>
+      <div id="surveyPeriodLabel" class="hint" style="margin-top:8px" aria-live="polite"></div>
+      <input id="surveySearchInput" class="search-input" type="text" placeholder="搜尋姓名" style="margin-top:10px">
       <div class="mode-tools">
         <button id="surveyExportBtn" class="action-btn" type="button">📊 匯出意向調查</button>
       </div>
@@ -1128,22 +1568,7 @@ button{cursor:pointer}
     <div class="section-title">新增正常設備</div>
     <div class="search-box device-add-panel">
       <div id="deviceRegisterIntro" class="device-add-intro">查無此設備，請補充資料後新增。新增的設備會直接設定為正常。</div>
-      <select id="deviceRegisterRestaurant" class="search-input">
-        <option value="">請選擇電池所在餐廳</option>
-        <option value="093">林口文化（093）</option><option value="018">林口復興（018）</option><option value="099">南崁中正（099）</option>
-            <option value="201">高雄台茂（201）</option><option value="095">中壢環中東（095）</option><option value="209">中壢環中東二（209）</option>
-            <option value="137">高雄大園（137）</option><option value="062">龍潭北龍（062）</option><option value="154">新竹清大（154）</option>
-            <option value="227">高雄新屋（227）</option><option value="248">高雄領航（248）</option><option value="041">楊梅中山（041）</option>
-            <option value="161">楊梅大成（161）</option><option value="516">中壢中正（516）</option><option value="544">中壢中和（544）</option>
-            <option value="084">中壢民族（084）</option><option value="242">中壢過嶺（242）</option><option value="580">苗栗頭份（580）</option>
-            <option value="133">新竹新豐（133）</option><option value="203">新竹湖口（203）</option><option value="562">新竹竹北（562）</option>
-            <option value="144">竹北自強（144）</option><option value="587">新竹民生（587）</option><option value="066">新竹竹東（066）</option>
-            <option value="214">新竹中正（214）</option><option value="594">新竹亞太（594）</option><option value="235">竹北中華（235）</option>
-            <option value="025">苗栗中正（025）</option><option value="173">苗栗竹南（173）</option><option value="142">高雄桃營（142）</option>
-            <option value="182">高雄萬壽（182）</option><option value="167">高雄介壽（167）</option><option value="165">高雄南平（165）</option>
-            <option value="179">高雄大竹（179）</option><option value="190">高雄大溪（190）</option><option value="098">高雄大興西（098）</option>
-            <option value="183">高雄中山二（183）</option><option value="013">新竹光復（013）</option>
-      </select>
+      <select id="deviceRegisterRestaurant" class="search-input"><option value="">請選擇電池所在餐廳</option></select>
       <select id="deviceRegisterSize" class="search-input" style="margin-top:10px;display:none">
         <option value="large">A10／大台</option>
         <option value="small">C100／小台</option>
@@ -1198,28 +1623,98 @@ button{cursor:pointer}
 </section>
 
 <section id="rosterModePage" class="admin-mode-page">
-  <div class="mode-back-row"><button id="rosterBackBtn" class="action-btn" type="button">← 返回後台入口</button></div>
+  <div class="mode-back-row protected-mode-actions"><button id="rosterBackBtn" class="action-btn" type="button">← 返回後台入口</button></div>
   <section class="section">
-    <div class="section-title">在職名單</div>
-    <div class="search-box">
-      <input id="surveyTargetNameInput" class="search-input" type="text" placeholder="輸入新人姓名" autocomplete="name">
-      <button id="surveyTargetAddBtn" class="action-btn" type="button" style="width:100%;margin-top:12px">＋ 新增在職員工</button>
-      <div id="surveyTargetMessage" class="hint" style="margin-top:8px;"></div>
+    <div class="section-title">在職員工</div>
+    <div class="employee-add-panel">
+      <input id="employeeNameInput" class="employee-add-name" type="text" maxlength="60" placeholder="輸入姓名" autocomplete="name" aria-label="新員工姓名">
+      <select id="employeeAreaInput" class="employee-add-area" aria-label="新員工區域"><option value="">選擇區域</option></select>
+      <button id="employeeAddBtn" class="action-btn employee-add-btn" type="button">＋ 新增</button>
+      <div id="employeeMessage" class="hint employee-add-message" role="status" aria-live="polite"></div>
     </div>
+    <div class="employee-area-tabs" id="employeeAreaTabs" role="tablist" aria-label="依區域篩選在職員工"></div>
+    <div id="employeeDirectorySummary" class="employee-directory-summary" aria-live="polite"></div>
+    <div id="employeeDirectoryList" class="roster-list employee-list" style="margin-top:12px"><div class="loading">載入員工資料中…</div></div>
   </section>
-  <section class="section">
-    <div class="section-title">目前在職員工</div>
-    <div id="rosterList" class="roster-list">
-      <div class="loading">尚未載入在職名單</div>
-    </div>
-  </section>
-  <select id="surveyRoundSelect" style="display:none">
-    <option value="2027M1">2027M1</option>
-    <option value="2027M7">2027M7</option>
-  </select>
+
+  <div id="legacySurveyRosterManagement" style="display:none">
+    <section class="section">
+      <div class="section-title">問卷／訓練名單</div>
+      <div class="search-box">
+        <input id="surveyTargetNameInput" class="search-input" type="text" placeholder="輸入新人姓名" autocomplete="name">
+        <button id="surveyTargetAddBtn" class="action-btn" type="button" style="width:100%;margin-top:12px">＋ 新增在職員工</button>
+        <div id="surveyTargetMessage" class="hint" style="margin-top:8px;"></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">目前問卷／訓練名單</div>
+      <div id="rosterList" class="roster-list">
+        <div class="loading">尚未載入在職名單</div>
+      </div>
+    </section>
+  </div>
   <div id="surveyIncompleteList" style="display:none"></div>
   <div id="surveyFailedList" style="display:none"></div>
 </section>
+<section id="shiftModePage" class="admin-mode-page">
+  <div class="mode-back-row protected-mode-actions"><button id="shiftBackBtn" class="action-btn" type="button">← 返回後台入口</button></div>
+  <section class="section">
+    <div class="section-title">指休管理</div>
+    <div class="shift-heading-tools">
+      <div class="hint" data-staffing-goals></div>
+      <label class="shift-test-toggle"><input id="shiftTestModeToggle" type="checkbox" aria-label="測試模式"><span>測試</span></label>
+      <button id="shiftDeleteTestBtn" class="shift-mini-delete" type="button" hidden title="刪除所選週測試資料" aria-label="刪除所選週測試資料">🗑</button>
+    </div>
+    <div class="shift-admin-toolbar">
+      <select id="shiftWeekSelect" class="search-input" aria-label="選擇指休週次" hidden></select>
+      <div class="shift-toolbar-week-row">
+        <div id="shiftWeekButtons" class="shift-week-buttons" role="group" aria-label="選擇週次並設定開放"></div>
+      </div>
+      <div class="shift-toolbar-status-row">
+        <div id="shiftStatusTabs" class="shift-status-tabs" role="tablist" aria-label="指休提交狀態"></div>
+        <input id="shiftNameSearch" class="search-input shift-name-search" type="search" placeholder="搜尋姓名" autocomplete="off" aria-label="搜尋員工姓名">
+      </div>
+      <div class="shift-toolbar-search-row">
+        <button id="shiftRefreshBtn" class="action-btn" type="button">重新整理</button>
+        <select id="shiftExportWeekSelect" class="search-input shift-export-week" aria-label="選擇匯出週次"></select>
+        <button id="shiftExportBtn" class="action-btn" type="button">匯出</button>
+        <button id="shiftPurgeOldBtn" class="action-btn shift-purge-old-btn" type="button" title="清理週結束滿三個月的指休資料" aria-label="清理週結束滿三個月的指休資料">清理三個月前</button>
+      </div>
+    </div>
+    <div id="shiftAdminSummary" class="hint" style="margin-top:10px"></div>
+  </section>
+  <section class="section">
+    <details class="shift-fold">
+      <summary class="section-title">下週人力建議</summary>
+      <div class="shift-fold-content">
+        <div class="hint forecast-formula" data-center-forecast-formula></div>
+        <div id="staffingRecommendationSummary" class="summary forecast-summary-grid"></div>
+        <div id="staffingForecastDataWarning" class="forecast-data-warning" hidden role="status" aria-live="polite"></div>
+        <div id="staffingWeekGap" class="forecast-week-gap" hidden></div>
+        <div id="staffingDayTabs" class="staffing-day-tabs" role="tablist" aria-label="選擇預測日期"></div>
+        <div id="staffingRecommendationList" class="staffing-results"><div class="loading">載入歷史資料與指休資料中…</div></div>
+      </div>
+    </details>
+  </section>
+  <section class="section">
+    <details class="shift-fold">
+      <summary class="section-title">匯入歷史資料</summary>
+      <div class="shift-fold-content">
+        <div class="staffing-panel" style="width:100%">
+          <label class="staffing-file-picker" for="staffingImportFile"><span id="staffingImportFileLabel">選擇 Excel（可多選）</span><input id="staffingImportFile" type="file" accept=".xlsx,.xls" multiple aria-label="一次選取 TC 與中心實際資料 Excel"></label>
+          <button id="staffingImportBtn" class="action-btn" type="button" style="width:100%;margin-top:9px">分析並匯入</button>
+          <div id="staffingImportMessage" class="staffing-upload-preview" role="status" aria-live="polite"></div>
+        </div>
+        <div class="hint">逐日 TC 的缺值會列出來源列號。</div>
+      </div>
+    </details>
+  </section>
+  <section class="section">
+    <div class="section-title">提交狀況</div>
+    <div id="shiftAdminList" class="vehicle-list"><div class="loading">載入在職員工與提交狀態中…</div></div>
+  </section>
+</section>
+
 </div>
 
 <!-- 快速清單 -->
@@ -1268,17 +1763,36 @@ button{cursor:pointer}
 
 </div>
 
+<div id="t981ProtectedPasswordModal" class="protected-password-overlay" style="display:none" role="dialog" aria-modal="true" aria-labelledby="t981ProtectedPasswordTitle">
+  <form id="t981ProtectedPasswordForm" class="protected-password-card">
+    <div class="protected-password-mark">T981</div>
+    <h2 id="t981ProtectedPasswordTitle">管理區域驗證</h2>
+    <p id="t981ProtectedPasswordDescription">請輸入共用密碼以繼續。</p>
+    <div id="t981CurrentPasswordWrap" class="protected-password-field" style="display:none"><label for="t981CurrentPassword">目前共用密碼</label><input id="t981CurrentPassword" type="password" autocomplete="current-password"></div>
+    <div id="t981NewPasswordWrap" class="protected-password-field" style="display:none"><label for="t981NewPassword">新共用密碼（至少 8 碼）</label><input id="t981NewPassword" type="password" autocomplete="new-password"></div>
+    <div id="t981ConfirmPasswordWrap" class="protected-password-field" style="display:none"><label for="t981ConfirmPassword">再次輸入新密碼</label><input id="t981ConfirmPassword" type="password" autocomplete="new-password"></div>
+    <div id="t981UnlockPasswordWrap" class="protected-password-field" style="display:none"><label for="t981UnlockPassword">共用密碼</label><input id="t981UnlockPassword" type="password" autocomplete="current-password"></div>
+    <div id="t981PasswordError" class="protected-password-error" role="status"></div>
+    <div class="protected-password-actions"><button id="t981PasswordCancel" class="action-btn" type="button">取消</button><button id="t981PasswordSubmit" class="action-btn protected-password-primary" type="submit">驗證</button></div>
+  </form>
+</div>
+
+<script src="config/981-business.js?v=20261111-c2"></script><script src="center-ui.js?v=20261111-c2"></script>
 <script>
 
 const SUPABASE_URL =
-  "https://fmykglrkhtncpbnemakc.supabase.co";
+  window.CENTER_CONFIG.supabaseUrl;
 
 const SUPABASE_KEY =
-  "sb_publishable_JnDACuP-j3LI6IgDXvYM0g_EqrBJiBn";
+  window.CENTER_CONFIG.publishableKey;
 
 const db =
-  supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  window.CenterRuntime.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const atomicScoreImporter = ScorePairAdapter.create({db,enabled:window.CENTER_CONFIG?.features?.atomicScores===true});
+const dedupSourceArchiver=SourceArchiveAdapter.create({enabled:window.CENTER_CONFIG?.features?.archiveDedup===true,transport:window.CenterArchiveTransport});
+let scoreArchiveRetryCache=null;
+const scoreRevisionWorkflow=ScoreRevisionUpload.browser({config:window.CENTER_CONFIG,db});
 const OIL_INTERVAL = 1500;
 const OIL_WARNING_DISTANCE = 300;
 
@@ -1415,14 +1929,37 @@ const defensiveExportBtn = $("defensiveExportBtn");
 const defensiveSearchInput = $("defensiveSearchInput");
 const defensiveSummary = $("defensiveSummary");
 const defensiveAdminList = $("defensiveAdminList");
-defensiveAdminMonth.value = String(new Date().getMonth() + 1);
+defensiveAdminMonth.value = String(trainingTaipeiParts().month);
 const newVehicleFullPlate = $("newVehicleFullPlate");
 const newVehicleCenter = $("newVehicleCenter");
 const addVehicleBtn = $("addVehicleBtn");
 const addVehicleMessage = $("addVehicleMessage");
 const surveyRoundSelect = $("surveyRoundSelect");
-const SURVEY_ROUND_YEAR = 2027;
-surveyRoundSelect.value = `${SURVEY_ROUND_YEAR}M${new Date().getMonth() + 1 >= 7 ? 7 : 1}`;
+const surveyPeriodLabel = $("surveyPeriodLabel");
+function trainingTaipeiParts(date = new Date()){
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Taipei", year: "numeric", month: "numeric", day: "numeric"
+  }).formatToParts(date);
+  const values = Object.fromEntries(parts.map(part => [part.type, part.value]));
+  return {year:Number(values.year), month:Number(values.month), day:Number(values.day)};
+}
+function surveyRoundInfo(round, year = trainingTaipeiParts().year){
+  const isM7 = round === "M7";
+  return {
+    round: isM7 ? "M7" : "M1",
+    year,
+    start: isM7 ? `${year}-07-01T00:00:00+08:00` : `${year}-01-01T00:00:00+08:00`,
+    end: isM7 ? `${year + 1}-01-01T00:00:00+08:00` : `${year}-07-01T00:00:00+08:00`,
+    label: isM7 ? `${year}/07–12` : `${year}/01–06`
+  };
+}
+function updateSurveyPeriodLabel(){
+  if(!surveyPeriodLabel) return;
+  const info = surveyRoundInfo(surveyRoundSelect.value);
+  surveyPeriodLabel.textContent = `目前檢視：${info.label}（${info.round}）`;
+}
+surveyRoundSelect.value = trainingTaipeiParts().month >= 7 ? "M7" : "M1";
+updateSurveyPeriodLabel();
 const surveyTargetNameInput = $("surveyTargetNameInput");
 const surveyTargetAddBtn = $("surveyTargetAddBtn");
 const surveyTargetMessage = $("surveyTargetMessage");
@@ -1472,6 +2009,8 @@ function fmt(v){
   return d.toLocaleString(
     "zh-TW",
     {
+      timeZone:"Asia/Taipei",
+      hourCycle:"h23",
       year:"numeric",
       month:"2-digit",
       day:"2-digit",
@@ -1922,8 +2461,7 @@ function renderVehicles(){
       return [
         v.plate4,
         v.full_plate,
-        v.center,
-        v.employee_name
+        v.center
       ]
       .filter(Boolean)
       .some(x =>
@@ -2004,7 +2542,7 @@ function renderVehicles(){
 
     c.className =
       `
-      vehicle-card
+      vehicle-card admin-fixed-card
       ${u.length ? "has-unresolved" : ""}
       ${isClaimPending(v) ? "claim-pending" : ""}
       ${o.type === "warning" ? "oil-warning" : ""}
@@ -2033,7 +2571,6 @@ function renderVehicles(){
         <div class="center">
           CENTER｜${esc(v.center || "未設定")}
         </div>
-        ${v.employee_name ? `<div class="center">員工｜${esc(v.employee_name)}</div>` : ""}
 
         <div class="status ${sc}">
           ${st}
@@ -2088,6 +2625,7 @@ function renderVehicles(){
         </div>
 
       </div>
+      <div class="vehicle-card-admin-actions"><button type="button" class="permanent-delete-vehicle" data-t981-vehicle-delete="${esc(v.id)}" aria-label="永久刪除 ${esc(v.full_plate || v.plate4 || "車輛")} 及全部歷史">刪除</button></div>
 
       `;
 
@@ -2250,7 +2788,6 @@ function openQuickList(type){
         <div class="quick-center">
           CENTER｜${esc(v.center || "未設定")}
         </div>
-        ${v.employee_name ? `<div class="quick-center">員工｜${esc(v.employee_name)}</div>` : ""}
 
         <div class="quick-detail">
           ${detail}
@@ -3442,31 +3979,54 @@ function renderSurveyResponses(){
 }
 
 function exportSurveyResponses(){
-  if(!surveyResponses.length){
-    alert("目前沒有可匯出的意向調查資料。");
+  const period = surveyRoundInfo(surveyRoundSelect.value);
+  const responseMap = latestSurveyResponseByName();
+  const activeNames = new Set(
+    surveyTargets.map(row => String(row.respondent_name || "").trim()).filter(Boolean)
+  );
+  const exportRow = (name, row, employeeStatus) => {
+    const hasResponse = Boolean(row);
+    const p1 = hasResponse ? parseSurveyPart(row.part1_answers) : {};
+    return {
+      調查期別: period.label,
+      員工狀態: employeeStatus,
+      提交狀態: hasResponse ? "已提交" : "未完成",
+      填寫人姓名: name,
+      違規記點: hasResponse ? (p1.violation_points ?? "") : "",
+      第一部分答案: hasResponse ? JSON.stringify(row.part1_answers ?? "") : "",
+      第一部分總分: hasResponse ? (row.part1_total ?? "") : "",
+      第一部分結果: hasResponse ? (row.part1_result || "") : "",
+      第二部分答案: hasResponse ? JSON.stringify(row.part2_answers ?? "") : "",
+      第二部分總分: hasResponse ? (row.part2_total ?? "") : "",
+      第二部分結果: hasResponse ? (row.part2_result || "") : "",
+      一年內肇事: hasResponse ? (row.accident_within_one_year === true ? "有" : row.accident_within_one_year === false ? "沒有" : "") : "",
+      肇事說明: hasResponse ? (row.accident_description || "") : "",
+      填寫時間: hasResponse ? (row.submitted_at || "") : ""
+    };
+  };
+
+  // 以所選期別的在職名單為主表，未提交者也輸出一列，讓主管可直接追蹤缺漏。
+  const rows = surveyTargets
+    .map(target => String(target.respondent_name || "").trim())
+    .filter((name, index, names) => name && names.indexOf(name) === index)
+    .map(name => exportRow(name, responseMap.get(name) || null, "在職"));
+
+  // 保留已提交、但目前不在職名單中的紀錄，避免匯出時漏掉歷史提交者。
+  const exportedNames = new Set(rows.map(row => row.填寫人姓名));
+  responseMap.forEach((response, name) => {
+    if(name && !activeNames.has(name) && !exportedNames.has(name)){
+      rows.push(exportRow(name, response, "非目前在職名單"));
+    }
+  });
+
+  if(!rows.length){
+    alert("目前所選期別沒有在職名單或已提交紀錄，無資料可匯出。");
     return;
   }
-  const rows = surveyResponses.map(row => {
-    const p1 = parseSurveyPart(row.part1_answers);
-    return {
-      id: row.id || "",
-      填寫人姓名: row.respondent_name || "",
-      違規記點: p1.violation_points ?? "",
-      第一部分答案: JSON.stringify(row.part1_answers ?? ""),
-      第一部分總分: row.part1_total ?? "",
-      第一部分結果: row.part1_result || "",
-      第二部分答案: JSON.stringify(row.part2_answers ?? ""),
-      第二部分總分: row.part2_total ?? "",
-      第二部分結果: row.part2_result || "",
-      一年內肇事: row.accident_within_one_year === true ? "有" : "沒有",
-      肇事說明: row.accident_description || "",
-      填寫時間: row.submitted_at || ""
-    };
-  });
   const wb = XLSX.utils.book_new();
   const ws = XLSX.utils.json_to_sheet(rows);
   XLSX.utils.book_append_sheet(wb, ws, "駕駛意向調查");
-  XLSX.writeFile(wb, `KFC_駕駛意向調查_${new Date().toISOString().slice(0,10)}.xlsx`);
+  XLSX.writeFile(wb, `KFC_駕駛意向調查_${period.year}_${period.round}_V2.xlsx`);
 }
 
 async function deleteSurveyResponse(id, name, submittedAt){
@@ -3537,7 +4097,7 @@ function renderSurveyRoster(){
   surveyIncompleteList.innerHTML = `
     <div class="roster-panel-title">${selectedRound} 未完成（${incomplete.length} 人）</div>
     <div class="roster-list">${incomplete.length ? incomplete.map(row => `
-      <div class="roster-item"><span>${esc(row.respondent_name)}<small style="display:block;color:var(--gray);">尚未提交問卷</small></span><button type="button" class="survey-target-delete-btn" data-name="${esc(row.respondent_name)}" data-round="${esc(row.survey_round)}">永久刪除</button></div>`).join("") : '<div class="empty">目前沒有未完成名單</div>'}</div>`;
+      <div class="roster-item"><span>${esc(row.respondent_name)}<small style="display:block;color:var(--gray);">尚未提交問卷</small></span></div>`).join("") : '<div class="empty">目前沒有未完成名單</div>'}</div>`;
   surveyFailedList.innerHTML = failed.length ? failed.map(row => `
     <button type="button" class="roster-item survey-failed-btn" data-name="${esc(row.respondent_name)}" style="width:100%;cursor:pointer;">
       <span>${esc(row.respondent_name || "未填姓名")}<small style="display:block;color:var(--danger);">第一部分：${esc(row.part1_result || "未判定")}｜第二部分：${esc(row.part2_result || "未判定")}</small></span><span>查看</span>
@@ -3545,42 +4105,11 @@ function renderSurveyRoster(){
 }
 
 async function addSurveyTarget(){
-  const name = surveyTargetNameInput.value.trim();
-  const round = surveyRoundSelect.value;
-  if(!name){ surveyTargetMessage.textContent = "請輸入姓名。"; return; }
-  surveyTargetAddBtn.disabled = true;
-  surveyTargetMessage.textContent = "新增中…";
-  try{
-    const existing = await db.from("driver_survey_targets").select("id").eq("respondent_name",name).limit(1);
-    if(existing.error) throw existing.error;
-    if(existing.data?.length){
-      surveyTargetMessage.textContent = `此姓名已在目前在職名單：${name}`;
-      return;
-    }
-    const result = await db.from("driver_survey_targets").insert({respondent_name:name, survey_round:round});
-    if(result.error) throw result.error;
-    surveyTargetNameInput.value = "";
-    surveyTargetMessage.textContent = `✅ 已加入目前在職名單：${name}`;
-    await loadRosterData();
-  }catch(e){
-    surveyTargetMessage.textContent = e.code === "23505" ? "此姓名已存在於此問卷批次。" : `新增失敗：${e.message || "請確認權限"}`;
-  }finally{
-    surveyTargetAddBtn.disabled = false;
-  }
+  if(surveyTargetMessage) surveyTargetMessage.textContent = "意向調查與防禦駕駛名單自動依目前在職員工，不需另行加入。";
 }
 
-async function deleteSurveyTarget(name, round){
-  if(!confirm(`確定要永久刪除「${name}」嗎？\n\n這會刪除該姓名的所有問卷名單、問卷紀錄與防禦駕駛紀錄，且無法復原。`)) return;
-  try{
-    const responseDelete = await db.from("driver_survey_responses").delete().eq("respondent_name", name);
-    if(responseDelete.error) throw responseDelete.error;
-    const defensiveDelete = await db.from("defensive_driving_responses").delete().eq("respondent_name", name);
-    if(defensiveDelete.error) throw defensiveDelete.error;
-    const targetDelete = await db.from("driver_survey_targets").delete().eq("respondent_name", name);
-    if(targetDelete.error) throw targetDelete.error;
-    alert("✅ 該姓名的名單、問卷與防禦駕駛紀錄已永久刪除。");
-    await loadRosterData();
-  }catch(e){ alert(`刪除失敗：${e.message || "請確認 DELETE 權限"}`); }
+async function deleteSurveyTarget(name){
+  alert(`「${name}」的調查／訓練資格由在職名單自動管理。請至在職員工區停用員工；既有紀錄依保留規則處理。`);
 }
 
 function renderActiveRoster(){
@@ -3595,26 +4124,26 @@ function renderActiveRoster(){
   }
   rosterList.innerHTML = rows.map(row => `
     <div class="roster-item">
-      <span>${esc(row.respondent_name)}<small style="display:block;color:var(--gray);">意向調查／防禦駕駛共用</small></span>
-      <button type="button" class="survey-target-delete-btn" data-name="${esc(row.respondent_name)}" data-round="${esc(row.survey_round || surveyRoundSelect.value)}">永久刪除</button>
+      <span>${esc(row.respondent_name)}<small style="display:block;color:var(--gray);">意向調查／防禦駕駛｜依在職名單</small></span>
     </div>
   `).join('');
 }
 
 async function loadRosterData(){
+  if(!rosterList) return;
   rosterList.innerHTML = '<div class="loading">載入在職名單中…</div>';
   try{
-    const result = await db.from("driver_survey_targets").select("*").order("created_at",{ascending:true});
+    const result = await db.from("employee_directory").select("full_name,is_active").eq("is_active",true).order("full_name",{ascending:true});
     if(result.error) throw result.error;
     const map = new Map();
     (result.data || []).forEach(row => {
-      const name = String(row.respondent_name || "").trim();
-      if(name && !map.has(name)) map.set(name, {...row, respondent_name:name});
+      const name = String(row.full_name || "").trim();
+      if(name && !map.has(name)) map.set(name, {respondent_name:name, survey_round:surveyRoundSelect.value});
     });
     surveyTargets = [...map.values()];
     renderActiveRoster();
   }catch(e){
-    rosterList.innerHTML = `<div class="empty">在職名單讀取失敗：${esc(e.message || "請確認權限")}</div>`;
+    rosterList.innerHTML = `<div class="empty">在職名單讀取失敗：${esc(e.message || "請確認員工名單權限")}</div>`;
   }
 }
 
@@ -3704,25 +4233,31 @@ async function deleteDefensiveResponse(name, monthNo, year){
 async function loadDefensiveAdminData(){
   defensiveAdminList.innerHTML = '<div class="loading">載入防禦駕駛資料中…</div>';
   const monthNo = Number(defensiveAdminMonth.value);
-  const year = new Date().getFullYear();
+  const year = trainingTaipeiParts().year;
   try{
-    const targetsResult = await db.from("driver_survey_targets").select("respondent_name");
-    if(targetsResult.error) throw targetsResult.error;
-    const uniqueNames = [...new Set((targetsResult.data || []).map(row => String(row.respondent_name || "").trim()).filter(Boolean))];
-    const responseResult = await db.from("defensive_driving_responses").select("*").eq("training_year", year).eq("month_no", monthNo);
+    const [employeeResult, responseResult] = await Promise.all([
+      db.from("employee_directory").select("full_name,is_active").eq("is_active",true).order("full_name",{ascending:true}),
+      db.from("defensive_driving_responses").select("*").eq("training_year", year).eq("month_no", monthNo)
+    ]);
+    if(employeeResult.error) throw employeeResult.error;
     if(responseResult.error) throw responseResult.error;
+    const uniqueNames = [...new Set((employeeResult.data || []).map(row => String(row.full_name || "").trim()).filter(Boolean))];
     defensiveTargets = uniqueNames;
     defensiveResponses = responseResult.data || [];
-    const completed = new Set(defensiveResponses.filter(row => row.status === "completed").map(row => row.respondent_name));
+    const activeNameSet = new Set(uniqueNames);
+    const completed = new Set(defensiveResponses
+      .filter(row => row.status === "completed")
+      .map(row => String(row.respondent_name || "").trim())
+      .filter(name => name && activeNameSet.has(name)));
     const incomplete = uniqueNames.filter(name => !completed.has(name));
     renderDefensiveSummary(uniqueNames, completed, incomplete);
   }catch(e){
-    renderDefensiveEmptySummary(`防禦駕駛資料讀取失敗：${e.message || "請確認資料表與權限"}`);
+    renderDefensiveEmptySummary(`防禦駕駛資料讀取失敗：${e.message || "請確認在職名單、資料表與權限"}`);
   }
 }
 
 function exportDefensiveResponses(){
-  const year = new Date().getFullYear();
+  const year = trainingTaipeiParts().year;
   const monthNo = Number(defensiveAdminMonth.value);
   const names = [...new Set((defensiveTargets || []).map(name => String(name || "").trim()).filter(Boolean))];
   if(!names.length){
@@ -3761,18 +4296,23 @@ function exportDefensiveResponses(){
 
 async function loadSurveyData(){
   surveyResponseList.innerHTML = '<div class="loading">載入問卷資料中…</div>';
+  updateSurveyPeriodLabel();
   try{
-    const round = surveyRoundSelect.value;
-    const [targetResult, responseResult] = await Promise.all([
-      db.from("driver_survey_targets").select("*").order("created_at",{ascending:true}),
-      db.from("driver_survey_responses").select("*").eq("survey_round", round).order("submitted_at",{ascending:false})
+    const info = surveyRoundInfo(surveyRoundSelect.value);
+    const [employeeResult, responseResult] = await Promise.all([
+      db.from("employee_directory").select("full_name,is_active").eq("is_active",true).order("full_name",{ascending:true}),
+      db.from("driver_survey_responses").select("*")
+        .eq("survey_round", info.round)
+        .gte("submitted_at", info.start)
+        .lt("submitted_at", info.end)
+        .order("submitted_at",{ascending:false})
     ]);
-    if(targetResult.error) throw targetResult.error;
+    if(employeeResult.error) throw employeeResult.error;
     if(responseResult.error) throw responseResult.error;
     const targetMap = new Map();
-    (targetResult.data || []).forEach(row => {
-      const name = String(row.respondent_name || "").trim();
-      if(name && !targetMap.has(name)) targetMap.set(name, {...row, respondent_name:name});
+    (employeeResult.data || []).forEach(row => {
+      const name = String(row.full_name || "").trim();
+      if(name && !targetMap.has(name)) targetMap.set(name, {respondent_name:name, survey_round:info.round});
     });
     surveyTargets = [...targetMap.values()];
     surveyResponses = responseResult.data || [];
@@ -3782,8 +4322,8 @@ async function loadSurveyData(){
   }catch(e){
     surveyIncompleteList.innerHTML = "";
     surveyFailedList.innerHTML = "";
-    renderSurveyEmptySummary(`問卷資料讀取失敗：${e.message || "請確認 anon SELECT 權限"}`);
-    surveyResponseList.innerHTML = `<div class="empty">問卷資料讀取失敗：${esc(e.message || "請確認 anon SELECT 權限")}</div>`;
+    renderSurveyEmptySummary(`問卷資料讀取失敗：${e.message || "請確認員工名單與問卷資料權限"}`);
+    surveyResponseList.innerHTML = `<div class="empty">問卷資料讀取失敗：${esc(e.message || "請確認員工名單與問卷資料權限")}</div>`;
   }
 }
 
@@ -3944,15 +4484,26 @@ function renderRecorderReports(){
   }).join("");
 }
 
+async function t981LoadAllDeviceIssues(table){
+  const rows=[];
+  for(let offset=0;;offset+=1000){
+    const result=await db.from(table).select("*").order("reported_at",{ascending:false}).order("id",{ascending:true}).range(offset,offset+999);
+    if(result.error)throw result.error;rows.push(...(result.data||[]));
+    if((result.data||[]).length<1000)return {data:rows,error:null};
+  }
+}
+
 async function loadRecorderData(){
   batteryReportList.innerHTML = '<div class="loading">載入紀錄器資料中…</div>';
   try{
-    const [ir,rr] = await Promise.all([db.from("recorders").select("*").order("created_at",{ascending:false}),db.from("recorder_issue_reports").select("*").order("reported_at",{ascending:false})]);
+    const [ir,rr] = await Promise.all([db.from("recorders").select("*").order("created_at",{ascending:false}),t981LoadAllDeviceIssues("recorder_issue_reports")]);
     if(ir.error) throw ir.error; if(rr.error) throw rr.error;
     recorderInventory = ir.data || []; recorderReports = rr.data || [];
-    renderRecorderSummary(); renderRecorderReports();
+    if(deviceAdminType.value==="recorder"){renderRecorderSummary();renderRecorderReports();}
   }catch(e){
-    recorderInventory=[]; recorderReports=[]; batterySummary.innerHTML=`<div class="empty" style="grid-column:1/-1">紀錄器資料讀取失敗：${esc(e.message || "請先執行 recorders 建表 SQL")}</div>`; batteryReportList.innerHTML=`<div class="empty">紀錄器資料讀取失敗：${esc(e.message || "請確認資料表與權限")}</div>`;
+    recorderInventory=[]; recorderReports=[];
+    if(deviceAdminType.value!=="recorder")return;
+    batterySummary.innerHTML=`<div class="empty" style="grid-column:1/-1">紀錄器資料讀取失敗：${esc(e.message || "請先執行 recorders 建表 SQL")}</div>`; batteryReportList.innerHTML=`<div class="empty">紀錄器資料讀取失敗：${esc(e.message || "請確認資料表與權限")}</div>`;
   }
 }
 
@@ -4076,19 +4627,7 @@ function exportCurrentDevices(){
 }
 
 async function updateRecorderIssue(id, action){
-  const row = recorderReports.find(item => String(item.id) === String(id)); if(!row || !recorderReportPending(row)) return;
-  const scrap = action === "scrapped"; const label = scrap ? "報廢" : "維修完成";
-  if(!confirm(`確定要將紀錄器「${row.recorder_number || "未填編號"}」標記為「${label}」嗎？`)) return;
-  try{
-    const inv = recorderInventory.find(item => recorderKey(item.recorder_number) === recorderKey(row.recorder_number));
-    if(!inv) throw new Error("找不到此紀錄器建檔資料。");
-    const now = new Date().toISOString();
-    const ur = await db.from("recorders").update({status:scrap ? "scrapped" : "active",health_status:scrap ? "abnormal" : "normal",health_note:scrap ? "報廢" : null,...(scrap ? {scrapped_at:now,scrapped_note:"由異常回報標記報廢"} : {})}).eq("id",inv.id);
-    if(ur.error) throw ur.error;
-    const rr = await db.from("recorder_issue_reports").update({resolution_status:"resolved",resolved_at:now,resolution_note:label}).eq("recorder_number",row.recorder_number).neq("resolution_status","resolved");
-    if(rr.error) throw rr.error;
-    alert(`✅ 已完成：${label}`); await loadRecorderData();
-  }catch(e){ alert(`紀錄器處理失敗：${e.message || "未知錯誤"}`); }
+  return t981ResolveSelectedDeviceIssues("recorder",[id],action);
 }
 
 function exportRecorderReports(){
@@ -4103,18 +4642,18 @@ async function loadBatteryData(){
   try{
     const [inventoryResult, reportResult] = await Promise.all([
       db.from("batteries").select("*").order("created_at",{ascending:false}),
-      db.from("battery_issue_reports").select("*").order("reported_at",{ascending:false})
+      t981LoadAllDeviceIssues("battery_issue_reports")
     ]);
     if(inventoryResult.error) throw inventoryResult.error;
     if(reportResult.error) throw reportResult.error;
     batteryInventory = inventoryResult.data || [];
     batteryReports = reportResult.data || [];
-    renderBatterySummary();
-    renderBatteryReports();
+    if(deviceAdminType.value==="battery"){renderBatterySummary();renderBatteryReports();}
   }
   catch(e){
     batteryInventory = [];
     batteryReports = [];
+    if(deviceAdminType.value!=="battery")return;
     batterySummary.innerHTML = `
       <div class="empty" style="grid-column:1/-1">電池建檔資料讀取失敗：${esc(e.message || "請先執行 batteries 建表 SQL")}</div>
     `;
@@ -4123,30 +4662,7 @@ async function loadBatteryData(){
 }
 
 async function updateBatteryIssue(id, action){
-  const row = batteryReports.find(item => String(item.id || "") === String(id || ""));
-  if(!row || !batteryReportPending(row)) return;
-  const isScrap = action === "scrapped";
-  const label = isScrap ? "報廢" : "維修完成";
-  if(!confirm(`確定要將電池「${row.battery_number || "未填編號"}」標記為「${label}」嗎？`)) return;
-  try{
-    if(isScrap){
-      const inventory = batteryInventory.find(item => batteryKey(item.battery_number) === batteryKey(row.battery_number) && item.status === "active");
-      if(!inventory){
-        throw new Error("找不到此電池的使用中建檔資料，請先完成電池建檔。");
-      }
-      const inventoryResult = await db.from("batteries").update({status:"scrapped", scrapped_at:new Date().toISOString(), scrapped_note:"由異常回報標記報廢"}).eq("id", inventory.id);
-      if(inventoryResult.error) throw inventoryResult.error;
-    }
-    const reportResult = await db.from("battery_issue_reports").update({resolution_status:"resolved", resolved_at:new Date().toISOString(), resolution_note:label}).eq("battery_number", row.battery_number).neq("resolution_status","resolved");
-    if(!reportResult.error && !isScrap){
-      await db.from("batteries").update({health_status:"normal", health_note:null}).eq("battery_number", row.battery_number).eq("status","active");
-    }
-    if(reportResult.error) throw reportResult.error;
-    alert(`✅ 已完成：${label}`);
-    await loadBatteryData();
-  }catch(e){
-    alert(`電池處理失敗：${e.message || "未知錯誤"}`);
-  }
+  return t981ResolveSelectedDeviceIssues("battery",[id],action);
 }
 
 function exportBatteryReports(){
@@ -4375,7 +4891,7 @@ returnedCard.onclick =
 
 addVehicleBtn.onclick = addVehicleFromAdmin;
 surveyTargetAddBtn.onclick = addSurveyTarget;
-surveyRoundSelect.onchange = loadSurveyData;
+surveyRoundSelect.onchange = () => { updateSurveyPeriodLabel(); loadSurveyData(); };
 defensiveModeBtn.onclick = () => showAdminMode("defensive");
 defensiveBackBtn.onclick = () => showAdminMode("home");
 defensiveRefreshBtn.onclick = loadDefensiveAdminData;
@@ -4478,7 +4994,7 @@ function showAuthMessage(message, success=false){
   authMessage.style.color = success ? "var(--green)" : "var(--danger)";
 }
 
-function lockAdmin(message=""){ 
+function lockAdmin(message=""){
   authGate.style.display = "flex";
   adminApp.style.display = "none";
   adminSessionBar.style.display = "none";
@@ -4488,6 +5004,8 @@ function lockAdmin(message=""){
 async function unlockAdmin(session){
   if(!session?.user?.email){ lockAdmin(); return; }
   const email = String(session.user.email).trim().toLowerCase();
+  if(adminApp.style.display==='block'&&adminSessionEmail.textContent===`已登入：${email}`)return;
+  const isEnteringAdmin=adminApp.style.display!=='block';
   const allow = await db.from("admin_allowlist").select("email").ilike("email", email).eq("active", true).maybeSingle();
   if(allow.error){
     await db.auth.signOut();
@@ -4504,7 +5022,7 @@ async function unlockAdmin(session){
   adminSessionBar.style.display = "flex";
   adminSessionEmail.textContent = `已登入：${email}`;
   showAuthMessage("", true);
-  showAdminMode("home");
+  if(isEnteringAdmin)showAdminMode("home");
 }
 
 authPasswordToggle.onclick = () => {
@@ -4552,7 +5070,1266 @@ db.auth.getSession().then(({data}) => unlockAdmin(data.session)).catch(() => loc
 
 showAdminMode("home");
 
+/* =========================================================
+   T981 員工區域、指休管理、人力資料匯入與設備永久刪除
+========================================================= */
+const t981EmployeeNameInput=$("employeeNameInput");
+const t981EmployeeAreaInput=$("employeeAreaInput");
+const t981EmployeeAddBtn=$("employeeAddBtn");
+const t981EmployeeMessage=$("employeeMessage");
+const t981EmployeeDirectoryList=$("employeeDirectoryList");
+const t981EmployeeAreaTabs=$("employeeAreaTabs");
+const t981EmployeeDirectorySummary=$("employeeDirectorySummary");
+const t981ShiftModePage=$("shiftModePage");
+const t981ShiftModeBtn=$("shiftModeBtn");
+const t981ShiftBackBtn=$("shiftBackBtn");
+const t981ShiftWeekSelect=$("shiftWeekSelect");
+const t981ShiftWeekButtons=$("shiftWeekButtons");
+const t981ShiftNameSearch=$("shiftNameSearch");
+const t981ShiftStatusTabs=$("shiftStatusTabs");
+const t981ShiftRefreshBtn=$("shiftRefreshBtn");
+const t981ShiftExportBtn=$("shiftExportBtn");
+const t981ShiftDeleteTestBtn=$("shiftDeleteTestBtn");
+const t981ShiftPurgeOldBtn=$("shiftPurgeOldBtn");
+const t981ShiftSummary=$("shiftAdminSummary");
+const t981ShiftAdminList=$("shiftAdminList");
+const t981StaffingSummary=$("staffingRecommendationSummary");
+const t981StaffingList=$("staffingRecommendationList");
+const t981StaffingWeekGap=$("staffingWeekGap");
+const t981StaffingForecastDataWarning=$("staffingForecastDataWarning");
+const t981StaffingDayTabs=$("staffingDayTabs");
+let t981StaffingForecastData=[];
+let t981StaffingDayOffset=0;
+t981StaffingDayTabs.onclick=e=>{
+  const b=e.target.closest("[data-t981-forecast-day]");if(!b)return;
+  t981StaffingDayOffset=Number(b.dataset.t981ForecastDay)||0;
+  t981StaffingDayTabs.querySelectorAll("[data-t981-forecast-day]").forEach(tab=>{
+    const active=Number(tab.dataset.t981ForecastDay)===t981StaffingDayOffset;
+    tab.classList.toggle("active",active);tab.setAttribute("aria-selected",active?"true":"false");
+  });
+  t981RenderStaffingDay();
+};
+const t981TcFile=$("staffingImportFile");
+const t981TcImportBtn=$("staffingImportBtn");
+const t981TcImportMessage=$("staffingImportMessage");
+const t981ActualsFile=t981TcFile;
+const t981ActualsImportBtn=t981TcImportBtn;
+const t981ActualsImportMessage=t981TcImportMessage;
+let t981Employees=[];
+let t981EmployeeAreaFilter="ALL";
+let t981ShiftRows=[];
+let t981ShiftExportRows=[];
+let t981ShiftStatusFilter="all";
+let t981ShiftTestRecordCount=0;
+let t981ShiftOpenWeeks=new Set();
+const t981StaffingForecastConfig=window.CenterBusinessConfig.forecast;
+let t981StaffingSettings={target_tplh:t981StaffingForecastConfig.tplh,max_third_party_usage_pct:t981StaffingForecastConfig.thirdParty*100,
+  forecast_weeks:t981StaffingForecastConfig.weeks,shift_test_mode:false};
+let t981AreaMap=new Map();
+let t981AreaMapLoaded=false;
+
+function t981RenderEmployeeDirectory(){
+  const areas=window.CenterBusinessConfig.areas.map(([code])=>code);
+  const counts=Object.fromEntries(areas.map(a=>[a,t981Employees.filter(row=>row.area_code===a).length]));
+  const tabItems=[['ALL','ALL',t981Employees.length],...areas.map(a=>[a,`${a}區`,counts[a]])];
+  t981EmployeeAreaTabs.innerHTML=tabItems.map(([code,label,count])=>`<button type="button" class="employee-area-tab ${t981EmployeeAreaFilter===code?'active':''}" data-t981-area-filter="${code}" aria-pressed="${t981EmployeeAreaFilter===code?'true':'false'}">${label}<br><small>${count}</small></button>`).join('');
+  const areaOrder=Object.fromEntries(areas.map((a,i)=>[a,i]));
+  const sorted=[...t981Employees].sort((a,b)=>{const ai=areaOrder[a.area_code]??areas.length,bi=areaOrder[b.area_code]??areas.length;return ai-bi||String(a.full_name||'').localeCompare(String(b.full_name||''),'zh-Hant');});
+  const rows=t981EmployeeAreaFilter==='ALL'?sorted:sorted.filter(row=>row.area_code===t981EmployeeAreaFilter);
+  t981EmployeeDirectorySummary.textContent=`${rows.length} 人｜依中心區域排序`;
+  if(!rows.length){t981EmployeeDirectoryList.innerHTML='<div class="empty">目前沒有員工</div>';return;}
+  t981EmployeeDirectoryList.innerHTML=rows.map(row=>{
+    const options=['<option value="" '+(!row.area_code?'selected':'')+'>未設定</option>',...areas.map(x=>`<option value="${x}" ${row.area_code===x?'selected':''}>${x}區</option>`)].join('');
+    return `<article class="employee-directory-card">
+      <div class="employee-admin-name">${esc(row.full_name)}</div>
+      <span class="employee-badge">${esc(row.area_code?`${row.area_code}區`:'未分類')}</span>
+      <select id="employee-area-${esc(row.id)}" aria-label="${esc(row.full_name)} 區域" data-t981-employee-area="${esc(row.id)}">${options}</select>
+      <button type="button" class="employee-area-save-btn" data-t981-employee-area-save="${esc(row.id)}" aria-label="更換 ${esc(row.full_name)} 區域">換區</button>
+      <button type="button" class="permanent-delete-employee" data-t981-employee-delete="${esc(row.id)}" aria-label="刪除 ${esc(row.full_name)} 及相關紀錄">刪除</button>
+    </article>`;
+  }).join('');
+}
+async function t981LoadEmployees(){
+  t981EmployeeDirectoryList.innerHTML='<div class="loading">載入員工名單中…</div>';
+  try{
+    const r=await db.from("employee_directory").select("id,full_name,area_code,is_active,updated_at").eq("is_active",true).order("full_name",{ascending:true});
+    if(r.error)throw r.error;
+    t981Employees=r.data||[];
+    t981RenderEmployeeDirectory();
+    await loadRosterData();
+  }catch(e){t981EmployeeDirectoryList.innerHTML=`<div class="empty">員工名單讀取失敗：${esc(e.message||"請確認管理員權限與 SQL 更新")}</div>`;}
+}
+async function t981AddEmployee(){
+  const name=t981EmployeeNameInput.value.trim();const area=t981EmployeeAreaInput.value;
+  if(!name){t981EmployeeMessage.textContent="請輸入員工姓名。";t981EmployeeNameInput.focus();return;}
+  if(!area){t981EmployeeMessage.textContent="請選擇區域。";t981EmployeeAreaInput.focus();return;}
+  t981EmployeeAddBtn.disabled=true;t981EmployeeMessage.textContent="新增中…";
+  try{
+    const existing=await db.from("employee_directory").select("id,is_active,area_code").eq("full_name",name).maybeSingle();if(existing.error)throw existing.error;
+    if(existing.data){t981EmployeeMessage.textContent=`「${name}」已在職名單中，請在員工卡片修改區域。`;return;}
+    const r=await db.from("employee_directory").insert({full_name:name,area_code:area,is_active:true});if(r.error)throw r.error;
+    t981EmployeeNameInput.value="";t981EmployeeAreaInput.value="";t981EmployeeMessage.textContent=`✅ 已新增 ${name}｜${area} 區`;await t981LoadEmployees();
+  }catch(e){t981EmployeeMessage.textContent=`新增失敗：${e.message||"請確認管理員權限"}`;}
+  finally{t981EmployeeAddBtn.disabled=false;}
+}
+async function t981UpdateEmployeeArea(id,newArea,button){
+  const row=t981Employees.find(x=>String(x.id)===String(id));if(!row)return;
+  const next=newArea||null;if((row.area_code||null)===next){t981EmployeeMessage.textContent="區域未變更";return;}
+  const label=next?`${next}區`:"未分類";
+  if(!confirm(`將「${row.full_name}」改為${label}？`)){t981RenderEmployeeDirectory();return;}
+  if(button)button.disabled=true;
+  try{const r=await db.from("employee_directory").update({area_code:next,updated_at:new Date().toISOString()}).eq("id",id);if(r.error)throw r.error;t981EmployeeMessage.textContent="已更新";await t981LoadEmployees();}
+  catch(e){alert(`更新失敗：${e.message||"請確認管理員權限"}`);await t981LoadEmployees();}
+  finally{if(button)button.disabled=false;}
+}
+async function t981DeleteEmployeePermanently(id,button){
+  const row=t981Employees.find(x=>String(x.id)===String(id));if(!row)return;
+  const warning=`永久刪除「${row.full_name}」的全部員工紀錄？
+
+將刪除：員工主檔、意向調查名單與作答、防禦駕駛紀錄、指休資料、領還車紀錄及該員工提交的車輛檢查紀錄。
+
+車輛主檔本身不刪除；刪除領還車紀錄可能改變後台按最新領車資料顯示的狀態。此動作無法復原。`;
+  if(!confirm(warning))return;
+  const typed=prompt(`請輸入員工姓名「${row.full_name}」確認永久刪除：`);
+  if(typed!==row.full_name){if(typed!==null)alert("姓名不一致，已取消刪除。");return;}
+  if(button)button.disabled=true;
+  try{
+    const r=await db.rpc("admin_delete_employee_all_records",{p_employee_id:id});if(r.error)throw r.error;
+    t981Employees=t981Employees.filter(x=>String(x.id)!==String(id));
+    t981RenderEmployeeDirectory();
+    try{await loadRosterData();}catch(e){console.warn("員工刪除後舊名單更新失敗",e);}
+    alert(`✅「${row.full_name}」及其後台相關紀錄已永久刪除。`);
+  }catch(e){
+    alert(`永久刪除失敗：${e.message||"請確認已執行員工停用與永久刪除 SQL 增量更新，並使用管理員帳號登入。"}`);
+    if(button)button.disabled=false;
+  }
+}
+
+async function t981ToggleEmployeeActive(id,currentlyActive){
+  const row=t981Employees.find(x=>String(x.id)===String(id));if(!row)return;
+  const next=!currentlyActive;const text=next?`確定重新啟用「${row.full_name}」？重新啟用後可依名單規則填寫意向調查、防禦駕駛與指休表。`:`確定停用「${row.full_name}」？停用後無法填寫意向調查、防禦駕駛與指休表；已提交的歷史資料會保留。`;
+  if(!confirm(text))return;
+  try{const r=await db.from("employee_directory").update({is_active:next,updated_at:new Date().toISOString()}).eq("id",id);if(r.error)throw r.error;await t981LoadEmployees();}
+  catch(e){alert(`更新在職狀態失敗：${e.message||"請確認管理員權限"}`);}
+}
+
+function t981TaipeiNow(){
+  const p=Object.fromEntries(new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Taipei",year:"numeric",month:"2-digit",day:"2-digit",weekday:"short",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+  const y=Number(p.year),m=Number(p.month),d=Number(p.day);return {y,m,d,dow:new Date(Date.UTC(y,m-1,d)).getUTCDay(),minute:Number(p.hour)*60+Number(p.minute)};
+}
+function t981DateISO(y,m,d){return `${y}-${String(m).padStart(2,"0")}-${String(d).padStart(2,"0")}`;}
+function t981DateAdd(iso,days){const [y,m,d]=iso.split("-").map(Number);const dt=new Date(Date.UTC(y,m-1,d+days));return t981DateISO(dt.getUTCFullYear(),dt.getUTCMonth()+1,dt.getUTCDate());}
+function t981WeekChoices(){
+  const p=t981TaipeiNow();const monday=t981DateAdd(t981DateISO(p.y,p.m,p.d),-((p.dow+6)%7));
+  const shortDate=iso=>iso.slice(5).replace("-","/");
+  return [0,7,14,21].map(offset=>{const start=t981DateAdd(monday,offset);const dateLabel=`${shortDate(start)}-${shortDate(t981DateAdd(start,6))}`;return {start,dateLabel,label:dateLabel};});
+}
+function t981ParseRanges(value){
+  const s=String(value||"").trim();if(!s)return [];
+  const out=[];for(const part of s.split(/[，,、;；/\n]+/).map(x=>x.trim()).filter(Boolean)){
+    const m=part.match(/^(\d{1,2})(?::(\d{2}))?\s*[-~～至]\s*(\d{1,2})(?::(\d{2}))?$/);if(!m)return null;
+    const sh=+m[1],sm=+(m[2]||0),eh=+m[3],em=+(m[4]||0),a=sh*60+sm,b=eh*60+em;
+    if(sh>23||eh>24||sm>59||em>59||a>=b||b>1440)return null;out.push([a,b]);
+  }return out;
+}
+function t981RangeHours(ranges,start,end){return (ranges||[]).reduce((sum,[a,b])=>sum+Math.max(0,Math.min(b,end)-Math.max(a,start))/60,0);}
+function t981DayLabel(iso){const [y,m,d]=iso.split('-').map(Number);const dt=new Date(Date.UTC(y,m-1,d));return `${m}/${d} ${['日','一','二','三','四','五','六'][dt.getUTCDay()]}`;}
+function t981IsAllBlank(row){return ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'].every(k=>!String(row[k]||'').trim());}
+function t981LatestShiftByEmployee(rows){const map=new Map();for(const r of [...(rows||[])].filter(r=>r.is_test!==true).sort((a,b)=>String(b.submitted_at||'').localeCompare(String(a.submitted_at||''))))if(!map.has(String(r.employee_id)))map.set(String(r.employee_id),r);return map;}
+function t981RenderShiftWeekButtons(weeks){
+  const selected=t981ShiftWeekSelect.value;
+  t981ShiftWeekButtons.innerHTML=weeks.map(w=>{
+    const opened=t981ShiftOpenWeeks.has(w.start);
+    return `<div class="shift-week-option ${w.start===selected?'is-selected':''}">
+      <button type="button" class="shift-week-btn ${w.start===selected?'active':''}" data-t981-shift-week="${w.start}" aria-pressed="${w.start===selected?'true':'false'}">${w.dateLabel}</button>
+      <label class="shift-week-open-toggle ${opened?'is-checked':''}" title="${opened?'關閉':'開放'} ${w.dateLabel}">
+        <input type="checkbox" data-t981-open-week="${w.start}" aria-label="${opened?'關閉':'開放'}指休 ${w.dateLabel}" ${opened?'checked':''}>
+        <span>開放</span>
+      </label>
+    </div>`;
+  }).join('');
+}
+async function t981LoadShiftAdmin(){
+  const weeks=t981WeekChoices();const old=t981ShiftWeekSelect.value;const oldExport=document.getElementById("shiftExportWeekSelect")?.value;
+  t981ShiftWeekSelect.innerHTML=weeks.map(w=>`<option value="${w.start}">${w.label}</option>`).join('');if(weeks.some(w=>w.start===old))t981ShiftWeekSelect.value=old;
+  const exportSelect=document.getElementById("shiftExportWeekSelect");
+  if(exportSelect){exportSelect.innerHTML=weeks.map(w=>`<option value="${w.start}">${w.dateLabel}</option>`).join('');exportSelect.value=weeks.some(w=>w.start===oldExport)?oldExport:t981ShiftWeekSelect.value;}
+  t981ShiftAdminList.innerHTML='<div class="loading">載入中…</div>';t981ShiftSummary.textContent="";t981StaffingSummary.innerHTML="";t981StaffingWeekGap.hidden=true;t981StaffingForecastDataWarning.hidden=true;t981StaffingDayTabs.innerHTML="";t981StaffingList.innerHTML='<div class="loading">計算中…</div>';
+  try{
+    // T981 未設定的週次視為關閉，只有負責人勾選時才寫入。
+    if(window.CENTER_CONFIG.center!=="981"){
+      const seed=await db.from("weekly_shift_open_weeks").upsert(weeks.map(w=>({week_start:w.start,is_open:false})),{onConflict:"week_start",ignoreDuplicates:true});
+      if(seed.error)throw seed.error;
+    }
+    const [er,sr,settings,openWeeks]=await Promise.all([
+      db.from("employee_directory").select("id,full_name,area_code,is_active").eq("is_active",true).order("area_code",{ascending:true}).order("full_name",{ascending:true}),
+      db.from("weekly_shift_availability").select("id,employee_id,employee_name,employee_area_code,week_start,monday,tuesday,wednesday,thursday,friday,saturday,sunday,notes,submitted_at,is_test").eq("week_start",t981ShiftWeekSelect.value).order("submitted_at",{ascending:false}),
+      db.from("staffing_settings").select("target_tplh,max_third_party_usage_pct,forecast_weeks,shift_test_mode").eq("singleton",true).maybeSingle(),
+      db.from("weekly_shift_open_weeks").select("week_start,is_open").in("week_start",weeks.map(w=>w.start))
+    ]);
+    if(er.error)throw er.error;if(sr.error)throw sr.error;if(settings.error)throw settings.error;if(openWeeks.error)throw openWeeks.error;
+    t981Employees=er.data||[];if(settings.data)t981StaffingSettings=settings.data;
+    t981ShiftOpenWeeks=new Set((openWeeks.data||[]).filter(row=>row.is_open).map(row=>row.week_start));
+    t981RenderShiftWeekButtons(weeks);
+    const latest=t981LatestShiftByEmployee(sr.data||[]);t981ShiftTestRecordCount=(sr.data||[]).filter(r=>r.is_test).length;
+    t981ShiftRows=t981Employees.map(e=>({employee:e,shift:latest.get(String(e.id))||null}));
+    const forecastRows=t981Employees.map(e=>({employee:e,shift:latest.get(String(e.id))||null}));
+    const testToggle=document.getElementById("shiftTestModeToggle");if(testToggle){testToggle.checked=Boolean(t981StaffingSettings.shift_test_mode);t981SyncShiftToggleVisual(testToggle);}
+    t981RenderShiftAdmin();await t981RenderStaffingRecommendation(t981ShiftWeekSelect.value,forecastRows);
+  }catch(e){t981ShiftRows=[];t981ShiftAdminList.innerHTML=`<div class="empty">讀取失敗：${esc(e.message||"請確認權限")}</div>`;t981StaffingSummary.innerHTML="";t981StaffingWeekGap.hidden=true;t981StaffingForecastDataWarning.hidden=true;t981StaffingDayTabs.innerHTML="";t981StaffingList.innerHTML='<div class="empty">人力資料讀取失敗</div>';}
+}
+async function t981SetShiftWeekOpen(input){
+  if(!input)return;
+  const weekStart=input.dataset.t981OpenWeek;const requested=input.checked;const previous=!requested;
+  input.disabled=true;
+  try{
+    const r=await db.from("weekly_shift_open_weeks").upsert({week_start:weekStart,is_open:requested,updated_at:new Date().toISOString()},{onConflict:"week_start"});
+    if(r.error)throw r.error;
+    if(requested)t981ShiftOpenWeeks.add(weekStart);else t981ShiftOpenWeeks.delete(weekStart);
+    await t981LoadShiftAdmin();
+  }catch(e){
+    input.checked=previous;t981SyncShiftToggleVisual(input);
+    alert(`週次開放狀態更新失敗：${e.message||"請確認已部署995 V4逐週開放SQL，且以管理員登入。"}`);
+  }finally{if(input.isConnected)input.disabled=false;}
+}
+function t981RenderShiftAdmin(){
+  const active=t981ShiftRows.length;const submitted=t981ShiftRows.filter(x=>x.shift).length;const missing=active-submitted;
+  if(t981ShiftDeleteTestBtn){
+    const count=Number(t981ShiftTestRecordCount||0);
+    t981ShiftDeleteTestBtn.hidden=true;
+    t981ShiftDeleteTestBtn.disabled=count===0;
+    t981ShiftDeleteTestBtn.title=count?`刪除所選週 ${count} 筆測試資料`:"所選週沒有測試資料";
+    t981ShiftDeleteTestBtn.setAttribute("aria-label",count?`刪除所選週 ${count} 筆測試資料`:"刪除所選週測試資料");
+  }
+  const choices=[['all',`全部 ${active}`],['submitted',`已提交 ${submitted}`],['missing',`未提交 ${missing}`]];
+  t981ShiftStatusTabs.innerHTML=choices.map(([key,label])=>`<button type="button" class="shift-status-btn ${t981ShiftStatusFilter===key?'active':''}" data-t981-shift-status="${key}" role="tab" aria-selected="${t981ShiftStatusFilter===key?'true':'false'}">${label}</button>`).join('');
+  const weekLabel=t981ShiftWeekSelect.options[t981ShiftWeekSelect.selectedIndex]?.text||"";const term=t981ShiftNameSearch.value.trim().toLocaleLowerCase('zh-Hant');
+  const rows=t981ShiftRows.filter(({employee,shift})=>{
+    if(t981ShiftStatusFilter==='submitted'&&!shift)return false;if(t981ShiftStatusFilter==='missing'&&shift)return false;
+    return !term||String(employee.full_name||'').toLocaleLowerCase('zh-Hant').includes(term);
+  });
+  t981ShiftSummary.textContent=`${weekLabel}｜在職 ${active}｜已提交 ${submitted}｜測試資料 ${t981ShiftTestRecordCount} 筆（不計入正式統計）｜未提交 ${missing}｜顯示 ${rows.length}`;
+  if(!rows.length){t981ShiftAdminList.innerHTML='<div class="shift-admin-empty">沒有符合資料</div>';return;}
+  const days=[['週一','monday'],['週二','tuesday'],['週三','wednesday'],['週四','thursday'],['週五','friday'],['週六','saturday'],['週日','sunday']];
+  const body=rows.map(({employee:e,shift:r})=>{
+    const allBlank=r&&t981IsAllBlank(r);const cls=!r?'is-missing':allBlank?'is-empty':'';const status=!r?'未提交':r.is_test?'測試':allBlank?'七天留白':'已提交';
+    const submittedAt=r?.submitted_at?new Date(r.submitted_at).toLocaleString("zh-TW",{timeZone:"Asia/Taipei"}):"—";
+    const cells=days.map(([label,key])=>`<td class="shift-cell">${esc(r?.[key]||"—")}</td>`).join('');
+    return `<tr class="${cls}"><td class="shift-person-cell"><strong>${esc(e.full_name)}</strong><span class="shift-person-meta">${esc(e.area_code?`${e.area_code}區`:"未分類")}｜${status}</span><span class="shift-person-meta">${esc(submittedAt)}</span></td>${cells}</tr>${r?.notes?`<tr class="shift-notes-row"><td colspan="8">${esc(r.notes)}</td></tr>`:''}`;
+  }).join('');
+  t981ShiftAdminList.innerHTML=`<div class="shift-scroll-cue" aria-hidden="true">↔</div><div class="shift-admin-scroll" role="region" aria-label="指休資料，可左右滑動" tabindex="0"><table class="shift-data-table"><thead><tr><th>員工</th>${days.map(([label])=>`<th>${label}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div>`;
+}
+function t981BuildShiftExportRows(week,shiftRows){
+  const days=[['週一','monday'],['週二','tuesday'],['週三','wednesday'],['週四','thursday'],['週五','friday'],['週六','saturday'],['週日','sunday']];
+  return shiftRows.map(({employee:e,shift:r})=>({週次:week,姓名:e.full_name,區域:e.area_code?`${e.area_code}區`:"未分類",資料類型:r?.is_test?"測試資料（不納入正式人力建議）":"正式資料",提交狀態:!r?"未提交":r.is_test?"測試提交":t981IsAllBlank(r)?"已提交－七天皆空白":"已提交",...Object.fromEntries(days.map(([label,key])=>[label,r?.[key]||""])),備註:r?.notes||"",最後提交時間:r?.submitted_at||""}));
+}
+async function t981ExportShiftWeek(){
+  const week=document.getElementById("shiftExportWeekSelect")?.value||t981ShiftWeekSelect.value;
+  if(!week){alert("請先選擇匯出週次。");return;}
+  t981ShiftExportBtn.disabled=true;
+  try{
+    const result=await db.from("weekly_shift_availability").select("id,employee_id,employee_name,employee_area_code,week_start,monday,tuesday,wednesday,thursday,friday,saturday,sunday,notes,submitted_at,is_test").eq("week_start",week).order("submitted_at",{ascending:false});
+    if(result.error)throw result.error;
+    const latest=t981LatestShiftByEmployee(result.data||[]);
+    const rows=t981BuildShiftExportRows(week,t981Employees.map(employee=>({employee,shift:latest.get(String(employee.id))||null})));
+    if(!rows.length){alert("目前沒有在職員工資料可匯出。");return;}
+    const wb=XLSX.utils.book_new();const ws=XLSX.utils.json_to_sheet(rows);if(ws["!ref"])ws["!autofilter"]={ref:ws["!ref"]};XLSX.utils.book_append_sheet(wb,ws,"指休表");XLSX.writeFile(wb,`T981_指休_${week}.xlsx`);
+  }catch(e){alert(`指休匯出失敗：${e.message||"請確認資料庫權限"}`);}
+  finally{t981ShiftExportBtn.disabled=false;}
+}
+function t981TaipeiDateMonthsAgo(months=1){
+  const parts=new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Taipei",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
+  const values=Object.fromEntries(parts.filter(p=>p.type!=="literal").map(p=>[p.type,Number(p.value)]));
+  const monthIndex=values.month-1-months;const year=values.year+Math.floor(monthIndex/12);const month=((monthIndex%12)+12)%12;
+  const lastDay=new Date(Date.UTC(year,month+1,0)).getUTCDate();
+  return new Date(Date.UTC(year,month,Math.min(values.day,lastDay))).toISOString().slice(0,10);
+}
+async function t981PurgeOldShiftData(){
+  if(!t981ShiftPurgeOldBtn)return;
+  // week_start + 6 days is the week end. Retain three calendar months after week end.
+  const cutoff=t981DateAdd(t981TaipeiDateMonthsAgo(3),-6);t981ShiftPurgeOldBtn.disabled=true;
+  try{
+    const preview=await db.from("weekly_shift_availability").select("id",{count:"exact",head:true}).lt("week_start",cutoff);
+    if(preview.error)throw preview.error;const count=Number(preview.count||0);
+    if(!count){alert(`沒有早於 ${cutoff} 的指休資料。`);return;}
+    if(!confirm(`將永久刪除 ${count} 筆指休紀錄（週開始日早於 ${cutoff}，週結束已滿三個月）。正式與測試資料都會刪除；其他人力歷史資料不受影響。此操作無法復原。確定刪除？`))return;
+    const result=await db.from("weekly_shift_availability").delete().lt("week_start",cutoff).select("id");
+    if(result.error)throw result.error;
+    alert(`已刪除 ${(result.data||[]).length} 筆指休紀錄（週開始日早於 ${cutoff}，週結束已滿三個月）。`);
+    await t981LoadShiftAdmin();
+  }catch(e){alert(`清理三個月前指休資料失敗：${e.message||"請確認管理員權限"}`);}
+  finally{t981ShiftPurgeOldBtn.disabled=false;}
+}
+async function t981DeleteShiftTestData(){
+  const week=t981ShiftWeekSelect.value;const count=t981ShiftTestRecordCount;
+  if(!count){alert("本週沒有測試資料。");return;}
+  if(!confirm(`確定刪除本週 ${count} 筆測試指休資料？正式提交資料不會刪除。`))return;
+  t981ShiftDeleteTestBtn.disabled=true;
+  try{
+    const r=await db.from("weekly_shift_availability").delete().eq("week_start",week).eq("is_test",true).select("id");
+    if(r.error)throw r.error;
+    alert(`已刪除 ${(r.data||[]).length} 筆測試資料。`);
+    await t981LoadShiftAdmin();
+  }catch(e){alert(`刪除測試資料失敗：${e.message||"請確認管理員權限"}`);}
+  finally{t981ShiftDeleteTestBtn.disabled=false;}
+}
+async function t981LoadAllPaged(table,select,fromDate,toDate,periodCode,orderColumn="restaurant_name"){
+  const out=[];const pageSize=1000;for(let offset=0;;offset+=pageSize){
+    let q=db.from(table).select(select).gte("record_date",fromDate).lt("record_date",toDate).order("record_date",{ascending:true});
+    if(orderColumn)q=q.order(orderColumn,{ascending:true});
+    if(periodCode)q=q.eq("period_code",periodCode);q=q.range(offset,offset+pageSize-1);
+    const r=await q;if(r.error)throw r.error;out.push(...(r.data||[]));if(!r.data||r.data.length<pageSize)break;
+  }return out;
+}
+function t981MapAdd(map,key,value){map.set(key,(map.get(key)||0)+Number(value||0));}
+async function t981RenderStaffingRecommendation(weekStart,shiftRows){
+  if(!t981AreaMapLoaded)await t981LoadAreaMap();
+  const F=window.OpsForecast,weeks=F.SETTINGS.weeks;
+  const powerbiData=await F.load(db,weekStart,t981DateAdd(weekStart,6));
+  const prepared=F.prepare({...powerbiData,mapping:t981AreaMap,inScope:window.OpsMetrics.storeInScope});
+  const dayNames=['週一','週二','週三','週四','週五','週六','週日'];
+  const dayForecasts=dayNames.map((day,offset)=>prepared.forecast(t981DateAdd(weekStart,offset)));
+  const areaOrder=window.OpsMetrics.AREAS.map(([a])=>a);
+  const areas=[...new Set(dayForecasts.flatMap(xs=>xs.map(x=>x.area)))].sort((a,b)=>areaOrder.indexOf(a)-areaOrder.indexOf(b));
+  const byArea=new Map();
+  for(const {employee,shift} of shiftRows){if(!employee.area_code||shift?.is_test===true)continue;if(!byArea.has(employee.area_code))byArea.set(employee.area_code,[]);byArea.get(employee.area_code).push({employee,shift});}
+  t981StaffingForecastData=[];
+  if(!areas.length){t981StaffingSummary.innerHTML='';t981StaffingWeekGap.hidden=true;t981StaffingForecastDataWarning.hidden=true;t981StaffingDayTabs.innerHTML='';t981StaffingList.innerHTML='<div class="empty">尚未設定有效餐廳區域對照表。</div>';return;}
+  const output=areas.map(area=>({area,days:dayNames.map((day,offset)=>{
+    const date=t981DateAdd(weekStart,offset),forecast=dayForecasts[offset].find(x=>x.area===area);
+    let availableHours=0,people=0;
+    for(const x of byArea.get(area)||[]){if(!x.shift)continue;const key=['monday','tuesday','wednesday','thursday','friday','saturday','sunday'][offset],intervals=t981ParseRanges(x.shift[key]);if(intervals===null||!intervals.length)continue;people++;availableHours+=intervals.reduce((sum,[a,b])=>sum+(b-a)/60,0);}
+    const value=forecast||{totalTc:0,averageTc:null,recommended:0,thirdPartyCap:0,historyWeeks:weeks,targetWeeks:weeks,excluded:true};
+    return {...value,day,date,availableHours,people,gap:value.excluded||value.recommended===null?null:availableHours-value.recommended};
+  })}));
+  const allDays=output.flatMap(x=>x.days),forecastDays=allDays.filter(d=>!d.excluded);
+  const missingForecasts=forecastDays.filter(d=>d.totalTc===null);
+  const partialHistory=forecastDays.filter(d=>d.historyWeeks<weeks);
+  const completeWeek=forecastDays.length>0&&missingForecasts.length===0;
+  const weeklyTc=completeWeek?forecastDays.reduce((sum,d)=>sum+d.totalTc,0):null;
+  const weeklyNeeded=completeWeek?forecastDays.reduce((sum,d)=>sum+d.recommended,0):null;
+  const weeklyAvailable=allDays.reduce((sum,d)=>sum+d.availableHours,0);
+  const weeklyThirdParty=completeWeek?forecastDays.reduce((sum,d)=>sum+d.thirdPartyCap,0):null;
+  const weeklyGap=completeWeek?weeklyAvailable-weeklyNeeded:null;
+  const fmtTc=value=>value===null?'—':Number(value).toLocaleString('zh-TW',{maximumFractionDigits:1});
+  const fmtHours=value=>value===null?'—':Number(value).toLocaleString('zh-TW',{minimumFractionDigits:1,maximumFractionDigits:1});
+  t981StaffingSummary.innerHTML=`<div class="summary-card"><div class="summary-label">成長後預估整週 TC</div><div class="summary-number">${fmtTc(weeklyTc)}</div></div><div class="summary-card"><div class="summary-label">預估需求工時（÷${window.OpsForecast.SETTINGS.tplh}）</div><div class="summary-number">${fmtHours(weeklyNeeded)}</div></div><div class="summary-card"><div class="summary-label">可安排工時</div><div class="summary-number">${fmtHours(weeklyAvailable)}</div></div><div class="summary-card"><div class="summary-label">第三方 TC 提醒值（20%）</div><div class="summary-number">${fmtTc(weeklyThirdParty)}</div></div>`;
+  t981StaffingForecastDataWarning.textContent=missingForecasts.length?`去年對應週TC缺漏：${missingForecasts.length} 組區域／日期無法預估。`:'';
+  t981StaffingForecastDataWarning.hidden=!missingForecasts.length;
+  if(completeWeek){
+    t981StaffingWeekGap.hidden=false;t981StaffingWeekGap.className=`forecast-week-gap ${weeklyGap<0?'is-short':'is-surplus'}`;
+    t981StaffingWeekGap.textContent=`整週工時差：${weeklyGap>=0?'+':''}${weeklyGap.toFixed(1)} 小時｜${weeklyGap<0?'人力不足':'人力有餘裕'}`;
+  }else{
+    t981StaffingWeekGap.hidden=false;t981StaffingWeekGap.className='forecast-week-gap is-warning';
+    t981StaffingWeekGap.textContent=`整週 TC／需求工時／工時差暫不加總：${missingForecasts.length} 組區域／日期缺少去年對應週TC。`;
+  }
+  t981StaffingForecastData=output;
+  t981StaffingDayOffset=Math.max(0,Math.min(6,t981StaffingDayOffset));
+  t981StaffingDayTabs.innerHTML=dayNames.map((day,i)=>{const date=t981DateAdd(weekStart,i);return `<button type="button" class="staffing-day-tab ${i===t981StaffingDayOffset?'active':''}" data-t981-forecast-day="${i}" role="tab" aria-selected="${i===t981StaffingDayOffset?'true':'false'}"><span>${day}</span><small>${date.slice(5).replace('-','/')}</small></button>`;}).join('');
+  t981RenderStaffingDay();
+}
+function t981RenderStaffingDay(){
+  const areas=t981StaffingForecastData||[];if(!areas.length){t981StaffingList.innerHTML='<div class="shift-admin-empty">目前沒有可顯示的預測資料。</div>';return;}
+  const offset=t981StaffingDayOffset;const day=areas[0]?.days[offset];if(!day)return;
+  const gap=(value)=>value===null?{text:'—',cls:''}:{text:`${value>=0?'+':''}${value.toFixed(1)} 小時`,cls:value<0?'is-short':'is-surplus'};
+  const metric=(label,value)=>`<div class="forecast-area-stat"><span>${label}</span><strong>${value}</strong></div>`;
+  const fmtTc=value=>value===null?'—':Number(value).toLocaleString('zh-TW',{maximumFractionDigits:1});
+  const fmtHours=value=>value===null?'—':Number(value).toLocaleString('zh-TW',{minimumFractionDigits:1,maximumFractionDigits:1});
+  const dayData=areas.map(x=>x.days[offset]);
+  const includedDay=dayData.filter(d=>!d.excluded);
+  const completeDay=includedDay.length>0&&includedDay.every(d=>d.totalTc!==null);
+  const totalTc=completeDay?includedDay.reduce((sum,d)=>sum+d.totalTc,0):null;
+  const totalNeeded=completeDay?includedDay.reduce((sum,d)=>sum+d.recommended,0):null;
+  const totalThird=completeDay?includedDay.reduce((sum,d)=>sum+d.thirdPartyCap,0):null;
+  const totalPeople=dayData.reduce((sum,d)=>sum+d.people,0);const totalAvailable=dayData.reduce((sum,d)=>sum+d.availableHours,0);
+  const totalGap=totalNeeded===null?null:totalAvailable-totalNeeded;const totalDelta=gap(totalGap);
+  const totalText=(value,digits=1)=>value===null?'—':Number(value).toLocaleString('zh-TW',{minimumFractionDigits:digits,maximumFractionDigits:digits});
+  const totals=`<div class="forecast-day-total-wrap"><div class="forecast-day-total-title">${day.day} 預估合計｜去年對應週TC×${1+window.OpsForecast.SETTINGS.growth}，各區進位</div><div class="forecast-day-total-grid"><div class="forecast-day-total-card"><span>預估 TC</span><strong>${fmtTc(totalTc)}</strong></div><div class="forecast-day-total-card"><span>需求工時（÷${window.OpsForecast.SETTINGS.tplh}）</span><strong>${totalText(totalNeeded)}</strong></div><div class="forecast-day-total-card"><span>第三方 TC 提醒值（20%）</span><strong>${fmtTc(totalThird)}</strong></div><div class="forecast-day-total-card"><span>可排人數／工時</span><strong>${totalPeople} 人／${totalText(totalAvailable)} 小時</strong></div><div class="forecast-day-total-card"><span>工時差</span><strong class="forecast-gap ${totalDelta.cls}">${totalDelta.text}</strong></div></div></div>`;
+  const rows=areas.map(({area,days})=>{const d=days[offset];const delta=gap(d.gap);const tc=d.excluded?'不適用':fmtTc(d.totalTc);const needed=d.excluded?'不適用':fmtHours(d.recommended);const third=d.excluded?'不適用':fmtTc(d.thirdPartyCap);const availability=`${d.people} 人／${d.availableHours.toFixed(1)} 小時`;const history=d.baselineDate||'—';
+    return {area,tc,needed,third,availability,delta,history};
+  });
+  t981StaffingList.innerHTML=`<div class="forecast-day-panel"><div class="forecast-day-heading">${day.day}｜${day.date}</div>${totals}<div class="forecast-area-table-wrap"><table class="forecast-area-table" aria-label="${day.day}各區人力預測"><thead><tr><th>區域／去年日期</th><th>成長後預估 TC</th><th>需求工時</th><th>第三方 TC 20% 提醒</th><th>可排人數／工時</th><th>工時差</th></tr></thead><tbody>${rows.map(r=>`<tr><td><strong>${r.area} 區</strong><small class="forecast-history-weeks">${r.history}</small></td><td>${r.tc}</td><td>${r.needed}</td><td>${r.third}</td><td>${r.availability}</td><td class="forecast-gap ${r.delta.cls}">${r.delta.text}</td></tr>`).join('')}</tbody></table></div><div class="forecast-area-cards">${rows.map(r=>`<article class="forecast-area-card"><div class="forecast-area-card-head"><span>${r.area} 區 <small class="forecast-history-weeks">${r.history}</small></span><span class="forecast-gap ${r.delta.cls}">${r.delta.text}</span></div><div class="forecast-area-card-grid">${metric('成長後預估 TC',r.tc)}${metric('預估需求工時（÷'+window.OpsForecast.SETTINGS.tplh+'）',r.needed)}${metric('第三方 TC 20% 提醒值',r.third)}${metric('可排人數／工時',r.availability)}</div></article>`).join('')}</div></div>`;
+}
+function t981RenderShiftAndForecast(){t981RenderShiftAdmin();t981RenderStaffingFromCurrent();}
+
+function t981ExcelDateToISO(value){
+  if(value instanceof Date&&!Number.isNaN(value.getTime()))return `${value.getFullYear()}-${String(value.getMonth()+1).padStart(2,'0')}-${String(value.getDate()).padStart(2,'0')}`;
+  if(typeof value==='number'&&Number.isFinite(value)){const d=XLSX.SSF.parse_date_code(value);if(!d)return null;return `${d.y}-${String(d.m).padStart(2,'0')}-${String(d.d).padStart(2,'0')}`;}
+  const s=String(value??'').trim();if(!s)return null;
+  let m=s.match(/^(\d{4})[-/.年](\d{1,2})[-/.月](\d{1,2})/);if(m)return `${m[1]}-${String(+m[2]).padStart(2,'0')}-${String(+m[3]).padStart(2,'0')}`;
+  const parsed=new Date(s);if(!Number.isNaN(parsed.getTime()))return `${parsed.getFullYear()}-${String(parsed.getMonth()+1).padStart(2,'0')}-${String(parsed.getDate()).padStart(2,'0')}`;return null;
+}
+function t981NumericZero(value,counter){
+  if(value===null||value===undefined||String(value).trim()===''){counter.count++;return 0;}
+  let n;if(typeof value==='number')n=value;else n=Number(String(value).replace(/,/g,'').replace(/%/g,'').trim());
+  if(!Number.isFinite(n)||n<0){counter.count++;return 0;}return n;
+}
+function t981PercentValue(value,counter){
+  if(value===null||value===undefined||String(value).trim()===''){counter.count++;return 0;}
+  const raw=String(value).trim();let n=typeof value==='number'?value:Number(raw.replace(/%/g,'').replace(/,/g,''));
+  if(!Number.isFinite(n)||n<0){counter.count++;return 0;}
+  if(typeof value==='number'&&n>0&&n<=1)n*=100;
+  else if(typeof value!=='number'&&raw.includes('%'))n=Number(raw.replace(/%/g,'').replace(/,/g,''));
+  else if(typeof value!=='number'&&n>0&&n<=1)n*=100;
+  return n;
+}
+function t981MinMaxDates(rows){const ds=rows.map(x=>x.record_date).filter(Boolean).sort();return {start:ds[0]||null,end:ds[ds.length-1]||null};}
+async function t981LoadAreaMap(){
+  const r=await db.from("tc_restaurant_area_map").select("restaurant_name,area_code").eq("is_active",true);if(r.error)throw r.error;t981AreaMap=new Map((r.data||[]).map(x=>[String(x.restaurant_name).trim(),x.area_code]));t981AreaMapLoaded=true;
+}
+function t981RowsFromSheet(workbook,sheetName,period,counter,unmapped){
+  const sheet=workbook.Sheets[sheetName];const rawRows=XLSX.utils.sheet_to_json(sheet,{defval:null,raw:true});const out=[];
+  rawRows.forEach((row,index)=>{
+    const store=String(row.STR_SN??row['餐廳']??'').trim();if(!store||store.toLowerCase()==='total')return;
+    const area=t981AreaMap.get(store);if(!area){unmapped.add(store);return;}
+    const date=t981ExcelDateToISO(row.DATE??row['日期']);if(!date){counter.badDates++;return;}
+    const priorDate=t981ExcelDateToISO(row['DATE PY']??row['去年日期']);
+    const actualTc=Object.prototype.hasOwnProperty.call(row,'實際外送TC')?row['實際外送TC']:(row['今年TC']??row['TC(System)']);
+    if(actualTc===null||actualTc===undefined||String(actualTc).trim()===''||!Number.isFinite(Number(String(actualTc).replace(/,/g,'')))||Number(String(actualTc).replace(/,/g,''))<0)throw new Error(sheetName+' 第 '+(index+2)+' 列實際外送TC空白或無效，未將缺值當作0。');
+    out.push({restaurant_name:store,area_code:area,record_date:date,prior_year_date:priorDate,period_code:period,prior_year_tc:t981NumericZero(row['去年單數']??row['去年TC'],counter),total_tc:t981NumericZero(actualTc,counter),tc_ex_third_party:t981NumericZero(row['扣除第三方TC'],counter),source_sheet:sheetName,source_row:index+2});
+  });return out;
+}
+async function t981CreateImportBatch(fileName,rows,note){
+  const dates=t981MinMaxDates(rows);const user=await db.auth.getUser();const email=user?.data?.user?.email||null;
+  const r=await db.from("staffing_import_batches").insert({file_name:fileName,period_start:dates.start,period_end:dates.end,imported_by:email,note}).select("id").single();if(r.error)throw r.error;return r.data.id;
+}
+async function t981UpsertChunks(table,rows,onConflict,messageNode){
+  const size=250;for(let i=0;i<rows.length;i+=size){const r=await db.from(table).upsert(rows.slice(i,i+size),{onConflict});if(r.error)throw r.error;if(messageNode)messageNode.textContent=`匯入中… ${Math.min(i+size,rows.length)} / ${rows.length}`;}
+}
+async function t981ImportTcWorkbook(){
+  const file=t981TcFile.files?.[0];if(!file){t981TcImportMessage.textContent="請先選擇 TC 活頁簿。";return;}
+  t981TcImportBtn.disabled=true;t981TcImportMessage.textContent="讀取分頁與檢查餐廳名稱中…";let batchId=null;
+  try{
+    if(!t981AreaMapLoaded)await t981LoadAreaMap();const workbook=XLSX.read(await file.arrayBuffer(),{type:"array",cellDates:true});
+    const fullSheet=workbook.SheetNames.find(n=>n.includes("整天"));const mealSheet=workbook.SheetNames.find(n=>n.includes("餐期"));
+    if(!fullSheet||!mealSheet)throw new Error("找不到「整天」及「餐期」分頁；請使用包含兩種資料的活頁簿。要求欄位：STR_SN、DATE、DATE PY、去年單數、實際外送TC、扣除第三方TC。");
+    const counter={count:0,badDates:0};const unmapped=new Set();
+    const rows=[...t981RowsFromSheet(workbook,fullSheet,"full_day",counter,unmapped),...t981RowsFromSheet(workbook,mealSheet,"meal_period",counter,unmapped)];
+    if(counter.badDates)throw new Error(`${counter.badDates} 列日期無法辨識，請檢查 DATE 欄。`);
+    if(unmapped.size)throw new Error(`以下店名不在中心區域對照表，未匯入：${[...unmapped].slice(0,15).join("、")}${unmapped.size>15?"…":""}`);
+    if(!rows.length)throw new Error("沒有可匯入的餐廳資料列。請確認是否只有 Total 總計列。");
+    const unique=new Set(rows.map(r=>`${r.restaurant_name}|${r.record_date}|${r.period_code}`));if(unique.size!==rows.length)throw new Error("檔案內有重複餐廳／日期／整天或餐期資料；請先整理後再匯入。");
+    const dates=t981MinMaxDates(rows);t981TcImportMessage.textContent=`預覽完成：${rows.length} 列｜${dates.start} 至 ${dates.end}｜整天與餐期分開保存｜Total 列已略過｜空白／負數歸零 ${counter.count} 個欄位。重複的餐廳／日期／類型會更新。`;
+    if(!confirm(`即將匯入 ${rows.length} 列 TC 資料（${dates.start} 至 ${dates.end}）。重複資料將依餐廳＋日期＋類型更新。確定繼續？`))return;
+    batchId=await t981CreateImportBatch(file.name,rows,"TC Excel 上傳；整天與餐期分頁分開匯入；Total 彙總列略過");
+    rows.forEach(r=>r.import_batch_id=batchId);
+    await t981UpsertChunks("staffing_tc_history",rows,"restaurant_name,record_date,period_code",t981TcImportMessage);
+    t981TcImportMessage.textContent=`✅ 已匯入 ${rows.length} 列 TC 資料。空白／負數歸零 ${counter.count} 個欄位。`;
+    await t981LoadShiftAdmin();
+  }catch(e){t981TcImportMessage.textContent=`匯入失敗：${e.message||"請稍後重試"}${batchId?"；若部分批次已送出，請重新上傳同一完整檔案以覆寫補齊。":""}`;}
+  finally{t981TcImportBtn.disabled=false;}
+}
+function t981ActualField(row,names){for(const n of names)if(Object.prototype.hasOwnProperty.call(row,n))return row[n];return null;}
+async function t981ImportActualsWorkbook(){
+  const file=t981ActualsFile.files?.[0];if(!file){t981ActualsImportMessage.textContent="請先選擇工時／TPLH 活頁簿。";return;}
+  t981ActualsImportBtn.disabled=true;t981ActualsImportMessage.textContent="讀取並檢查餐廳名稱中…";let batchId=null;
+  try{
+    if(!t981AreaMapLoaded)await t981LoadAreaMap();const workbook=XLSX.read(await file.arrayBuffer(),{type:"array",cellDates:true});const name=workbook.SheetNames[0];if(!name)throw new Error("活頁簿沒有工作表。");
+    const rowsRaw=XLSX.utils.sheet_to_json(workbook.Sheets[name],{defval:null,raw:true});const counter={count:0,badDates:0};const unmapped=new Set();const rows=[];
+    rowsRaw.forEach((row,i)=>{
+      const store=String(t981ActualField(row,["STR_SN","餐廳","餐廳名稱"])??"").trim();if(!store||store.toLowerCase()==='total')return;
+      const area=t981AreaMap.get(store);if(!area){unmapped.add(store);return;}
+      const date=t981ExcelDateToISO(t981ActualField(row,["DATE","日期"]));if(!date){counter.badDates++;return;}
+      const rate=t981PercentValue(t981ActualField(row,["第三方使用率","第三方使用率%","FA使用率%","第三方率"]),counter);
+      if(rate>100)throw new Error(`第 ${i+2} 列第三方使用率超過 100%。`);
+      rows.push({restaurant_name:store,area_code:area,record_date:date,actual_work_hours:t981NumericZero(t981ActualField(row,["實際工時","實際安排工時","工時"]),counter),actual_tplh:t981NumericZero(t981ActualField(row,["實際TPLH","實際 TPLH","實際TPLH (FA)","實際 TPLH (FA)"]),counter),third_party_usage_pct:rate});
+    });
+    if(counter.badDates)throw new Error(`${counter.badDates} 列日期無法辨識，請檢查 DATE 欄。`);
+    if(unmapped.size)throw new Error(`以下店名不在中心區域對照表：${[...unmapped].slice(0,15).join("、")}${unmapped.size>15?"…":""}`);
+    if(!rows.length)throw new Error("沒有可匯入的餐廳資料列。Total 列會略過。");
+    const keys=new Set(rows.map(r=>`${r.restaurant_name}|${r.record_date}`));if(keys.size!==rows.length)throw new Error("檔案內有重複餐廳／日期資料，請先整理。");
+    const dates=t981MinMaxDates(rows);t981ActualsImportMessage.textContent=`預覽完成：${rows.length} 列｜${dates.start} 至 ${dates.end}｜空白／負數歸零 ${counter.count} 個欄位。`;
+    if(!confirm(`即將匯入 ${rows.length} 列工時／TPLH／第三方資料（${dates.start} 至 ${dates.end}）。確定繼續？`))return;
+    batchId=await t981CreateImportBatch(file.name,rows,"每日實際工時、TPLH、第三方使用率上傳");rows.forEach(r=>r.import_batch_id=batchId);
+    await t981UpsertChunks("staffing_daily_actuals",rows,"restaurant_name,record_date",t981ActualsImportMessage);
+    t981ActualsImportMessage.textContent=`✅ 已匯入 ${rows.length} 列工時／TPLH／第三方資料。空白／負數歸零 ${counter.count} 個欄位。`;
+    await t981LoadShiftAdmin();
+  }catch(e){t981ActualsImportMessage.textContent=`匯入失敗：${e.message||"請稍後重試"}${batchId?"；若部分批次已送出，請重新上傳同一完整檔案以覆寫補齊。":""}`;}
+  finally{t981ActualsImportBtn.disabled=false;}
+}
+async function t981UnifiedImportWorkbook(){
+  const file=t981TcFile.files?.[0];
+  if(!file){t981TcImportMessage.textContent="請先選擇 Excel 活頁簿。";return;}
+  t981TcImportBtn.disabled=true;t981TcImportMessage.textContent="正在辨識活頁簿內容…";
+  try{
+    const workbook=XLSX.read(await file.arrayBuffer(),{type:"array",cellDates:true});
+    const fullSheet=workbook.SheetNames.find(n=>n.includes("整天"));
+    const mealSheet=workbook.SheetNames.find(n=>n.includes("餐期"));
+    if(fullSheet&&mealSheet){t981TcImportBtn.disabled=false;await t981ImportTcWorkbook();return;}
+    const firstName=workbook.SheetNames[0];
+    if(!firstName)throw new Error("活頁簿沒有工作表。");
+    const firstRow=XLSX.utils.sheet_to_json(workbook.Sheets[firstName],{defval:null,raw:true})[0]||{};
+    const headers=Object.keys(firstRow);
+    const hasStore=["STR_SN","餐廳","餐廳名稱"].some(k=>headers.includes(k));
+    const hasDate=["DATE","日期"].some(k=>headers.includes(k));
+    const hasActual=["實際工時","實際安排工時","工時","實際TPLH","實際 TPLH","實際TPLH (FA)","實際 TPLH (FA)","第三方使用率","第三方使用率%","FA使用率%","第三方率"].some(k=>headers.includes(k));
+    if(hasStore&&hasDate&&hasActual){t981TcImportBtn.disabled=false;await t981ImportActualsWorkbook();return;}
+    throw new Error("無法辨識檔案。請上傳你提供的含「整天／餐期」分頁 TC Excel，或含 STR_SN、DATE、實際工時／TPLH／第三方使用率欄位的實際資料 Excel。");
+  }catch(e){t981TcImportMessage.textContent=`檔案辨識失敗：${e.message||"請確認 Excel 格式"}`;}
+  finally{t981TcImportBtn.disabled=false;}
+}
+
+async function t981DeleteDeviceCard(type,id,number){
+  const label=type==="recorder"?"行車紀錄器":"電池";
+  if(!confirm(`確定永久刪除${label}小卡「${number}」？\n\n只有沒有任何異常回報歷史的設備可以刪除；此操作無法復原。`))return;
+  try{
+    const table=type==="recorder"?"recorders":"batteries";const r=await db.from(table).delete().eq("id",id);if(r.error)throw r.error;
+    if(type==="recorder"){recorderInventory=(recorderInventory||[]).filter(x=>String(x.id)!==String(id));renderRecorderSummary();renderRecorderReports();}
+    else{batteryInventory=(batteryInventory||[]).filter(x=>String(x.id)!==String(id));renderBatterySummary();renderBatteryReports();}
+    alert(`✅ ${label}小卡已永久刪除。`);
+  }catch(e){alert(`無法刪除${label}小卡：${e.message||"請確認權限或異常歷史"}\n\n若設備有任何異常回報，請使用報廢功能保留紀錄。`);}
+}
+function t981AttachDeviceDeleteButtons(type){
+  const isRecorder=type==="recorder";const list=batteryReportList;const inventory=isRecorder?(recorderInventory||[]):(batteryInventory||[]);const reports=isRecorder?(recorderReports||[]):(batteryReports||[]);const keyFn=isRecorder?recorderKey:batteryKey;const prop=isRecorder?"recorder_number":"battery_number";const icon=isRecorder?"📹":"🔋";
+  list.querySelectorAll(".survey-card").forEach(card=>{
+    const label=card.querySelector(".survey-name");if(!label)return;const number=label.textContent.replace(icon,"").trim();const row=inventory.find(x=>keyFn(x[prop])===keyFn(number));if(!row)return;
+    const hasHistory=reports.some(x=>keyFn(x[prop])===keyFn(number));let actions=card.querySelector(".record-actions");if(!actions){actions=document.createElement("div");actions.className="record-actions";card.appendChild(actions);}
+    if(hasHistory){const note=document.createElement("div");note.className="hint";note.textContent="已有異常回報歷史，保留歷史；如停用請使用報廢。";actions.appendChild(note);return;}
+    const button=document.createElement("button");button.type="button";button.className="action-btn device-delete-btn";button.dataset.t981DeviceDelete="true";button.dataset.deviceType=type;button.dataset.deviceId=row.id;button.dataset.deviceNumber=row[prop];button.textContent="🗑 永久刪除小卡";actions.appendChild(button);
+  });
+}
+const t981OriginalRenderBatteryReports=renderBatteryReports;
+renderBatteryReports=function(){t981OriginalRenderBatteryReports();t981AttachDeviceDeleteButtons("battery");};
+const t981OriginalRenderRecorderReports=renderRecorderReports;
+renderRecorderReports=function(){t981OriginalRenderRecorderReports();t981AttachDeviceDeleteButtons("recorder");};
+const t981OriginalShowAdminMode=showAdminMode;
+showAdminMode=function(mode){
+  t981OriginalShowAdminMode(mode);t981ShiftModePage.style.display=mode==="shift"?"block":"none";
+  if(mode==="roster")t981LoadEmployees();
+  if(mode==="shift")t981LoadShiftAdmin();
+};
+t981EmployeeAddBtn.onclick=t981AddEmployee;
+t981EmployeeDirectoryList.onclick=e=>{
+  const change=e.target.closest("[data-t981-employee-area-save]");
+  if(change){const id=change.dataset.t981EmployeeAreaSave;const select=document.getElementById(`employee-area-${id}`);t981UpdateEmployeeArea(id,select?.value,change);return;}
+  const del=e.target.closest("[data-t981-employee-delete]");if(del)t981DeleteEmployeePermanently(del.dataset.t981EmployeeDelete,del);
+};
+t981EmployeeAreaTabs.onclick=e=>{const b=e.target.closest("[data-t981-area-filter]");if(!b)return;t981EmployeeAreaFilter=b.dataset.t981AreaFilter;t981RenderEmployeeDirectory();};
+t981ShiftModeBtn.onclick=()=>showAdminMode("shift");
+t981ShiftBackBtn.onclick=()=>showAdminMode("home");
+t981ShiftWeekSelect.onchange=()=>t981LoadShiftAdmin();
+// Refresh the rolling four-week window when this admin tab crosses Taipei Monday.
+let t981ObservedShiftMonday=t981WeekChoices()[0]?.start||'';
+let t981RolloverRefreshBusy=false;
+async function t981RefreshShiftWindowAfterRollover(){
+  if(document.visibilityState==='hidden'||t981RolloverRefreshBusy||t981ShiftModePage.style.display==='none')return;
+  const currentMonday=t981WeekChoices()[0]?.start||'';
+  if(!currentMonday||currentMonday===t981ObservedShiftMonday)return;
+  t981RolloverRefreshBusy=true;
+  try{
+    await t981LoadShiftAdmin();
+    t981ObservedShiftMonday=currentMonday;
+  }catch(e){console.warn('指休週次更新失敗',e);}
+  finally{t981RolloverRefreshBusy=false;}
+}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')t981RefreshShiftWindowAfterRollover();});
+window.addEventListener('focus',t981RefreshShiftWindowAfterRollover);
+setInterval(t981RefreshShiftWindowAfterRollover,60000);
+
+t981ShiftWeekButtons.onclick=e=>{if(e.target.closest(".shift-week-open-toggle"))return;const b=e.target.closest("[data-t981-shift-week]");if(!b)return;t981ShiftWeekSelect.value=b.dataset.t981ShiftWeek;const exportSelect=document.getElementById("shiftExportWeekSelect");if(exportSelect)exportSelect.value=b.dataset.t981ShiftWeek;t981LoadShiftAdmin();};
+t981ShiftWeekButtons.onchange=e=>{const input=e.target.closest("[data-t981-open-week]");if(input)t981SetShiftWeekOpen(input);};
+t981ShiftNameSearch.oninput=()=>t981RenderShiftAdmin();
+t981ShiftStatusTabs.onclick=e=>{const b=e.target.closest("[data-t981-shift-status]");if(!b)return;t981ShiftStatusFilter=b.dataset.t981ShiftStatus;t981RenderShiftAdmin();};
+t981ShiftRefreshBtn.onclick=()=>t981LoadShiftAdmin();
+t981ShiftExportBtn.onclick=t981ExportShiftWeek;
+t981ShiftDeleteTestBtn.onclick=t981DeleteShiftTestData;
+t981ShiftPurgeOldBtn.onclick=t981PurgeOldShiftData;
+t981TcImportBtn.onclick=t981ImportCompleteWorkbookV4;
+t981TcFile.addEventListener("change",()=>{const label=document.getElementById("staffingImportFileLabel");if(label){const names=[...t981TcFile.files||[]].map(f=>f.name);label.textContent=names.length?names.join("、"):("選擇 Excel（可多選）");}});
+const t981OldDeviceCardClick=batteryReportList.onclick;
+batteryReportList.onclick=e=>{const b=e.target.closest("[data-t981-device-delete]");if(b){e.preventDefault();e.stopPropagation();t981DeleteDeviceCard(b.dataset.deviceType,b.dataset.deviceId,b.dataset.deviceNumber);return;}if(t981OldDeviceCardClick)t981OldDeviceCardClick(e);};
+
+
+
+function t981CompareImportRows(incoming,existing,keyFields){
+  const key=row=>JSON.stringify(keyFields.map(field=>row[field]));
+  const map=new Map();for(const row of existing){const k=key(row);if(map.has(k))throw new Error("既有資料有重複鍵，停止匯入");map.set(k,row);}
+  const ignored=new Set(['id','source_sheet','source_row','import_batch_id','created_at','updated_at']);
+  const result={added:0,changed:0,unchanged:0,errors:0};
+  for(const row of incoming){
+    if(keyFields.some(field=>row[field]===null||row[field]===undefined||String(row[field]).trim()==='')){result.errors++;continue;}
+    const old=map.get(key(row));if(!old){result.added++;continue;}
+    const different=Object.keys(row).filter(field=>!ignored.has(field)&&row[field]!==undefined).some(field=>{
+      const value=row[field],before=old[field];
+      return typeof value==='number'?(before===null||before===undefined||String(before).trim()===''||Number(before)!==value):value!==before;
+    });
+    if(different)result.changed++;else result.unchanged++;
+  }
+  return result;
+}
+async function t981PreviewImportGroup(table,rows,keyFields){
+  if(!rows.length)return {added:0,changed:0,unchanged:0,errors:0};
+  const dates=t981MinMaxDates(rows),existing=[];let expectedCount=null;
+  for(let offset=0;;offset+=1000){
+    let query=db.from(table).select('*',{count:'exact'}).gte('record_date',dates.start).lte('record_date',dates.end);
+    for(const field of keyFields)query=query.order(field,{ascending:true});
+    const result=await query.range(offset,offset+999);
+    if(result.error)throw new Error('無法讀取既有資料，沒有匯入：'+result.error.message);
+    if(!Array.isArray(result.data)||!Number.isInteger(result.count))throw new Error('既有資料讀取不完整，不能判為新增');
+    if(expectedCount!==null&&expectedCount!==result.count)throw new Error('預覽期間資料有異動，請重新預覽');
+    expectedCount=result.count;existing.push(...result.data);
+    if(result.data.length<1000)break;
+  }
+  if(existing.length!==expectedCount)throw new Error('既有資料筆數不一致，停止匯入');
+  return t981CompareImportRows(rows,existing,keyFields);
+}
+
+async function t981ImportCompleteWorkbookV4(){
+  const files=Array.from(t981TcFile.files||[]);if(!files.length){t981TcImportMessage.textContent="請選擇 Excel";return;}if(files.length>2){t981TcImportMessage.textContent="一次最多選擇兩個 Excel 檔案";return;}
+  t981TcImportBtn.disabled=true;t981TcImportMessage.textContent="分析 Excel…";let batchId=null;
+  const missing=[];
+  const missingTcDates=new Set();
+  const missingText=()=>missing.length?'\n缺值明細（'+missing.length+' 項）\n'+missing.join('\n'):'';
+  const readCount=(value,where,field)=>{
+    if(value==null||String(value).trim()==='')return null;
+    const n=Number(String(value).replace(/,/g,''));
+    if(!Number.isFinite(n)||n<0)throw new Error(where+' 的 '+field+' 無效。');
+    return n;
+  };
+  try{
+    if(!t981AreaMapLoaded)await t981LoadAreaMap();
+    const counter={count:0,badDates:0},unmapped=new Set(),tcMap=new Map(),actualMap=new Map(),centerMap=new Map(),actualConflicts=[],validationErrors=[];
+    const storeNames=["STR_SN","餐廳","餐廳名稱"],centerNames=["CenterName","中心名稱","中心"],dateNames=["DATE","日期","Date"];
+    const priorDateNames=["DATE PY","去年日期"],priorNames=["去年單數","去年TC","去年 TC"];
+    const totalNames=["實際外送TC","今年TC","今年 TC","TC(System)","TC (System)","總TC","T_C","TC"];
+    const excludedNames=["扣除第三方TC","扣除第三方 TC","扣除第三方"];
+    const uberNames=["UberDirect","Uber Direct","UberDirect TC","Uber TC"],pandaNames=["PandaGo","Panda Go","PandaGo TC","Panda TC"];
+    const hoursNames=["實際總工時","實際工時","實際安排工時","實際使用工時","使用工時","工時"];
+    const tplhNames=["實際TPLH","實際 TPLH","TPLH","實際TPLH (FA)","實際 TPLH (FA)"];
+    const exTplhNames=["實際TPLH(扣除第三方)","實際 TPLH(扣除第三方)","實際TPLH（扣除第三方）","扣除第三方TPLH","扣三方TPLH"];
+    const rateNames=["第三方使用率","第三方使用率%","第三方使用率 %","FA使用率%","第三方率"];
+    const field=(row,names)=>{for(const name of names)if(Object.prototype.hasOwnProperty.call(row,name))return {present:true,value:row[name],name};return {present:false,value:null,name:null};};
+    const add=(map,key,value)=>map.set(key,(map.get(key)||0)+value);
+    for(const file of files){
+      const workbook=XLSX.read(await file.arrayBuffer(),{type:"array",cellDates:true});
+      for(const sheetName of workbook.SheetNames){
+        const rawRows=XLSX.utils.sheet_to_json(workbook.Sheets[sheetName],{defval:null,raw:true});if(!rawRows.length)continue;
+        const headers=Object.keys(rawRows[0]);const hasStore=headers.some(x=>storeNames.includes(x));const hasCenter=headers.some(x=>centerNames.includes(x));
+        if((!hasStore&&!hasCenter)||!headers.some(x=>dateNames.includes(x)))continue;
+        const isMeal=/餐期|11[-–]13|18[-–]20/.test(sheetName);const period=isMeal?"meal_period":"full_day";
+        const totalHeader=headers.some(x=>totalNames.includes(x));const excludedHeader=headers.some(x=>excludedNames.includes(x));
+        const uberHeader=headers.some(x=>uberNames.includes(x)),pandaHeader=headers.some(x=>pandaNames.includes(x));
+        const priorHeader=headers.some(x=>priorNames.includes(x)),priorDateHeader=headers.some(x=>priorDateNames.includes(x));
+        const hoursHeader=headers.some(x=>hoursNames.includes(x)),tplhHeader=headers.some(x=>tplhNames.includes(x)),exTplhHeader=headers.some(x=>exTplhNames.includes(x)),rateHeader=headers.some(x=>rateNames.includes(x));
+        const hasTc=totalHeader||excludedHeader||priorHeader;const hasStoreActual=hoursHeader||tplhHeader||rateHeader;
+        const hasCenterMetrics=hasCenter&&(totalHeader||excludedHeader||uberHeader||pandaHeader||hoursHeader||tplhHeader||exTplhHeader||rateHeader);
+        rawRows.forEach((row,index)=>{
+          const sourceRow=(row.__rowNum__??index+1)+1;
+          const nameField=field(row,hasStore?storeNames:centerNames);const name=String(nameField.value??"").trim();
+          if(!name||/^total$/i.test(name)||/^grand\s*total$/i.test(name)||/套用的篩選|篩選條件/.test(name))return;
+          const date=t981ExcelDateToISO(field(row,dateNames).value);if(!date||!/^\d{4}-\d{2}-\d{2}$/.test(date)||new Date(date+'T12:00:00Z').toISOString().slice(0,10)!==date){counter.badDates++;return;}
+          const numericFields=[totalNames,excludedNames,uberNames,pandaNames,hoursNames,tplhNames,exTplhNames,rateNames,priorNames];
+          const badFields=numericFields.map(names=>field(row,names)).filter(x=>x.present&&(x.value===null||String(x.value).trim()===''||!Number.isFinite(Number(String(x.value).replace(/[,%]/g,'')))||Number(String(x.value).replace(/[,%]/g,''))<0));
+          if(hasCenterMetrics&&!field(row,totalNames).present)badFields.push({name:'中心實際TC（缺欄）'});
+          if(badFields.length){validationErrors.push(`${file.name}／${sheetName} 第 ${index+2} 列：${badFields.map(x=>x.name).join('、')} 空白或無效`);return;}
+          if(hasCenterMetrics){
+            const totalField=field(row,totalNames),excludedField=field(row,excludedNames),uberField=field(row,uberNames),pandaField=field(row,pandaNames);
+            const total=totalField.present?t981NumericZero(totalField.value,counter):0;
+            let thirdParty=0;
+            if(uberHeader||pandaHeader){if(uberHeader)thirdParty+=t981NumericZero(uberField.value,counter);if(pandaHeader)thirdParty+=t981NumericZero(pandaField.value,counter);}
+            else if(excludedField.present)thirdParty=Math.max(0,total-t981NumericZero(excludedField.value,counter));
+            const excluded=Math.max(0,total-thirdParty);
+            const h=field(row,hoursNames),tplh=field(row,tplhNames),exTplh=field(row,exTplhNames),rate=field(row,rateNames);
+            const item={center_name:name,record_date:date,total_tc:total,third_party_tc:thirdParty,tc_ex_third_party:excluded,third_party_usage_pct:total?Math.min(100,thirdParty/total*100):0,actual_work_hours:h.present?t981NumericZero(h.value,counter):0,actual_tplh:tplh.present?t981NumericZero(tplh.value,counter):0,actual_tplh_ex_third_party:exTplh.present?t981NumericZero(exTplh.value,counter):0,source_sheet:sheetName,source_row:index+2};
+            if(rate.present)item.third_party_usage_pct=Math.min(100,t981PercentValue(rate.value,counter));
+            const key=`${name}|${date}`,old=centerMap.get(key);
+            if(old){for(const k of ["total_tc","third_party_tc","tc_ex_third_party","actual_work_hours","actual_tplh","actual_tplh_ex_third_party"]){if(Number(old[k])!==Number(item[k]))actualConflicts.push(`${name} ${date} ${k}`);}}
+            else centerMap.set(key,item);
+            return;
+          }
+          if(!hasStore) return;
+          const area=t981AreaMap.get(name);if(!area){unmapped.add(name);return;}
+          if(hasTc){
+            const prior=field(row,priorNames),total=field(row,totalNames),excluded=field(row,excludedNames),priorDate=field(row,priorDateNames);
+            const where=file.name+'／'+sheetName+' 第 '+sourceRow+' 列 '+name+' '+date;
+            const totalTc=readCount(total.value,where,'實際外送 TC');
+            if(totalTc===null){
+              missing.push(where+'｜實際外送 TC 空白，略過該筆 TC');
+              missingTcDates.add(date);
+            }else{
+              const priorTc=readCount(prior.value,where,'去年 TC');
+              if(priorTc===null)missing.push(where+'｜去年 TC 空白');
+              const selfTc=readCount(excluded.value,where,'扣除第三方 TC');
+              const vendors=[field(row,uberNames),field(row,pandaNames)].filter(x=>x.present);
+              const vendorCounts=selfTc===null?vendors.map(x=>readCount(x.value,where,x.name)):[];
+              const thirdParty=selfTc!==null?totalTc-selfTc:
+                vendorCounts.length&&vendorCounts.every(x=>x!==null)?vendorCounts.reduce((sum,x)=>sum+x,0):null;
+              if(thirdParty!==null&&(thirdParty<0||thirdParty>totalTc))throw new Error(where+' 的自送／第三方 TC 與總 TC 不一致。');
+              if(thirdParty===null)missing.push(where+'｜扣除第三方 TC 空白');
+              const item={restaurant_name:name,area_code:area,record_date:date,period_code:period,
+                source_sheet:sheetName,source_row:sourceRow,prior_year_tc:priorTc,total_tc:totalTc,
+                tc_ex_third_party:thirdParty===null?null:totalTc-thirdParty,third_party_tc_import:thirdParty,
+                prior_year_date:t981ExcelDateToISO(priorDate.value)};
+              const key=`${name}|${date}|${period}`,old=tcMap.get(key);
+              if(!old)tcMap.set(key,item);
+              else for(const fieldName of ["prior_year_tc","total_tc","tc_ex_third_party","prior_year_date","third_party_tc_import"]){
+                if(item[fieldName]===null)continue;
+                if(old[fieldName]!==null&&old[fieldName]!==item[fieldName])throw new Error(`${name} ${date} 在不同工作表的 TC 資料不一致`);
+                old[fieldName]=item[fieldName];
+              }
+            }
+          }
+          if(hasStoreActual){
+            const h=field(row,hoursNames),t=field(row,tplhNames),p=field(row,rateNames);const item={restaurant_name:name,area_code:area,record_date:date};
+            if(h.present)item.actual_work_hours=t981NumericZero(h.value,counter);if(t.present)item.actual_tplh=t981NumericZero(t.value,counter);
+            if(p.present){item.third_party_usage_pct=t981PercentValue(p.value,counter);if(item.third_party_usage_pct>100)throw new Error(`${sheetName} 第 ${index+2} 列第三方使用率超過 100%`);}
+            const key=`${name}|${date}`,old=actualMap.get(key);if(!old)actualMap.set(key,item);
+            else for(const k of ["actual_work_hours","actual_tplh","third_party_usage_pct"]){if(item[k]===undefined)continue;if(old[k]!==undefined&&Number(old[k])!==Number(item[k]))actualConflicts.push(`${name} ${date} ${k}`);else old[k]=item[k];}
+          }
+        });
+      }
+    }
+    if(validationErrors.length)throw new Error(`預覽錯誤 ${validationErrors.length} 列；未匯入。${validationErrors.slice(0,5).join('；')}`);
+    if(!tcMap.size&&!actualMap.size&&!centerMap.size)throw new Error("找不到可辨識的逐日 TC 或中心實際資料分頁");
+    if(counter.badDates)throw new Error(`${counter.badDates} 列日期無法辨識`);
+    if(unmapped.size)throw new Error(`餐廳未設定區域：${[...unmapped].slice(0,12).join("、")}${unmapped.size>12?"…":""}`);
+    if(actualConflicts.length)throw new Error(`重複分頁的實際資料不一致：${[...new Set(actualConflicts)].slice(0,8).join("、")}`);
+    const parsedTcRows=[...tcMap.values()];
+    const tcRows=parsedTcRows.map(({third_party_tc_import,...x})=>x);const actualRows=[...actualMap.values()];
+    const centerRows=[...centerMap.values()].map(({source_sheet,source_row,...x})=>x);
+    const all=[...tcRows,...actualRows,...centerRows];const dates=t981MinMaxDates(all);
+    const full=tcRows.filter(x=>x.period_code==="full_day").length,meal=tcRows.filter(x=>x.period_code==="meal_period").length;
+    const labels=[];if(full)labels.push(`餐廳整天 TC ${full}`);if(meal)labels.push(`餐廳餐期 TC ${meal}`);if(actualRows.length)labels.push(`餐廳實際 ${actualRows.length}`);if(centerRows.length)labels.push(`中心實際 ${centerRows.length}`);
+    const storeTotals=new Map();for(const r of parsedTcRows){if(r.period_code!=="full_day")continue;if(r.third_party_tc_import===null)missingTcDates.add(r.record_date);const x=storeTotals.get(r.record_date)||{tc:0,tp:0};x.tc+=Number(r.total_tc||0);x.tp+=Number(r.third_party_tc_import||0);storeTotals.set(r.record_date,x);}
+    const centerTotals=new Map();for(const r of centerRows){const x=centerTotals.get(r.record_date)||{tc:0,tp:0};x.tc+=Number(r.total_tc||0);x.tp+=Number(r.third_party_tc||0);centerTotals.set(r.record_date,x);}
+    let matched=0;const differences=[];for(const [date,sums] of storeTotals){const center=centerTotals.get(date);if(!center||missingTcDates.has(date))continue;matched++;if(Math.abs(sums.tc-center.tc)>0.01||Math.abs(sums.tp-center.tp)>0.01)differences.push(date);}
+    const audit=matched?`｜兩檔對帳 ${matched} 日${differences.length?`（差異 ${differences.length} 日）`:"（TC／第三方 TC 相符）"}`:"";
+    t981TcImportMessage.textContent='正在讀取既有資料並比較…';
+    const comparisons=await Promise.all([
+      t981PreviewImportGroup('staffing_tc_history',tcRows,['restaurant_name','record_date','period_code']),
+      t981PreviewImportGroup('staffing_daily_actuals',actualRows,['restaurant_name','record_date']),
+      t981PreviewImportGroup('staffing_center_daily_actuals',centerRows,['center_name','record_date'])
+    ]);
+    const counts=comparisons.reduce((sum,row)=>{for(const key of Object.keys(sum))sum[key]+=row[key];return sum;},{added:0,changed:0,unchanged:0,errors:0});
+    const preview=`新增 ${counts.added}｜變更 ${counts.changed}｜不變 ${counts.unchanged}｜錯誤 ${counts.errors}`;
+    t981TcImportMessage.textContent=`${preview}｜${labels.join("｜")}｜${dates.start}–${dates.end}${audit}${missingText()}`;
+    if(counts.errors)throw new Error('必要欄位有錯誤，未寫入任何資料');
+    if(!confirm(`${preview}\n匯入 ${labels.join("、")} 共 ${all.length} 列？\n${dates.start} 至 ${dates.end}${audit}${missing.length?"\n缺值 "+missing.length+" 項，明細在匯入區。":""}\n確認後將依來源覆寫；預覽為目前讀取快照。`))return;
+    batchId=await t981CreateImportBatch(files.map(f=>f.name).join(" + "),all,`雙檔歷史資料：${labels.join("；")}${audit}${missingText()}`);
+    tcRows.forEach(x=>x.import_batch_id=batchId);actualRows.forEach(x=>x.import_batch_id=batchId);centerRows.forEach(x=>x.import_batch_id=batchId);
+    if(tcRows.length)await t981UpsertChunks("staffing_tc_history",tcRows,"restaurant_name,record_date,period_code",t981TcImportMessage);
+    if(actualRows.length)await t981UpsertChunks("staffing_daily_actuals",actualRows,"restaurant_name,record_date",t981TcImportMessage);
+    if(centerRows.length)await t981UpsertChunks("staffing_center_daily_actuals",centerRows,"center_name,record_date",t981TcImportMessage);
+    t981TcImportMessage.textContent=`已匯入｜${labels.join("｜")}｜${dates.start}–${dates.end}${audit}${missingText()}`;await t981LoadShiftAdmin();
+  }catch(e){t981TcImportMessage.textContent=`匯入失敗：${e.message||"請檢查 Excel"}${batchId?"｜可重傳同檔補齊":""}${missingText()}`;}
+  finally{t981TcImportBtn.disabled=false;}
+}
+/* T981 v3: guarded employee/shift modules, test-mode control and full device purge. */
+const t981ProtectedModal=document.getElementById("t981ProtectedPasswordModal");
+const t981ProtectedForm=document.getElementById("t981ProtectedPasswordForm");
+const t981PasswordTitle=document.getElementById("t981ProtectedPasswordTitle");
+const t981PasswordDescription=document.getElementById("t981ProtectedPasswordDescription");
+const t981PasswordError=document.getElementById("t981PasswordError");
+const t981PasswordSubmit=document.getElementById("t981PasswordSubmit");
+const t981CurrentWrap=document.getElementById("t981CurrentPasswordWrap");
+const t981NewWrap=document.getElementById("t981NewPasswordWrap");
+const t981ConfirmWrap=document.getElementById("t981ConfirmPasswordWrap");
+const t981UnlockWrap=document.getElementById("t981UnlockPasswordWrap");
+const t981CurrentInput=document.getElementById("t981CurrentPassword");
+const t981NewInput=document.getElementById("t981NewPassword");
+const t981ConfirmInput=document.getElementById("t981ConfirmPassword");
+const t981UnlockInput=document.getElementById("t981UnlockPassword");
+const t981PasswordCancel=document.getElementById("t981PasswordCancel");
+let t981PasswordDialogMode="unlock";
+let t981ProtectedTargetMode=null;
+let t981DeviceClaimRecords=[];
+let t981DeviceClaimFetchError="";
+const t981ShiftTestModeToggle=document.getElementById("shiftTestModeToggle");
+function t981SyncShiftToggleVisual(input){const label=input?.closest("label");if(label)label.classList.toggle("is-checked",Boolean(input.checked));}
+
+function t981ClearPasswordDialog(){
+  [t981CurrentInput,t981NewInput,t981ConfirmInput,t981UnlockInput].forEach(input=>input.value="");
+  t981PasswordError.textContent="";
+}
+function t981OpenPasswordDialog(mode,targetMode){
+  t981PasswordDialogMode=mode;t981ProtectedTargetMode=targetMode||t981ProtectedTargetMode;
+  t981ClearPasswordDialog();
+  t981CurrentWrap.style.display=mode==="change"?"grid":"none";
+  t981NewWrap.style.display=(mode==="setup"||mode==="change")?"grid":"none";
+  t981ConfirmWrap.style.display=(mode==="setup"||mode==="change")?"grid":"none";
+  t981UnlockWrap.style.display=mode==="unlock"?"grid":"none";
+  if(mode==="setup"){
+    t981PasswordTitle.textContent="設定管理區共用密碼";
+    t981PasswordDescription.textContent="首次使用請先設定一組至少 8 碼的共用密碼，之後兩個入口都使用這組密碼。";
+    t981PasswordSubmit.textContent="設定並進入";
+  }else if(mode==="change"){
+    t981PasswordTitle.textContent="變更管理區共用密碼";
+    t981PasswordDescription.textContent="新密碼設定後，在職名單與指休管理會共用新密碼。";
+    t981PasswordSubmit.textContent="變更並重新解鎖";
+  }else{
+    t981PasswordTitle.textContent="管理區域驗證";
+    t981PasswordDescription.textContent="請輸入共用密碼以進入在職名單或指休管理。";
+    t981PasswordSubmit.textContent="驗證並進入";
+  }
+  t981ProtectedModal.style.display="flex";
+  setTimeout(()=>((mode==="setup"||mode==="change")?t981NewInput:t981UnlockInput).focus(),0);
+}
+function t981ClosePasswordDialog(){
+  t981ProtectedModal.style.display="none";t981ClearPasswordDialog();t981ProtectedTargetMode=null;
+}
+// 2026-11-10 使用者決定：在職名單與指休不再使用共用密碼，管理員登入即可進入（資料庫權限仍限管理員）。
+async function t981EnterProtectedModule(mode){
+  showAdminMode(mode);
+}
+async function t981EnterProtectedModuleWithPassword(mode){
+  try{
+    const status=await db.rpc("employee_shift_gate_status");if(status.error)throw status.error;
+    const state=status.data||{};
+    if(!state.configured){t981OpenPasswordDialog("setup",mode);return;}
+    if(state.unlocked){showAdminMode(mode);return;}
+    t981OpenPasswordDialog("unlock",mode);
+  }catch(e){alert(`無法開啟保護功能：${e.message||"請先執行 T981 v3 增量 SQL，並確認管理員登入狀態。"}`);}
+}
+async function t981SubmitPasswordDialog(event){
+  event.preventDefault();t981PasswordSubmit.disabled=true;t981PasswordError.textContent="驗證中…";
+  try{
+    let password="";
+    if(t981PasswordDialogMode==="setup"||t981PasswordDialogMode==="change"){
+      password=t981NewInput.value;
+      if(password.length<8)throw new Error("共用密碼至少需要 8 個字元。");
+      if(password!==t981ConfirmInput.value)throw new Error("兩次輸入的新密碼不一致。");
+      const configured=await db.rpc("set_employee_shift_shared_password",{
+        p_new_password:password,
+        p_current_password:t981PasswordDialogMode==="change"?t981CurrentInput.value:null
+      });
+      if(configured.error)throw configured.error;
+    }else{
+      password=t981UnlockInput.value;
+      if(!password)throw new Error("請輸入共用密碼。");
+    }
+    const unlocked=await db.rpc("unlock_employee_shift_modules",{p_password:password});
+    if(unlocked.error)throw unlocked.error;
+    const target=t981ProtectedTargetMode;t981ClosePasswordDialog();
+    if(target)showAdminMode(target);
+  }catch(e){t981PasswordError.textContent=e.message||"操作失敗，請稍後重試。";}
+  finally{t981PasswordSubmit.disabled=false;}
+}
+t981ProtectedForm.addEventListener("submit",t981SubmitPasswordDialog);
+t981PasswordCancel.onclick=()=>{t981ClosePasswordDialog();showAdminMode("home");};
+t981ProtectedModal.addEventListener("click",event=>{if(event.target===t981ProtectedModal){t981ClosePasswordDialog();showAdminMode("home");}});
+rosterModeBtn.onclick=()=>t981EnterProtectedModule("roster");
+t981ShiftModeBtn.onclick=()=>t981EnterProtectedModule("shift");
+rosterBackBtn.onclick=()=>showAdminMode("home");
+t981ShiftBackBtn.onclick=()=>showAdminMode("home");
+
+if(t981ShiftTestModeToggle){
+  t981ShiftTestModeToggle.addEventListener("change",async()=>{
+    const requested=t981ShiftTestModeToggle.checked;t981SyncShiftToggleVisual(t981ShiftTestModeToggle);t981ShiftTestModeToggle.disabled=true;
+    try{
+      const r=await db.from("staffing_settings").update({shift_test_mode:requested,updated_at:new Date().toISOString()}).eq("singleton",true);
+      if(r.error)throw r.error;
+      t981StaffingSettings={...t981StaffingSettings,shift_test_mode:requested};
+      alert(requested?"測試模式已開啟；測試提交會標記為測試資料。":"測試模式已關閉；提交將列為正式資料。");
+      await t981LoadShiftAdmin();
+    }catch(e){t981ShiftTestModeToggle.checked=!requested;t981SyncShiftToggleVisual(t981ShiftTestModeToggle);alert(`更新測試模式失敗：${e.message||"請確認管理員權限。"}`);}
+    finally{t981ShiftTestModeToggle.disabled=false;}
+  });
+}
+
+function t981LatestClaimForDevice(type,number){
+  const key=type==="recorder"?recorderKey:batteryKey;
+  const field=type==="recorder"?"recorder_number":"battery_number";
+  return t981DeviceClaimRecords.find(row=>key(row[field])===key(number))||null;
+}
+async function t981LoadDeviceClaims(){
+  t981DeviceClaimFetchError="";const rows=[];const pageSize=1000;
+  try{
+    for(let offset=0;;offset+=pageSize){
+      const r=await db.from("claim_records").select("battery_number,recorder_number,claimant_name,claimed_at,claim_point").order("claimed_at",{ascending:false}).range(offset,offset+pageSize-1);
+      if(r.error)throw r.error;rows.push(...(r.data||[]));if(!r.data||r.data.length<pageSize)break;
+    }
+    t981DeviceClaimRecords=rows;
+  }catch(e){t981DeviceClaimRecords=[];t981DeviceClaimFetchError=e.message||"請確認已執行 v3 增量 SQL。";}
+}
+// Select report IDs explicitly. Resolving a case never resolves all reports for its device.
+let t981DeviceResolutionBusy=false;
+function t981SetDeviceResolutionBusy(busy){
+  t981DeviceResolutionBusy=busy;
+  batteryReportList.querySelectorAll('[data-device-case-type], .device-case-bulk-actions button').forEach(control=>{control.disabled=busy;});
+}
+function t981DeviceIssueConfig(type){
+  if(type!=="battery"&&type!=="recorder")throw new Error("未知設備類型");
+  const recorder=type==="recorder";
+  return {table:recorder?"recorder_issue_reports":"battery_issue_reports",inventoryTable:recorder?"recorders":"batteries",field:recorder?"recorder_number":"battery_number",reports:recorder?recorderReports:batteryReports,inventory:recorder?recorderInventory:batteryInventory,label:recorder?"紀錄器":"電池"};
+}
+function t981SelectedDeviceCases(type){return [...batteryReportList.querySelectorAll('input[data-device-case-type="'+type+'"]:checked')].map(input=>input.value);}
+function t981AttachDeviceCaseSelection(type,checkedIds){
+  const c=t981DeviceIssueConfig(type),key=batteryKey,icon=type==="recorder"?"📹":"🔋";
+  batteryReportList.querySelectorAll(".survey-card").forEach(card=>{
+    const number=card.querySelector(".survey-name")?.textContent.replace(icon,"").trim();
+    if(!number)return;
+    // Hide the former latest-case action: expose every pending case, with no preselection.
+    card.querySelectorAll('.battery-repair-btn,.battery-scrap-btn,.recorder-repair-btn,.recorder-scrap-btn').forEach(button=>button.remove());
+    const pending=(c.reports||[]).filter(row=>key(row[c.field])===key(number)&&row.resolution_status!=="resolved");
+    if(!pending.length)return;
+    let box=card.querySelector('.device-pending-cases');if(!box){box=document.createElement('section');box.className='device-pending-cases';card.appendChild(box);}
+    box.innerHTML='<strong>待處理案件（逐筆勾選）</strong>'+pending.map(row=>'<label style="display:block;padding:8px 0"><input type="checkbox" data-device-case-type="'+type+'" value="'+esc(row.id)+'"'+(checkedIds.has(String(row.id))?' checked':'')+(t981DeviceResolutionBusy?' disabled':'')+'> '+esc(fmt(row.reported_at))+'｜'+esc(row.issue_description||'未填說明')+'</label>').join('');
+  });
+  const existing=batteryReportList.querySelector('.device-case-bulk-actions');if(existing)existing.remove();
+  if(!(c.reports||[]).some(row=>row.resolution_status!=="resolved"))return;
+  const bar=document.createElement('div');bar.className='record-actions device-case-bulk-actions';
+  for(const [action,label] of [['repaired','將勾選案件標記維修完成'],['scrapped','將勾選案件標記報廢']]){
+    const button=document.createElement('button');button.type='button';button.className='action-btn';button.textContent=label;button.disabled=t981DeviceResolutionBusy;
+    button.onclick=()=>t981ResolveSelectedDeviceIssues(type,t981SelectedDeviceCases(type),action);bar.appendChild(button);
+  }
+  batteryReportList.prepend(bar);
+}
+async function t981ResolveSelectedDeviceIssues(type,ids,action){
+  if(t981DeviceResolutionBusy)return;
+  const c=t981DeviceIssueConfig(type),wanted=new Set((ids||[]).map(String));
+  const selected=(c.reports||[]).filter(row=>wanted.has(String(row.id))&&row.resolution_status!=="resolved");
+  if(!selected.length){alert("請先勾選尚未結案的案件。");return;}
+  const scrap=action==="scrapped",label=scrap?"報廢":"維修完成";
+  const numbers=[...new Set(selected.map(row=>row[c.field]))];
+  if(!confirm(`將勾選的 ${selected.length} 筆${c.label}案件標記為「${label}」？設備：${numbers.join("、")}。未勾選案件不會結案。${scrap?"相關設備也會標記為報廢。":"設備仍有待處理案件時，不會改為正常。"}`))return;
+  t981SetDeviceResolutionBusy(true);let casesSaved=false;
+  try{
+    if(typeof window!=="undefined"&&window.CENTER_CONFIG?.features?.atomicDevices===true){
+      const rpcName=type==="recorder"?"resolve_recorder_cases":"resolve_battery_cases";
+      const result=await db.rpc(rpcName,{p_ids:selected.map(row=>row.id),p_action:action});
+      if(result.error)throw result.error;
+      if(!result.data||result.data.resolved_count!==selected.length)throw new Error("原子結案回傳結果不完整，請重新載入確認；未重試直接寫入。");
+      alert(`已原子完成 ${result.data.resolved_count} 筆勾選案件與設備狀態同步。`);
+      return; // Never fall back to direct writes after an RPC result or failure.
+    }
+    const now=new Date().toISOString();
+    // One SQL UPDATE covers the selected cases. Inventory reconciliation is a separate request.
+    const saved=await db.from(c.table).update({resolution_status:"resolved",resolved_at:now,resolution_note:label}).in("id",selected.map(row=>row.id)).or("resolution_status.is.null,resolution_status.neq.resolved").select("id,"+c.field);
+    if(saved.error)throw saved.error;
+    const changed=saved.data||[];casesSaved=changed.length>0;
+    for(const number of [...new Set(changed.map(row=>row[c.field]))]){
+      const pending=await db.from(c.table).select("id",{count:"exact",head:true}).eq(c.field,number).or("resolution_status.is.null,resolution_status.neq.resolved");
+      if(pending.error)throw pending.error;
+      if(!Number.isInteger(pending.count)||pending.count<0)throw new Error("無法確認剩餘案件數，不更新設備為正常");
+      const payload=scrap?{status:"scrapped",health_status:"abnormal",health_note:"報廢",scrapped_at:now,scrapped_note:"由勾選異常案件標記報廢"}:Number(pending.count)>0?{health_status:"abnormal"}:{health_status:"normal",health_note:null};
+      let update=db.from(c.inventoryTable).update(payload).eq(c.field,number);
+      if(!scrap)update=update.eq("status","active"); // Do not reactivate a retired device.
+      const result=await update;if(result.error)throw result.error;
+    }
+    alert(`已處理 ${changed.length} 筆勾選案件。${changed.length<selected.length?"其他案件已被處理或沒有修改權限，請重新確認。":""}`);
+  }catch(e){alert((casesSaved?"勾選案件已結案，但設備狀態同步未完成，請核對後台；不要重複結案。":"案件處理未確認完成，請重新載入核對後再操作。")+"\n"+(e.message||"未知錯誤"));}
+  finally{
+    try{if(type==="recorder")await loadRecorderData();else await loadBatteryData();}
+    finally{t981SetDeviceResolutionBusy(false);}
+  }
+}
+
+function t981AttachDeviceDeleteButtons(type){
+  const isRecorder=type==="recorder";const list=batteryReportList;
+  const keyFn=isRecorder?recorderKey:batteryKey;const prop=isRecorder?"recorder_number":"battery_number";const icon=isRecorder?"📹":"🔋";
+  const inventory=isRecorder?(recorderInventory||[]):(batteryInventory||[]);
+  list.querySelectorAll(".survey-card").forEach(card=>{
+    card.classList.add("admin-fixed-card","device-card-fixed");
+    const label=card.querySelector(".survey-name");if(!label)return;
+    const number=label.textContent.replace(icon,"").trim();if(!number)return;
+    const latest=t981LatestClaimForDevice(type,number);
+    let usage=card.querySelector(".device-latest-claim");
+    if(!usage){usage=document.createElement("div");usage.className="device-latest-claim";const actions=card.querySelector(".record-actions");if(actions)card.insertBefore(usage,actions);else card.appendChild(usage);}
+    usage.textContent=latest?`最新領用：${latest.claimant_name||"未填姓名"}｜${fmt(latest.claimed_at)}${latest.claim_point?`｜${latest.claim_point}`:""}`:t981DeviceClaimFetchError?`最新領用：無法讀取（${t981DeviceClaimFetchError}）`:"最新領用：尚無領用紀錄";
+    let actions=card.querySelector(".record-actions");if(!actions){actions=document.createElement("div");actions.className="record-actions";card.appendChild(actions);}
+    let button=actions.querySelector("[data-t981-device-delete]");
+    if(!button){button=document.createElement("button");button.type="button";button.className="action-btn device-delete-btn";button.dataset.t981DeviceDelete="true";actions.appendChild(button);}
+    const inv=inventory.find(row=>keyFn(row[prop])===keyFn(number));
+    button.dataset.deviceType=type;button.dataset.deviceId=inv?.id||"";button.dataset.deviceNumber=inv?.[prop]||number;
+    button.textContent="刪除";
+    button.setAttribute("aria-label",`永久刪除${isRecorder?"紀錄器":"電池"} ${number} 及全部歷史`);
+  });
+}
+const t981OriginalRenderBatteryReportsV3=renderBatteryReports;
+renderBatteryReports=function(){
+  const checkedIds=new Set(t981SelectedDeviceCases("battery"));
+  t981OriginalRenderBatteryReportsV3();t981AttachDeviceDeleteButtons("battery");t981AttachDeviceCaseSelection("battery",checkedIds);
+};
+const t981OriginalRenderRecorderReportsV3=renderRecorderReports;
+renderRecorderReports=function(){
+  const checkedIds=new Set(t981SelectedDeviceCases("recorder"));
+  t981OriginalRenderRecorderReportsV3();t981AttachDeviceDeleteButtons("recorder");t981AttachDeviceCaseSelection("recorder",checkedIds);
+};
+const t981OriginalLoadBatteryDataV3=loadBatteryData;
+loadBatteryData=async function(){await t981OriginalLoadBatteryDataV3();await t981LoadDeviceClaims();if(deviceAdminType.value==="battery")renderBatteryReports();};
+const t981OriginalLoadRecorderDataV3=loadRecorderData;
+loadRecorderData=async function(){await t981OriginalLoadRecorderDataV3();await t981LoadDeviceClaims();if(deviceAdminType.value==="recorder")renderRecorderReports();};
+async function t981DeleteDeviceCard(type,id,number){
+  const label=type==="recorder"?"行車紀錄器":"電池";
+  if(!confirm(`刪除${label}「${number}」及異常／維修紀錄？不可復原。車輛領用紀錄保留。`))return;
+  try{
+    const r=await db.rpc("admin_delete_device_all_records",{p_device_type:type,p_device_number:number});if(r.error)throw r.error;
+    const keyFn=type==="recorder"?recorderKey:batteryKey;const prop=type==="recorder"?"recorder_number":"battery_number";
+    t981DeviceClaimRecords=t981DeviceClaimRecords.filter(row=>keyFn(row[prop])!==keyFn(number));
+    if(type==="recorder"){
+      recorderInventory=(recorderInventory||[]).filter(row=>keyFn(row[prop])!==keyFn(number));
+      recorderReports=(recorderReports||[]).filter(row=>keyFn(row[prop])!==keyFn(number));renderRecorderSummary();renderRecorderReports();
+    }else{
+      batteryInventory=(batteryInventory||[]).filter(row=>keyFn(row[prop])!==keyFn(number));
+      batteryReports=(batteryReports||[]).filter(row=>keyFn(row[prop])!==keyFn(number));renderBatterySummary();renderBatteryReports();
+    }
+    alert(`✅ ${label}與相關異常／維修歷史已完整刪除。`);
+  }catch(e){alert(`永久刪除失敗：${e.message||"請確認已執行 v3 增量 SQL，並以管理員帳號操作。"}`);}
+}
+const t981PreviousDeviceListClick=batteryReportList.onclick;
+batteryReportList.onclick=event=>{
+  const button=event.target.closest("[data-t981-device-delete]");
+  if(button){event.preventDefault();event.stopPropagation();t981DeleteDeviceCard(button.dataset.deviceType,button.dataset.deviceId,button.dataset.deviceNumber);return;}
+  if(t981PreviousDeviceListClick)t981PreviousDeviceListClick(event);
+};
+async function t981DeleteVehiclePermanently(id,button){
+  const row=vehicles.find(v=>String(v.id)===String(id));if(!row)return;const plate=String(row.full_plate||row.plate4||"");
+  if(!confirm(`刪除「${plate}」及領車、巡檢、換油全部歷史？此操作無法復原。`))return;
+  const typed=prompt(`輸入車牌「${plate}」確認刪除`);if(String(typed||"").trim().toUpperCase()!==plate.toUpperCase()){if(typed!==null)alert("車牌不符，已取消");return;}
+  if(button)button.disabled=true;
+  try{
+    const r=await db.rpc("admin_delete_vehicle_all_records",{p_vehicle_id:id});if(r.error)throw r.error;
+    vehicles=vehicles.filter(v=>String(v.id)!==String(id));allReports=(allReports||[]).filter(x=>String(x.vehicle_id)!==String(id));todayReports=(todayReports||[]).filter(x=>String(x.vehicle_id)!==String(id));latestReports=(latestReports||[]).filter(x=>String(x.vehicle_id)!==String(id));unresolvedReports=(unresolvedReports||[]).filter(x=>String(x.vehicle_id)!==String(id));allClaims=(allClaims||[]).filter(x=>String(x.vehicle_id)!==String(id));updateSummary();renderVehicles();
+  }catch(e){alert(`刪除失敗：${e.message||"請先執行 v4 SQL"}`);if(button)button.disabled=false;}
+}
+vehicleList.addEventListener("click",event=>{
+  const button=event.target.closest("[data-t981-vehicle-delete]");if(!button)return;
+  event.preventDefault();event.stopPropagation();t981DeleteVehiclePermanently(button.dataset.t981VehicleDelete,button);
+},true);
+
+
+/* T981 營運管理：延遲訂單、月度餐廳回覆連結與劃線／簽名。 */
+/* 營運管理共用介面。分頁與登記邏輯位於 operations-entry.js。 */
+const opsToday=()=>new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Taipei",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+function opsEscape(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+const opsSetToggle=(id,on)=>{const b=$(id);b.classList.toggle("selected",on);b.setAttribute("aria-pressed",String(on));};
+
+/* 每日成績報表：辨識 ByDate／ByOrder，排除不必要個資欄位後寫入歷史資料表。 */
+const opsScoreFileInput=$("opsScoreFiles");
+let opsPreparedScoreFiles=[];
+const opsByDateColumns=["訂單號碼","ID（門市名稱／代號）","訂單日期","指派時間","QT","留店時間","外送時間（去）","外送達成時間（D30)","外出時間 (車程)","完成整張外送時間","距離"];
+const opsByOrderColumns=["reg order id","RC","AC","ID","訂單","自動/手動","落單時間","預計送達時間","原預計送達時間","指派時間","門市到達時間","外送出發","到達時間","到店時間","外送員留店時間","遲到時間","Quote Time","配送費","餐點金額","結算金額","距離","外送員","D7","D25"];
+function opsXlsxValue(value){
+  if(value instanceof Date){const d=new Date(value.getTime()-value.getTimezoneOffset()*60000);return d.toISOString().slice(0,19).replace("T"," ");}
+  return value;
+}
+function opsDateIso(value){
+  if(value instanceof Date&&!Number.isNaN(value.getTime())){const d=new Date(value.getTime()-value.getTimezoneOffset()*60000);return d.toISOString().slice(0,10);}
+  if(typeof value==="number"&&window.XLSX?.SSF?.parse_date_code){const d=XLSX.SSF.parse_date_code(value);if(d?.y&&d?.m&&d?.d)return String(d.y).padStart(4,"0")+"-"+String(d.m).padStart(2,"0")+"-"+String(d.d).padStart(2,"0");}
+  const text=String(value??"").trim();let m=text.match(/^(20\d{2})[./-](\d{1,2})[./-](\d{1,2})/);
+  if(m)return opsValidIsoDate(Number(m[1]),Number(m[2]),Number(m[3]));
+  m=text.match(/^(\d{1,2})[./-](\d{1,2})[./-](20\d{2})/);
+  if(m)return opsValidIsoDate(Number(m[3]),Number(m[1]),Number(m[2]));
+  return "";
+}
+function opsValidIsoDate(y,m,d){const value=new Date(Date.UTC(y,m-1,d));return value.getUTCFullYear()===y&&value.getUTCMonth()===m-1&&value.getUTCDate()===d?String(y).padStart(4,"0")+"-"+String(m).padStart(2,"0")+"-"+String(d).padStart(2,"0"):"";}
+function opsScorePair(){
+  if(opsPreparedScoreFiles.length!==2)return null;
+  const byType=Object.fromEntries(opsPreparedScoreFiles.map(x=>[x.type,x]));if(!byType.ByDate||!byType.ByOrder)return null;
+  const a=byType.ByDate.dates,b=byType.ByOrder.dates;if(a.length!==b.length||a.some((d,i)=>d!==b[i]))return null;
+  return {byType,dates:a};
+}
+async function opsParseScoreFile(file){
+  if(!window.XLSX)throw new Error("Excel 元件尚未載入，請重新整理後再試。");
+  const wb=XLSX.read(await file.arrayBuffer(),{type:"array",cellDates:true});
+  const sheetName=wb.SheetNames[0];if(!sheetName)throw new Error("檔案沒有工作表。");
+  const matrix=XLSX.utils.sheet_to_json(wb.Sheets[sheetName],{header:1,defval:"",raw:true});
+  if(!matrix.length)throw new Error("工作表沒有資料。");
+  const headers=matrix[0].map(v=>String(v??"").trim());
+  const lower=headers.map(v=>v.toLowerCase());
+  let type="";
+  if(headers.includes("訂單號碼")&&headers.some(v=>v.includes("門市名稱／代號"))&&headers.includes("QT"))type="ByDate";
+  else if(lower.includes("reg order id")&&headers.includes("落單時間")&&headers.includes("D25"))type="ByOrder";
+  else throw new Error("無法辨識報表格式；請選 ByDate 或 ByOrder Excel 檔。");
+  const allowed=type==="ByDate"?opsByDateColumns:opsByOrderColumns;
+  const indices=allowed.map(name=>headers.indexOf(name));
+  const orderHeader=type==="ByDate"?"訂單號碼":"reg order id";
+  const dateHeader=type==="ByDate"?"訂單日期":"落單時間";
+  const restaurantHeader=type==="ByDate"?"ID（門市名稱／代號）":"ID";
+  const fileDates=[...new Set([...String(file.name).matchAll(/20\d{2}[.-]\d{2}[.-]\d{2}/g)].map(x=>x[0]))],fileDate=fileDates.length===1?opsDateIso(fileDates[0]):"";
+  const rows=[];
+  matrix.slice(1).forEach((cells,index)=>{
+    if(!cells.some(v=>v!==""&&v!==null&&v!==undefined))return;
+    const payload={};
+    indices.forEach((column,i)=>{if(column<0)return;const value=cells[column];if(value===""||value===null||value===undefined)return;payload[allowed[i]]=opsXlsxValue(value);});
+    const orderNo=String(payload[orderHeader]??"").trim();
+    const restaurantRaw=String(payload[restaurantHeader]??"").trim();
+    const codeMatch=(type==="ByDate"?restaurantRaw:orderNo).match(/(?:TWI|TWB)(\d{3})/i);
+    const storeCode=codeMatch?codeMatch[1]:"";
+    const restaurantName=type==="ByDate"?restaurantRaw.split(/[/／]/)[0].trim():restaurantRaw;
+    const dateValue=cells[headers.indexOf(dateHeader)],dateText=opsDateIso(dateValue)||fileDate;
+    rows.push({row_number:index+2,record_date:dateText,store_code:storeCode,restaurant_name:restaurantName,order_number:orderNo,payload});
+  });
+  if(type==="ByOrder"){
+    const courierIds=new Map(),courierOrders=new Map(),dispatchWaves=new Map();
+    for(const row of rows){
+      const payload=row.payload||{},courierName=String(payload["外送員"]??"").trim(),assigned=String(payload["指派時間"]??"").trim().replace("T"," ").slice(0,19);
+      delete payload["外送員"];
+      if(!courierName||String(payload["自動/手動"]||"").trim()==="第三方")continue;
+      const courierKey=row.record_date+"|"+courierName.toLocaleLowerCase();
+      if(!courierIds.has(courierKey))courierIds.set(courierKey,window.crypto?.randomUUID?.()||("courier-"+(courierIds.size+1)));
+      const courierId=courierIds.get(courierKey);payload._courier_day_id=courierId;
+      const riderOrders=courierOrders.get(courierId)||[];riderOrders.push(row);courierOrders.set(courierId,riderOrders);
+      if(assigned){const waveKey=row.record_date+"|"+courierId+"|"+assigned,wave=dispatchWaves.get(waveKey)||[];wave.push(row);dispatchWaves.set(waveKey,wave);}
+    }
+    for(const riderOrders of courierOrders.values()){
+      const storeCount=new Set(riderOrders.map(row=>row.store_code).filter(Boolean)).size;
+      for(const row of riderOrders)row.payload._courier_day_store_count=storeCount;
+    }
+    for(const wave of dispatchWaves.values()){
+      const storeCount=new Set(wave.map(row=>row.store_code).filter(Boolean)).size;
+      for(const row of wave){row.payload._dispatch_wave_size=wave.length;row.payload._dispatch_wave_store_count=storeCount;}
+    }
+  }
+  if(!rows.length)throw new Error("報表沒有可匯入的訂單資料列。");
+  if(rows.some(r=>!r.record_date))throw new Error("有訂單列沒有可辨識的日期；請使用含日期欄的報表。");
+  const dates=[...new Set(rows.map(r=>r.record_date))].sort();
+  return {file,type,dates,rows};
+}
+function opsRenderPreparedScoreFiles(errors=[]){
+  const data=opsPreparedScoreFiles.map(x=>({file:x.file.name,type:x.type,date:x.dates.length===1?x.dates[0]:x.dates[0]+"～"+x.dates.at(-1)+"（"+x.dates.length+"天）",count:x.rows.length,status:"待匯入"}));
+  const failed=errors.map(x=>({file:x.file,type:"—",date:"—",count:"—",status:x.error}));
+  const all=[...data,...failed];
+  $("opsScorePreview").innerHTML=all.length
+    ?'<table class="ops-table"><thead><tr><th>檔案</th><th>報表類型</th><th>日期</th><th>資料筆數</th><th>狀態</th></tr></thead><tbody>'+all.map(x=>'<tr><td>'+opsEscape(x.file)+'</td><td>'+opsEscape(x.type)+'</td><td>'+opsEscape(x.date)+'</td><td>'+opsEscape(x.count)+'</td><td>'+opsEscape(x.status)+'</td></tr>').join("")+'</tbody></table>'
+    :"";
+  $("opsScoreImport").disabled=!opsScorePair();
+}
+let opsScoreSelectionGeneration=0;
+opsScoreFileInput.addEventListener("change",async()=>{
+  if(window.CENTER_CONFIG?.features?.scoreRevisions===true){try{scoreRevisionWorkflow.cancel();}catch(e){$("opsScoreMessage").textContent=e.message;opsRevisionControls();return;}opsRevisionControls();}
+  opsPreparedScoreFiles=[];$("opsScoreImport").disabled=true;$("opsScoreMessage").textContent="讀取與辨識檔案中…";
+  const selection=++opsScoreSelectionGeneration,files=[...(opsScoreFileInput.files||[])],errors=[],prepared=[];
+  for(const file of files){
+    try{prepared.push(await opsParseScoreFile(file));}
+    catch(e){errors.push({file:file.name,error:e.message||"檔案無法讀取"});}
+    if(selection!==opsScoreSelectionGeneration)return;
+  }
+  if(selection!==opsScoreSelectionGeneration)return;
+  opsPreparedScoreFiles=prepared;
+  opsRenderPreparedScoreFiles(errors);
+  const pair=opsScorePair();$("opsScoreMessage").textContent=errors.length?"辨識完成；"+errors.length+" 個檔案格式不符或無法讀取。":pair?"兩份檔案日期一致，共 "+pair.dates.length+" 天，可匯入。":"請選擇一份 ByDate 與一份 ByOrder 檔案，且兩份檔案的日期範圍需一致。";
+});
+$("opsScoreImport").onclick=async()=>{
+  if(window.CENTER_CONFIG?.features?.scoreRevisions===true){await opsReviewScoreRevision();return;}
+  const pair=opsScorePair();if(!pair){$("opsScoreMessage").textContent="請選擇一份 ByDate 與一份 ByOrder 檔案，且兩份檔案的日期範圍需一致。";return;}
+  $("opsScoreImport").disabled=true;$("opsScoreMessage").textContent="封存原始 Excel 至 Supabase…";
+  const importedDate=pair.dates.at(-1);let completed=0,archiveIds=[],importedCalls=0;
+  try{
+    const sourceFiles=[pair.byType.ByDate.file,pair.byType.ByOrder.file];
+    if(window.CENTER_CONFIG?.features?.archiveDedup===true){
+      // Every attempt reaches the trusted gateway; retry IDs stay stable, shared bytes are not re-created.
+      archiveIds=(await dedupSourceArchiver.archivePair(pair)).map(receipt=>receipt.requestId);
+    }else if(scoreArchiveRetryCache&&scoreArchiveRetryCache.files.every((file,i)=>file===sourceFiles[i]))archiveIds=scoreArchiveRetryCache.ids;
+    else {archiveIds=await opsArchiveScoreSourceFiles(pair);scoreArchiveRetryCache={files:sourceFiles,ids:archiveIds};}
+    $("opsScoreMessage").textContent="原始檔已存入 Supabase；開始整理成績…";
+    if(window.CENTER_CONFIG?.features?.atomicScores===true){
+      const statuses=await atomicScoreImporter.importDays(pair);
+      completed=statuses.filter(x=>x.status==='completed').length;importedCalls=completed*2;
+      $("opsScorePreview").innerHTML+='<table class="ops-table"><thead><tr><th>日期</th><th>成對匯入結果</th></tr></thead><tbody>'+statuses.map(x=>'<tr><td>'+opsEscape(x.date)+'</td><td>'+opsEscape(x.status==='completed'?'完成':x.error||'失敗')+'</td></tr>').join('')+'</tbody></table>';
+      const failures=statuses.filter(x=>x.status!=='completed');
+      if(failures.length)throw new Error('已完成 '+completed+'／'+pair.dates.length+' 天；再次匯入只重試失敗日期：'+failures.map(x=>x.date).join('、'));
+    }else{
+    for(const date of pair.dates){
+      const results=await Promise.all(Object.values(pair.byType).map(item=>db.rpc("t981_import_score_batch",{p_report_date:date,p_report_type:item.type,p_source_file:item.file.name,p_rows:item.rows.filter(row=>row.record_date===date)})));
+      importedCalls+=results.filter(r=>!r.error).length;const failed=results.find(r=>r.error);if(failed)throw new Error("已完成 "+completed+"／"+pair.dates.length+" 天；日期 "+date+"："+failed.error.message);
+      completed++;$("opsScoreMessage").textContent="匯入中… "+completed+"／"+pair.dates.length+" 天";
+    }
+    }
+    const marked=await opsMarkScoreArchives(archiveIds,"imported","");
+    if(marked.error)throw new Error("成績已匯入，但原檔封存狀態未能更新："+marked.error.message);
+    $("opsScoreMessage").textContent="完成匯入 "+pair.dates.length+" 天；ByDate／ByOrder 原始 Excel 已封存至 Supabase。";
+    dedupSourceArchiver.complete(pair);opsPreparedScoreFiles=[];scoreArchiveRetryCache=null;opsScoreFileInput.value="";opsRenderPreparedScoreFiles();
+    window.OpsDateControl?.set(importedDate||opsToday(),"day",false);
+    await opsLoadDailyAnalytics();
+  }catch(e){
+    const detail=e.message||"請檢查登入狀態與 Supabase 設定";
+    if(archiveIds.length){
+      const status=importedCalls?"partial":"archived";
+      await opsMarkScoreArchives(archiveIds,status,detail);
+      $("opsScoreMessage").textContent="原始 Excel 已保存在 Supabase；成績匯入中止："+detail;
+    }else $("opsScoreMessage").textContent="匯入中止："+detail;
+  }
+  finally{$("opsScoreImport").disabled=!opsScorePair();}
+};
+
+function opsRevisionControls(busy=false){
+  if(window.CENTER_CONFIG?.features?.scoreRevisions!==true)return;
+  const state=scoreRevisionWorkflow.state,uncertain=state.status==="uncertain";
+  $("opsScoreFiles").disabled=busy||uncertain;
+  $("opsScoreImport").disabled=busy||uncertain||!opsScorePair();
+  $("opsScoreImport").textContent="核對目前版本與新報表";
+  $("opsRevisionReview").hidden=state.status==="idle";
+  $("opsRevisionConfirm").disabled=busy||!["reviewed","uncertain","rejected"].includes(state.status);
+  $("opsRevisionConfirm").textContent=uncertain?"重試原請求（不更換來源）":"確認成對提交新版本";
+  $("opsRevisionCancel").disabled=busy||uncertain;
+}
+async function opsReviewScoreRevision(){
+  opsRevisionControls(true);
+  try{
+    const state=await scoreRevisionWorkflow.review(opsScorePair());
+    $("opsRevisionSummary").textContent=state.date+"\n目前版本："+(state.version?"第 "+state.version+" 版":"尚無版本")+"\n將新增第 "+(state.version+1)+" 版，兩報表一起生效，保留舊資料。\n"+state.files.map(x=>x.type+"："+x.name+"（"+x.rowCount+" 筆）").join("\n");
+    $("opsScoreMessage").textContent="請核對後再確認；目前尚未上傳檔案。";
+  }catch(e){$("opsScoreMessage").textContent=e.message;}finally{opsRevisionControls();}
+}
+$("opsRevisionConfirm").onclick=async()=>{
+  opsRevisionControls(true);
+  try{
+    const receipt=await scoreRevisionWorkflow.submit();
+    $("opsScoreMessage").textContent="已提交 "+receipt.reportDate+" 第 "+receipt.version+" 版。兩份報表及來源紀錄保留；回執："+receipt.requestId;
+    try{await opsLoadDailyAnalytics();}catch{$("opsScoreMessage").textContent+=" 報表刷新失敗，提交已成功，請稍後重新讀取。";}
+  }catch(e){$("opsScoreMessage").textContent=e.message+(scoreRevisionWorkflow.state.status==="uncertain"?" 請勿更換檔案或重新整理，使用原請求重試。":"");}
+  finally{opsRevisionControls();}
+};
+$("opsRevisionCancel").onclick=()=>{try{scoreRevisionWorkflow.cancel();$("opsRevisionSummary").textContent="";$("opsScoreMessage").textContent="已取消核對，沒有刪除任何檔案。";}catch(e){$("opsScoreMessage").textContent=e.message;}opsRevisionControls();};
+window.addEventListener("beforeunload",event=>{if(["uncertain","submitting"].includes(scoreRevisionWorkflow.state.status)){event.preventDefault();event.returnValue="";}});
+opsRevisionControls();
+
+async function opsMarkScoreArchives(ids,status,note){
+  if(window.CENTER_CONFIG?.features?.archiveDedup===true){
+    try{return {data:await dedupSourceArchiver.markImport(ids,status,String(note||'').slice(0,1000)),error:null};}
+    catch(error){return {data:null,error};}
+  }
+  return db.from("t981_score_source_archives").update({import_status:status,import_note:note||null,...(status==="imported"?{imported_at:new Date().toISOString()}:{})}).in("id",ids);
+}
+
+async function opsArchiveScoreSourceFiles(pair){
+  if(window.CENTER_CONFIG?.features?.archiveDedup===true)throw new Error("內容去重模式禁止直接寫入Storage，請使用隔離封存閘道。");
+  const bucket="t981-score-source-archive",userResult=await db.auth.getUser(),user=userResult?.data?.user;
+  if(!user)throw new Error("請先登入管理後台。");
+  const items=Object.values(pair.byType),uploaded=[],metadata=[];
+  try{
+    for(const item of items){
+      const originalName=String(item.file.name||"source.xlsx"),extension=originalName.split(".").pop().toLowerCase();
+      const contentTypes={xlsx:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",xls:"application/vnd.ms-excel",xlsm:"application/vnd.ms-excel.sheet.macroEnabled.12"};
+      if(!contentTypes[extension])throw new Error("只接受 .xlsx、.xls 或 .xlsm Excel 檔案。");
+      if(item.file.size<=0||item.file.size>50*1024*1024)throw new Error("每個原始檔案需大於 0 且不超過 50 MB。");
+      const id=window.crypto?.randomUUID?.()||("archive-"+Date.now()+"-"+Math.random().toString(16).slice(2));
+      const safeName=originalName.normalize("NFKC").replace(/[^A-Za-z0-9._-]+/g,"_").slice(-120)||("source."+extension);
+      const storagePath="981/"+item.type+"/"+pair.dates[0]+"/"+id+"-"+safeName;
+      const bytes=await item.file.arrayBuffer();
+      const sha256=Array.from(new Uint8Array(await window.crypto.subtle.digest("SHA-256",bytes)),b=>b.toString(16).padStart(2,"0")).join("");
+      const stored=await db.storage.from(bucket).upload(storagePath,item.file,{contentType:contentTypes[extension],upsert:false});
+      if(stored.error)throw new Error("原始 Excel 上傳 Supabase Storage 失敗："+stored.error.message);
+      uploaded.push(storagePath);
+      metadata.push({id,report_type:item.type,source_file:originalName,storage_path:storagePath,file_size_bytes:item.file.size,sha256,period_start:pair.dates[0],period_end:pair.dates.at(-1),row_count:item.rows.length,uploaded_by:user.id,import_status:"archived"});
+    }
+    const saved=await db.from("t981_score_source_archives").insert(metadata);
+    if(saved.error)throw new Error("檔案已上傳，但封存索引建立失敗："+saved.error.message);
+    return metadata.map(x=>x.id);
+  }catch(error){
+    // Preserve uploaded files on failure. Cleanup needs explicit authorization;
+    // never delete an archived source merely because metadata saving failed.
+    throw error;
+  }
+}
+
 </script>
 
+
+
+
+<script src="operations-calendar.js?v=20261111-c2"></script>
+<script src="config/business-schema.js"></script>
+<script src="config/981-business.js?v=20261111-c2"></script>
+<script src="score-read-source.js"></script>
+<script src="operations-forecast.js?v=20261111-c2"></script>
+<script src="operations-metrics.js?v=20261111-c2"></script>
+<script src="operations-summary.js?v=20261111-c2"></script>
+<script src="operations-report.js?v=20261111-c2"></script>
+<script src="operations-entry.js?v=20261111-c2"></script>
+<script src="ui-shell.js?v=20261111-c2"></script>
+<script src="ui-overview.js?v=20261111-c2"></script>
+<script src="ui-ops.js?v=20261111-c2"></script>
 </body>
 </html>
