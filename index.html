@@ -1659,16 +1659,9 @@ const db =
     SUPABASE_KEY
   );
 
-// T981 前台名單與指休（開放週、測試模式、送出）使用公開權限，避免沿用同一瀏覽器的後台登入。
-const rosterDb = window.CENTER_CONFIG.center === "981" && window.CENTER_CONFIG.environment === "production"
-  ? window.CenterRuntime.createClient(SUPABASE_URL, SUPABASE_KEY, {
-      auth: {
-        storageKey: "t981-public-roster",
-        persistSession: false,
-        autoRefreshToken: false,
-        detectSessionInUrl: false
-      }
-    })
+// T998／T981 前台名單與指休（開放週、測試模式、送出）使用公開權限，避免沿用同一瀏覽器的後台登入。
+const rosterDb = ["998","981"].includes(window.CENTER_CONFIG.center) && window.CENTER_CONFIG.environment === "production"
+  ? window.CenterRuntime.createClient(SUPABASE_URL, SUPABASE_KEY, {anonymous:true})
   : db;
 
 // Atomic RPCs remain opt-in until isolated database, RLS and concurrency validation.

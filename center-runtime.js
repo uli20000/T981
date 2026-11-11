@@ -26,6 +26,15 @@
         };
       }
       if(config.productionConfirmed!==true)throw new Error('正式部署尚未確認，已停止連線');
+      // anonymous：前台名單專用連線（998／981），不讀寫後台登入狀態
+      if(options?.anonymous){
+        return root.supabase.createClient(url,key,{auth:{
+          storageKey:'t'+config.center+'-public-roster',
+          persistSession:false,
+          autoRefreshToken:false,
+          detectSessionInUrl:false
+        }});
+      }
       // 沿用 supabase-js 預設的登入儲存位置（跟各中心舊站相同），切換後不必重新登入
       return root.supabase.createClient(url,key,options);
     }
