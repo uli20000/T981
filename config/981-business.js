@@ -329,6 +329,8 @@
   "closureDays": ["2025-11-12", "2026-06-26", "2026-07-11", "2026-08-24", "2026-10-23"],
   "closureDaysSource": "docs/停班停課紀錄-2025-2026.md（停班停課且當日 TC 明顯偏低者；局部鄉鎮不列）",
   "storeOpenDates": {"249": "2025-12-26"},
+  "storeClosureDays": {"2025-11-11": ["083", "211"]},
+  "storeClosureDaysSource": "鳳凰颱風 2025-11-11 花蓮停班；高雄正常上班，只有花蓮中正、花蓮吉安當日無資料",
   "kpiTargets": {"sstg": 0.042, "d7": 0.25, "d25": 0.7, "faShareMax": 0.25, "tplh": 2},
   "forecast": {
     "weeks": 8,
